@@ -23,6 +23,8 @@ public class Role {
     @Enumerated(EnumType.STRING)
     private RoleEnum rolName;
     private String description;
+
+    //  CONEXION CON USUARIOS
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "role")
     private List<User> users;
 

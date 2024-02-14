@@ -23,8 +23,9 @@ public class Category {
     private CategoryEnum name;
     private String description;
 
+    //  CONEXION CON FILES
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "category")
-    private List<FileEntity> fileEntities;
+    private List<FileEntity> files;
 
 
 }

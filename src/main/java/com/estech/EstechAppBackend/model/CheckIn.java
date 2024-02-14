@@ -25,5 +25,8 @@ public class CheckIn {
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private Date date;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    private User user;
+
 
 }
