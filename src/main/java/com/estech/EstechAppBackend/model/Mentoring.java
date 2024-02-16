@@ -35,11 +35,11 @@ public class Mentoring {
     //    CONEXION CON USER (TEACHER)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "teacher_id")
-    private User teacher;
+    private UserEntity teacher;
 
     //    CONEXION CON USER (STUDENT)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "student_id")
-    private User student;
+    private UserEntity student;
 
 }

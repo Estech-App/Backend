@@ -25,7 +25,7 @@ public class Group {
 
 //  CONEXION CON USUARIOS
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "groups")
-    private List<User> users;
+    private List<UserEntity> users;
 
 //  CONEXION CON FILES
     @ManyToMany(fetch = FetchType.LAZY)

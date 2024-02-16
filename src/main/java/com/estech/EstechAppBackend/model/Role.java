@@ -26,6 +26,6 @@ public class Role {
 
     //  CONEXION CON USUARIOS
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "role")
-    private List<User> users;
+    private List<UserEntity> users;
 
 }

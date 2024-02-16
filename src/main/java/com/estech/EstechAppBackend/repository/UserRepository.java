@@ -1,7 +1,10 @@
 package com.estech.EstechAppBackend.repository;
 
-import com.estech.EstechAppBackend.model.User;
+import com.estech.EstechAppBackend.model.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface UserRepository extends JpaRepository<User, Long> {
+import java.util.Optional;
+
+public interface UserRepository extends JpaRepository<UserEntity, Long> {
+    Optional<UserEntity> findByEmail(String email);
 }

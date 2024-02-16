@@ -33,7 +33,7 @@ public class FreeUsages {
 
     //    CONEXION CON USER
     @ManyToOne(fetch = FetchType.LAZY)
-    private User user;
+    private UserEntity user;
 
 
 }

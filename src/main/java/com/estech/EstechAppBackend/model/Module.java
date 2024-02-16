@@ -30,7 +30,7 @@ public class Module {
 
     //  CONEXION CON USUARIOS
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "modules")
-    private List<User> users;
+    private List<UserEntity> users;
 
     //    CONEXION CON TIMETABLE
     @OneToMany(mappedBy = "module")
