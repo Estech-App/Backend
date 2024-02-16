@@ -69,7 +69,7 @@ public class SecurityConfig {
 
         return httpSecurity.csrf().disable()
                 .authorizeHttpRequests(auth -> {
-                    auth.requestMatchers("/api/docs").permitAll()
+                    auth.requestMatchers("/swagger-ui").permitAll()
                             .anyRequest().authenticated();
                 })
                 .sessionManagement(session -> {

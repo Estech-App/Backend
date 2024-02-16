@@ -28,7 +28,7 @@ public class UserEntity {
     private Boolean isActive;
 
     //  CONEXION CON ROLES
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     private Role role;
 
     //  CONEXION CON GRUPOS
