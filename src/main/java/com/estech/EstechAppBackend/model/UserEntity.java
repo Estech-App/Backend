@@ -23,7 +23,6 @@ public class UserEntity {
     private String lastname;
     private String email;
     private String password;
-    private String token;
     @Column(name = "is_active")
     private Boolean isActive;
 

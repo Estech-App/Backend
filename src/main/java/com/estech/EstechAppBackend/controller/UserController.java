@@ -1,13 +1,17 @@
 package com.estech.EstechAppBackend.controller;
 
+import com.estech.EstechAppBackend.dto.CreatedUserDTO;
+import com.estech.EstechAppBackend.dto.CreationUserDTO;
 import com.estech.EstechAppBackend.model.UserEntity;
 import com.estech.EstechAppBackend.service.UserService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -19,8 +23,14 @@ public class UserController {
     private UserService userService;
 
     @GetMapping
-    public List<UserEntity> getAllUsers() {
-        return userService.getAllUsers();
+    @PreAuthorize("hasRole('ADMIN')")
+    public List<CreatedUserDTO> getAllUsers() {
+        return userService.getAllUsersAsCreatedUserDTO();
     }
 
+    @PostMapping("/new-user")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<?> createNewUser(@Valid @RequestBody CreationUserDTO creationUserDTO) {
+        return new ResponseEntity<>(userService.createNewUser(creationUserDTO), HttpStatus.CREATED);
+    }
 }
