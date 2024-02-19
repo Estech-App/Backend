@@ -22,8 +22,8 @@ public class UserController {
 
     @GetMapping
     @PreAuthorize("hasRole('ADMIN')")
-    public List<CreatedUserDTO> getAllUsers() {
-        return userService.getAllUsersAsCreatedUserDTO();
+    public ResponseEntity<?> getAllUsers() {
+        return new ResponseEntity<>(userService.getAllUsersAsCreatedUserDTO(), HttpStatus.OK);
     }
 
     @PostMapping("/new-user")
