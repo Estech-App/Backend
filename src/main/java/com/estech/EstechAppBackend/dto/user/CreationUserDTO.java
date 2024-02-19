@@ -1,4 +1,4 @@
-package com.estech.EstechAppBackend.dto;
+package com.estech.EstechAppBackend.dto.user;
 
 import com.estech.EstechAppBackend.model.Group;
 import com.estech.EstechAppBackend.model.Module;

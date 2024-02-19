@@ -1,7 +1,7 @@
 package com.estech.EstechAppBackend.converter;
 
-import com.estech.EstechAppBackend.dto.CreatedUserDTO;
-import com.estech.EstechAppBackend.dto.CreationUserDTO;
+import com.estech.EstechAppBackend.dto.user.CreatedUserDTO;
+import com.estech.EstechAppBackend.dto.user.CreationUserDTO;
 import com.estech.EstechAppBackend.model.UserEntity;
 import com.estech.EstechAppBackend.model.enums.RoleEnum;
 import com.estech.EstechAppBackend.repository.RoleRepository;

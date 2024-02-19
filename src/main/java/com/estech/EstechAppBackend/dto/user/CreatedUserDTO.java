@@ -1,4 +1,4 @@
-package com.estech.EstechAppBackend.dto;
+package com.estech.EstechAppBackend.dto.user;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

@@ -1,8 +1,7 @@
 package com.estech.EstechAppBackend.controller;
 
-import com.estech.EstechAppBackend.dto.CreatedUserDTO;
-import com.estech.EstechAppBackend.dto.CreationUserDTO;
-import com.estech.EstechAppBackend.model.UserEntity;
+import com.estech.EstechAppBackend.dto.user.CreatedUserDTO;
+import com.estech.EstechAppBackend.dto.user.CreationUserDTO;
 import com.estech.EstechAppBackend.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController

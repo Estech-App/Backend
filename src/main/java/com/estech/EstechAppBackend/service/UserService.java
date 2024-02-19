@@ -1,8 +1,8 @@
 package com.estech.EstechAppBackend.service;
 
 import com.estech.EstechAppBackend.converter.UserCreationConverter;
-import com.estech.EstechAppBackend.dto.CreatedUserDTO;
-import com.estech.EstechAppBackend.dto.CreationUserDTO;
+import com.estech.EstechAppBackend.dto.user.CreatedUserDTO;
+import com.estech.EstechAppBackend.dto.user.CreationUserDTO;
 import com.estech.EstechAppBackend.model.UserEntity;
 import com.estech.EstechAppBackend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
