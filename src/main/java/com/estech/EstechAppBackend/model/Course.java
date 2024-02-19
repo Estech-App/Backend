@@ -1,7 +1,7 @@
 package com.estech.EstechAppBackend.model;
 
-import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -20,9 +20,9 @@ public class Course {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    @NotBlank
     private String name;
     private String acronym;
-    @Nullable
     private String description;
 
     //  CONEXION CON GRUPOS
