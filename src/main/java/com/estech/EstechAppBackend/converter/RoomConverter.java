@@ -1,6 +1,7 @@
 package com.estech.EstechAppBackend.converter;
 
 import com.estech.EstechAppBackend.dto.room.RoomDTO;
+import com.estech.EstechAppBackend.dto.room.RoomIdDTO;
 import com.estech.EstechAppBackend.model.Room;
 import org.springframework.stereotype.Component;
 
@@ -26,6 +27,10 @@ public class RoomConverter {
         }
 
         return roomDTO;
+    }
+
+    public RoomIdDTO convertRoomToRoomIdDTO(Room room) {
+        return new RoomIdDTO(room.getId());
     }
 
 }

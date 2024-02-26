@@ -1,5 +1,7 @@
 package com.estech.EstechAppBackend.controller;
 
+import com.estech.EstechAppBackend.dto.group.GroupDTO;
+import com.estech.EstechAppBackend.dto.room.RoomIdDTO;
 import com.estech.EstechAppBackend.model.Group;
 import com.estech.EstechAppBackend.service.GroupService;
 import jakarta.validation.Valid;
@@ -32,9 +34,15 @@ public class GroupController {
         return new ResponseEntity<>(groupService.createNewGroup(group), HttpStatus.CREATED);
     }
 
-    @PostMapping("/add-room/{id}")
+    @PatchMapping(value = "/add-room/{id}")
     @PreAuthorize("hasAnyRole('ADMIN', 'SECRETARY')")
-    public ResponseEntity<?> addRoomToGroup(@PathVariable Long id) {
-        return new ResponseEntity<>(HttpStatus.I_AM_A_TEAPOT);
+    public ResponseEntity<?> addRoomToGroup(@PathVariable Long id, @RequestBody RoomIdDTO roomId) {
+        GroupDTO groupDTO = groupService.addRoomToGroup(id, roomId);
+
+        if (groupDTO == null) {
+            return new ResponseEntity<>("Non found entity", HttpStatus.BAD_REQUEST);
+        }
+
+        return new ResponseEntity<>(groupDTO, HttpStatus.ACCEPTED);
     }
 }
