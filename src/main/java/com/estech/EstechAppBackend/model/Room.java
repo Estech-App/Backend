@@ -44,4 +44,12 @@ public class Room {
     //    CONEXION CON GROUP
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "room")
     private List<Group> groups;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "status_of_rooms",
+            joinColumns = @JoinColumn(name = "room_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "room_timetable_id", referencedColumnName = "id")
+    )
+    private List<RoomTimeTable> roomTimeTables;
 }

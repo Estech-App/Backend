@@ -1,5 +1,7 @@
 package com.estech.EstechAppBackend.model.enums;
 
 public enum StatusEnum {
-    AVAILABLE, OCCUPIED
+
+    APPROVED, DENIED, PENDING, MODIFIED
+
 }

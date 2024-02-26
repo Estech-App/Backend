@@ -7,6 +7,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Map;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
@@ -20,5 +22,5 @@ public class RoomDTO {
     private Boolean mentoringRoom;
     @NotNull
     private Boolean studyRoom;
-
+    private Map<String, String> timeTableStatus;
 }
