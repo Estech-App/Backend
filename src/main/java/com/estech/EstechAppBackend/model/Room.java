@@ -40,4 +40,8 @@ public class Room {
     //    CONEXION CON MENTORING
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "room")
     private List<Stock> stocks;
+
+    //    CONEXION CON GROUP
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "room")
+    private List<Group> groups;
 }

@@ -47,4 +47,8 @@ public class Group {
 //    CONEXION CON TIMETABLE
     @OneToMany(mappedBy = "group")
     private List<TimeTable> timeTables;
+
+    // CONEXION CON ROOMS
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Room room;
 }
