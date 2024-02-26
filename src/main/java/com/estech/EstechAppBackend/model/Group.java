@@ -41,6 +41,7 @@ public class Group {
     private List<FileEntity> files;
 
     //  CONEXION CON CURSOS
+    @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
     private Course course;
 

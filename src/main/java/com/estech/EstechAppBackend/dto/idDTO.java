@@ -1,4 +1,4 @@
-package com.estech.EstechAppBackend.dto.room;
+package com.estech.EstechAppBackend.dto;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
@@ -7,7 +7,7 @@ import lombok.*;
 @AllArgsConstructor
 @Getter
 @Setter
-public class RoomIdDTO {
+public class idDTO {
 
     @NotNull
     private Long id;
