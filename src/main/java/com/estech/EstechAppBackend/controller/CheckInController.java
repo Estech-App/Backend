@@ -1,5 +1,6 @@
 package com.estech.EstechAppBackend.controller;
 
+import com.estech.EstechAppBackend.dto.checkin.CheckInDto;
 import com.estech.EstechAppBackend.model.CheckIn;
 import com.estech.EstechAppBackend.service.CheckInService;
 import jakarta.validation.Valid;
@@ -27,6 +28,12 @@ public class CheckInController {
     @PostMapping("/new")
    @PreAuthorize("hasRole('ADMIN') || hasRole('SECRETARY') || hasRole('TEACHER')")
     public ResponseEntity<?> createNewCheckIn(@Valid @RequestBody CheckIn checkIn) {
+        CheckInDto checkInDto = checkInService.createNewCheckIn(checkIn);
+
+        if(checkInDto == null) {
+            return new ResponseEntity<>("Non valid checkin", HttpStatus.CONFLICT);
+        }
+
         return new ResponseEntity<>(checkInService.createNewCheckIn(checkIn), HttpStatus.CREATED);
     }
 
