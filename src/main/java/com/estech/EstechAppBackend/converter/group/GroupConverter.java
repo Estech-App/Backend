@@ -13,6 +13,12 @@ public class GroupConverter {
         groupDTO.setName(group.getName());
         groupDTO.setDescription(group.getDescription());
         groupDTO.setYear(group.getYear());
+        if (group.getRoom() != null) {
+            groupDTO.setRoomName(group.getRoom().getName());
+        }
+        if (group.getCourse() != null) {
+            groupDTO.setCourseName(group.getCourse().getName());
+        }
 
         return groupDTO;
     }
