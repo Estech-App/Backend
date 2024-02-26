@@ -12,8 +12,8 @@ import java.util.Date;
  */
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
-@Builder
+@Getter
+@Setter
 public class CheckInDto {
     @NotBlank
     Date date;

@@ -2,10 +2,7 @@ package com.estech.EstechAppBackend.model;
 
 import com.estech.EstechAppBackend.model.enums.StatusEnum;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.List;
 
@@ -13,8 +10,8 @@ import java.util.List;
 @Table(name = "status")
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
-@Builder
+@Getter
+@Setter
 public class Status {
 
     @Id

@@ -1,10 +1,7 @@
 package com.estech.EstechAppBackend.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
@@ -13,8 +10,8 @@ import java.util.Date;
 @Table(name = "check_ins")
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
-@Builder
+@Getter
+@Setter
 public class CheckIn {
 
     @Id

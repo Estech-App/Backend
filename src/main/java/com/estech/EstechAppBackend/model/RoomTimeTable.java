@@ -2,10 +2,7 @@ package com.estech.EstechAppBackend.model;
 
 import com.estech.EstechAppBackend.model.enums.RoomStatusEnum;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
@@ -15,8 +12,8 @@ import java.util.List;
 @Table(name = "room_status")
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
-@Builder
+@Getter
+@Setter
 public class RoomTimeTable {
 
     @Id
