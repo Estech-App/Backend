@@ -37,4 +37,13 @@ public class UserService {
         return list;
     }
 
+    /**
+     * This method can only be used to create the first Admin user.
+     * DO NOT USE IT TO CREATE NEW USERS. It would be not secured.
+     * @param userEntity
+     */
+    public void saveFirstAdminUser(UserEntity userEntity) {
+        userRepository.save(userEntity);
+    }
+
 }
