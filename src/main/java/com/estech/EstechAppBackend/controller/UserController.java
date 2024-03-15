@@ -35,7 +35,7 @@ public class UserController {
     }
 
     @PostMapping("/user-info")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN') || hasRole('SECRETARY')")
     public ResponseEntity<?> getUserInfo(@RequestBody UserEmailDTO email) {
         UserInfoDTO user = userService.getUserInfo(email.getEmail());
 
