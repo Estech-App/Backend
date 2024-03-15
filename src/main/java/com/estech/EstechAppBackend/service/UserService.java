@@ -1,8 +1,9 @@
 package com.estech.EstechAppBackend.service;
 
-import com.estech.EstechAppBackend.converter.UserCreationConverter;
+import com.estech.EstechAppBackend.converter.UserConverter;
 import com.estech.EstechAppBackend.dto.user.CreatedUserDTO;
 import com.estech.EstechAppBackend.dto.user.CreationUserDTO;
+import com.estech.EstechAppBackend.dto.user.UserInfoDTO;
 import com.estech.EstechAppBackend.model.UserEntity;
 import com.estech.EstechAppBackend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,23 +19,32 @@ public class UserService {
     private UserRepository userRepository;
 
     @Autowired
-    private UserCreationConverter userCreationConverter;
+    private UserConverter userConverter;
 
     public List<UserEntity> getAllUsers() {
         return userRepository.findAll();
     }
 
     public CreatedUserDTO createNewUser(CreationUserDTO creationUserDTO) {
-        userRepository.save(userCreationConverter.convertCreationUserDTOToUserEntity(creationUserDTO));
-        return userCreationConverter.convertCreationUserDTOToCreatedUserDTO(creationUserDTO);
+        userRepository.save(userConverter.convertCreationUserDTOToUserEntity(creationUserDTO));
+        return userConverter.convertCreationUserDTOToCreatedUserDTO(creationUserDTO);
     }
 
     public List<CreatedUserDTO> getAllUsersAsCreatedUserDTO() {
         List<CreatedUserDTO> list = new ArrayList<>();
         userRepository.findAll().forEach(user -> {
-            list.add(userCreationConverter.convertUserEntityToCreatedUserDTO(user));
+            list.add(userConverter.convertUserEntityToCreatedUserDTO(user));
         });
         return list;
+    }
+
+    public UserInfoDTO getUserInfo(String email) {
+        UserEntity userEntity = userRepository.findByEmail(email).orElse(null);
+
+        if (userEntity != null) {
+            return userConverter.convertUserEntityToUserInfoDTO(userEntity);
+        }
+        return null;
     }
 
     /**

@@ -2,6 +2,7 @@ package com.estech.EstechAppBackend.converter;
 
 import com.estech.EstechAppBackend.dto.user.CreatedUserDTO;
 import com.estech.EstechAppBackend.dto.user.CreationUserDTO;
+import com.estech.EstechAppBackend.dto.user.UserInfoDTO;
 import com.estech.EstechAppBackend.model.UserEntity;
 import com.estech.EstechAppBackend.model.enums.RoleEnum;
 import com.estech.EstechAppBackend.repository.RoleRepository;
@@ -10,7 +11,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 @Component
-public class UserCreationConverter {
+public class UserConverter {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -65,6 +66,16 @@ public class UserCreationConverter {
         createdUserDTO.setRole(userEntity.getRole().getRolName().name());
 
         return createdUserDTO;
+    }
+
+    public UserInfoDTO convertUserEntityToUserInfoDTO(UserEntity userEntity) {
+        UserInfoDTO user = new UserInfoDTO();
+
+        user.setId(userEntity.getId());
+        user.setEmail(userEntity.getEmail());
+        user.setName(userEntity.getName());
+        user.setLastname(userEntity.getLastname());
+        return user;
     }
 
 }

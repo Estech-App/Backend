@@ -2,6 +2,8 @@ package com.estech.EstechAppBackend.controller;
 
 import com.estech.EstechAppBackend.dto.user.CreatedUserDTO;
 import com.estech.EstechAppBackend.dto.user.CreationUserDTO;
+import com.estech.EstechAppBackend.dto.user.UserEmailDTO;
+import com.estech.EstechAppBackend.dto.user.UserInfoDTO;
 import com.estech.EstechAppBackend.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,5 +32,16 @@ public class UserController {
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> createNewUser(@Valid @RequestBody CreationUserDTO creationUserDTO) {
         return new ResponseEntity<>(userService.createNewUser(creationUserDTO), HttpStatus.CREATED);
+    }
+
+    @PostMapping("/user-info")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<?> getUserInfo(@RequestBody UserEmailDTO email) {
+        UserInfoDTO user = userService.getUserInfo(email.getEmail());
+
+        if (user != null) {
+            return new ResponseEntity<>(user, HttpStatus.OK);
+        }
+        return new ResponseEntity<>("error: user not found", HttpStatus.NOT_FOUND);
     }
 }
