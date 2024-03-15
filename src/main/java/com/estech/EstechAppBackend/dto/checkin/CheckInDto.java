@@ -20,4 +20,5 @@ public class CheckInDto {
     @NotNull
     Boolean checkIn;
     String user;
+    Long userId;
 }
