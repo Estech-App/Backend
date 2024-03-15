@@ -10,6 +10,7 @@ public class CourseConverter {
     public CourseDTO convertCourseEntityToCreatedCourseDTO(Course course) {
         CourseDTO courseDTO = new CourseDTO();
 
+        courseDTO.setId(course.getId());
         courseDTO.setName(course.getName());
         courseDTO.setAcronym(course.getAcronym());
         courseDTO.setDescription(course.getDescription());

@@ -1,9 +1,8 @@
 package com.estech.EstechAppBackend.service;
 
-import com.estech.EstechAppBackend.converter.RoomConverter;
 import com.estech.EstechAppBackend.converter.group.GroupConverter;
 import com.estech.EstechAppBackend.dto.group.GroupDTO;
-import com.estech.EstechAppBackend.dto.room.RoomIdDTO;
+import com.estech.EstechAppBackend.dto.idDTO;
 import com.estech.EstechAppBackend.model.Group;
 import com.estech.EstechAppBackend.model.Room;
 import com.estech.EstechAppBackend.repository.GroupRepository;
@@ -37,7 +36,7 @@ public class GroupService {
         return groupsDTO;
     }
 
-    public GroupDTO addRoomToGroup(Long groupId, RoomIdDTO room) {
+    public GroupDTO addRoomToGroup(Long groupId, idDTO room) {
         Group group = groupRepository.findById(groupId).orElse(null);
 
         if (group == null) {

@@ -1,10 +1,7 @@
 package com.estech.EstechAppBackend.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalTime;
 
@@ -12,8 +9,8 @@ import java.time.LocalTime;
 @Table(name = "time_table")
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
-@Builder
+@Getter
+@Setter
 public class TimeTable {
 
     @Id

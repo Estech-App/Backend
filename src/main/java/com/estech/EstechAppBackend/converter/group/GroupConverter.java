@@ -10,6 +10,7 @@ public class GroupConverter {
     public GroupDTO convertGroupEntityToGroupDTO(Group group) {
         GroupDTO groupDTO = new GroupDTO();
 
+        groupDTO.setId(group.getId());
         groupDTO.setName(group.getName());
         groupDTO.setDescription(group.getDescription());
         groupDTO.setYear(group.getYear());

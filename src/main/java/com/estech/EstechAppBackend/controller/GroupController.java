@@ -1,7 +1,7 @@
 package com.estech.EstechAppBackend.controller;
 
 import com.estech.EstechAppBackend.dto.group.GroupDTO;
-import com.estech.EstechAppBackend.dto.room.RoomIdDTO;
+import com.estech.EstechAppBackend.dto.idDTO;
 import com.estech.EstechAppBackend.model.Group;
 import com.estech.EstechAppBackend.service.GroupService;
 import jakarta.validation.Valid;
@@ -36,7 +36,7 @@ public class GroupController {
 
     @PatchMapping(value = "/add-room/{id}")
     @PreAuthorize("hasAnyRole('ADMIN', 'SECRETARY')")
-    public ResponseEntity<?> addRoomToGroup(@PathVariable Long id, @RequestBody RoomIdDTO roomId) {
+    public ResponseEntity<?> addRoomToGroup(@PathVariable Long id, @RequestBody idDTO roomId) {
         GroupDTO groupDTO = groupService.addRoomToGroup(id, roomId);
 
         if (groupDTO == null) {

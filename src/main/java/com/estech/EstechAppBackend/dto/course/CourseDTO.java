@@ -1,17 +1,15 @@
 package com.estech.EstechAppBackend.dto.course;
 
 import jakarta.validation.constraints.NotBlank;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
-@Builder
+@Getter
+@Setter
 public class CourseDTO {
 
+    private Integer id;
     @NotBlank
     private String name;
     private String acronym;
