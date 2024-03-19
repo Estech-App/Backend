@@ -19,6 +19,8 @@ public class Module {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @NotNull
+    private String name;
+    @NotNull
     private Integer year;
     private String acronym;
 
