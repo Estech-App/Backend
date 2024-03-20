@@ -1,7 +1,6 @@
 package com.estech.EstechAppBackend.converter;
 
 import com.estech.EstechAppBackend.dto.module.ModuleDTO;
-import com.estech.EstechAppBackend.dto.module.aux.ModuleCreationDTO;
 import com.estech.EstechAppBackend.model.Module;
 import org.springframework.stereotype.Component;
 
@@ -30,15 +29,6 @@ public class ModuleConverter {
             moduleDTO.setUsersName(usersName);
         }
         return moduleDTO;
-    }
-
-    public Module convertModuleCreationDTOToModule(ModuleCreationDTO dto) {
-        Module module = new Module();
-
-        module.setYear(dto.getYear());
-        module.setName(dto.getName());
-        module.setAcronym(dto.getAcronym());
-        return module;
     }
 
 }

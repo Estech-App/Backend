@@ -2,7 +2,6 @@ package com.estech.EstechAppBackend.controller;
 
 import com.estech.EstechAppBackend.dto.module.ModuleDTO;
 import com.estech.EstechAppBackend.dto.module.aux.ModuleCourseDTO;
-import com.estech.EstechAppBackend.dto.module.aux.ModuleCreationDTO;
 import com.estech.EstechAppBackend.dto.module.aux.ModuleUserDTO;
 import com.estech.EstechAppBackend.model.Module;
 import com.estech.EstechAppBackend.service.ModuleService;

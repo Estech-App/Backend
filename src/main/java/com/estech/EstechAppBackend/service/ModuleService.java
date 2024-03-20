@@ -2,7 +2,6 @@ package com.estech.EstechAppBackend.service;
 
 import com.estech.EstechAppBackend.converter.ModuleConverter;
 import com.estech.EstechAppBackend.dto.module.ModuleDTO;
-import com.estech.EstechAppBackend.dto.module.aux.ModuleCreationDTO;
 import com.estech.EstechAppBackend.model.Course;
 import com.estech.EstechAppBackend.model.Module;
 import com.estech.EstechAppBackend.model.UserEntity;

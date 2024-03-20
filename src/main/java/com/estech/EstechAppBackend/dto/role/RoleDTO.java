@@ -1,4 +1,4 @@
-package com.estech.EstechAppBackend.dto.module.aux;
+package com.estech.EstechAppBackend.dto.role;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,10 +9,9 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
-public class ModuleCreationDTO {
+public class RoleDTO {
 
-    private Integer year;
-    private String name;
-    private String acronym;
+    private String roleName;
+    private String description;
 
 }
