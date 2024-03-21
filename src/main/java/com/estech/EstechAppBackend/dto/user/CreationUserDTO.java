@@ -1,7 +1,5 @@
 package com.estech.EstechAppBackend.dto.user;
 
-import com.estech.EstechAppBackend.model.Group;
-import com.estech.EstechAppBackend.model.Module;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
@@ -16,6 +14,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class CreationUserDTO {
 
+    private Long id;
     @Email
     @NotBlank
     private String email;
