@@ -8,6 +8,8 @@ import com.estech.EstechAppBackend.model.UserEntity;
 import com.estech.EstechAppBackend.repository.CourseRepository;
 import com.estech.EstechAppBackend.repository.ModuleRepository;
 import com.estech.EstechAppBackend.repository.UserRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +28,7 @@ public class ModuleService {
     private UserRepository userRepository;
     @Autowired
     private ModuleConverter moduleConverter;
+    private static final Logger logger = LoggerFactory.getLogger(ModuleService.class);
 
     public List<ModuleDTO> getAllModulesDTO() {
         List<ModuleDTO> modulesDTO = new ArrayList<>();
@@ -75,7 +78,13 @@ public class ModuleService {
 
         users.add(user);
         module.setUsers(users);
-        moduleRepository.save(module);
+        for (UserEntity userEntity: users) {
+            logger.info(userEntity.getName());
+        }
+        List<UserEntity> moduleUsers = moduleRepository.save(module).getUsers();
+        for (UserEntity userEntity : moduleUsers) {
+            logger.info(userEntity.getName());
+        }
         return moduleConverter.convertModuleEntityToModuleDTO(module);
     }
 }
