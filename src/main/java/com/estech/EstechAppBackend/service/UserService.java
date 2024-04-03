@@ -25,7 +25,7 @@ public class UserService {
         return userRepository.findAll();
     }
 
-    public CreatedUserDTO createNewUser(CreationUserDTO creationUserDTO) {
+    public CreatedUserDTO createOrUpdateNewUser(CreationUserDTO creationUserDTO) {
         userRepository.save(userConverter.convertCreationUserDTOToUserEntity(creationUserDTO));
         return userConverter.convertCreationUserDTOToCreatedUserDTO(creationUserDTO);
     }
@@ -45,6 +45,15 @@ public class UserService {
             return userConverter.convertUserEntityToUserInfoDTO(userEntity);
         }
         return null;
+    }
+
+    public CreationUserDTO getUserById(Long id) {
+        UserEntity user = userRepository.findById(id).orElse(null);
+
+        if (user == null) {
+            return null;
+        }
+        return userConverter.convertUserEntityToCreationUserDTO(user);
     }
 
     /**

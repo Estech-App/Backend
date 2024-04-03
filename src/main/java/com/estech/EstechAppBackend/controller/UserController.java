@@ -12,8 +12,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("/api/user")
 @CrossOrigin
@@ -31,7 +29,7 @@ public class UserController {
     @PostMapping("/new-user")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> createNewUser(@Valid @RequestBody CreationUserDTO creationUserDTO) {
-        return new ResponseEntity<>(userService.createNewUser(creationUserDTO), HttpStatus.CREATED);
+        return new ResponseEntity<>(userService.createOrUpdateNewUser(creationUserDTO), HttpStatus.CREATED);
     }
 
     @PostMapping("/user-info")
@@ -44,4 +42,23 @@ public class UserController {
         }
         return new ResponseEntity<>("error: user not found", HttpStatus.NOT_FOUND);
     }
+
+    @GetMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<?> getUserById(@PathVariable Long id) {
+        CreationUserDTO dto = userService.getUserById(id);
+
+        if (dto == null) {
+            return new ResponseEntity<>("error: user not found", HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(dto, HttpStatus.OK);
+    }
+
+    @PutMapping("/update-user")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<?> updateUserById(@RequestBody CreationUserDTO user) {
+        return new ResponseEntity<>(userService.createOrUpdateNewUser(user), HttpStatus.OK);
+
+    }
+
 }

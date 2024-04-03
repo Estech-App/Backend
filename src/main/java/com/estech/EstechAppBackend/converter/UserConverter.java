@@ -22,6 +22,9 @@ public class UserConverter {
     public UserEntity convertCreationUserDTOToUserEntity(CreationUserDTO creationUserDTO) {
         UserEntity userEntity = new UserEntity();
 
+        if (creationUserDTO.getId() != null) {
+            userEntity.setId(creationUserDTO.getId());
+        }
         userEntity.setEmail(creationUserDTO.getEmail());
         userEntity.setName(creationUserDTO.getName());
         userEntity.setLastname(creationUserDTO.getLastname());
@@ -49,6 +52,7 @@ public class UserConverter {
     public CreatedUserDTO convertCreationUserDTOToCreatedUserDTO(CreationUserDTO creationUserDTO) {
         CreatedUserDTO createdUserDTO = new CreatedUserDTO();
 
+        createdUserDTO.setId(createdUserDTO.getId());
         createdUserDTO.setEmail(creationUserDTO.getEmail());
         createdUserDTO.setName(creationUserDTO.getName());
         createdUserDTO.setLastname(creationUserDTO.getLastname());
@@ -60,6 +64,7 @@ public class UserConverter {
     public CreatedUserDTO convertUserEntityToCreatedUserDTO(UserEntity userEntity) {
         CreatedUserDTO createdUserDTO = new CreatedUserDTO();
 
+        createdUserDTO.setId(userEntity.getId());
         createdUserDTO.setEmail(userEntity.getEmail());
         createdUserDTO.setName(userEntity.getName());
         createdUserDTO.setLastname(userEntity.getLastname());
@@ -76,6 +81,18 @@ public class UserConverter {
         user.setName(userEntity.getName());
         user.setLastname(userEntity.getLastname());
         return user;
+    }
+
+    public CreationUserDTO convertUserEntityToCreationUserDTO(UserEntity user) {
+        CreationUserDTO dto = new CreationUserDTO();
+
+        dto.setId(user.getId());
+        dto.setName(user.getName());
+        dto.setLastname(user.getLastname());
+        dto.setPassword(user.getPassword());
+        dto.setEmail(user.getEmail());
+        dto.setRole(user.getRole().getRolName().toString());
+        return dto;
     }
 
 }
