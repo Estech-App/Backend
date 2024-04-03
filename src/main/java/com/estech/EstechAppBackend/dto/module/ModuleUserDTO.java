@@ -1,4 +1,4 @@
-package com.estech.EstechAppBackend.dto.module.aux;
+package com.estech.EstechAppBackend.dto.module;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
