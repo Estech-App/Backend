@@ -28,7 +28,6 @@ public class ModuleService {
     private UserRepository userRepository;
     @Autowired
     private ModuleConverter moduleConverter;
-    private static final Logger logger = LoggerFactory.getLogger(ModuleService.class);
 
     public List<ModuleDTO> getAllModulesDTO() {
         List<ModuleDTO> modulesDTO = new ArrayList<>();
@@ -78,13 +77,7 @@ public class ModuleService {
 
         users.add(user);
         module.setUsers(users);
-        for (UserEntity userEntity: users) {
-            logger.info(userEntity.getName());
-        }
-        List<UserEntity> moduleUsers = moduleRepository.save(module).getUsers();
-        for (UserEntity userEntity : moduleUsers) {
-            logger.info(userEntity.getName());
-        }
+        moduleRepository.save(module);
         return moduleConverter.convertModuleEntityToModuleDTO(module);
     }
 }

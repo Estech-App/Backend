@@ -34,7 +34,7 @@ public class Room {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "room")
     private List<Mentoring> mentorings;
 
-    //    CONEXION CON MENTORING
+    //    CONEXION CON STOCK
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "room")
     private List<Stock> stocks;
 
