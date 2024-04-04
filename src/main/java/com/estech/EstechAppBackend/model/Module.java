@@ -1,6 +1,5 @@
 package com.estech.EstechAppBackend.model;
 
-import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
@@ -29,7 +28,12 @@ public class Module {
     private Course course;
 
     //  CONEXION CON USUARIOS
-    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "modules")
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "users_modules",
+            joinColumns = @JoinColumn(name = "module_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id")
+    )
     private List<UserEntity> users;
 
     //    CONEXION CON TIMETABLE
