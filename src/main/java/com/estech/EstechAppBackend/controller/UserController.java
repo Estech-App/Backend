@@ -4,6 +4,10 @@ import com.estech.EstechAppBackend.dto.user.CreatedUserDTO;
 import com.estech.EstechAppBackend.dto.user.CreationUserDTO;
 import com.estech.EstechAppBackend.dto.user.UserEmailDTO;
 import com.estech.EstechAppBackend.dto.user.UserInfoDTO;
+import com.estech.EstechAppBackend.model.Role;
+import com.estech.EstechAppBackend.model.UserEntity;
+import com.estech.EstechAppBackend.model.enums.RoleEnum;
+import com.estech.EstechAppBackend.repository.RoleRepository;
 import com.estech.EstechAppBackend.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +16,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/user")
 @CrossOrigin
@@ -19,6 +25,8 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private RoleRepository roleRepository;
 
     @GetMapping
     @PreAuthorize("hasRole('ADMIN')")
@@ -58,7 +66,21 @@ public class UserController {
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> updateUserById(@RequestBody CreationUserDTO user) {
         return new ResponseEntity<>(userService.createOrUpdateNewUser(user), HttpStatus.OK);
+    }
 
+    @GetMapping("/find-by-role/{roleId}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<?> getUsersByRole(@PathVariable Integer roleId) {
+        Role role = roleRepository.findById(roleId).orElse(null);
+        if (role == null) {
+            return new ResponseEntity<>("error: wrong role ID", HttpStatus.BAD_REQUEST);
+        }
+
+        List<UserInfoDTO> dto = userService.getAllUsersByRole(role);
+        if (dto == null) {
+            return new ResponseEntity<>("empty set", HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
 }

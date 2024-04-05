@@ -4,6 +4,7 @@ import com.estech.EstechAppBackend.converter.UserConverter;
 import com.estech.EstechAppBackend.dto.user.CreatedUserDTO;
 import com.estech.EstechAppBackend.dto.user.CreationUserDTO;
 import com.estech.EstechAppBackend.dto.user.UserInfoDTO;
+import com.estech.EstechAppBackend.model.Role;
 import com.estech.EstechAppBackend.model.UserEntity;
 import com.estech.EstechAppBackend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,6 +55,19 @@ public class UserService {
             return null;
         }
         return userConverter.convertUserEntityToCreationUserDTO(user);
+    }
+
+    public List<UserInfoDTO> getAllUsersByRole(Role role) {
+        List<UserEntity> users = userRepository.findAllByRole(role).orElse(null);
+        List<UserInfoDTO> dto = new ArrayList<>();
+
+        if (users == null || users.isEmpty()) {
+            return null;
+        }
+        users.forEach(user -> {
+            dto.add(userConverter.convertUserEntityToUserInfoDTO(user));
+        });
+        return dto;
     }
 
     /**
