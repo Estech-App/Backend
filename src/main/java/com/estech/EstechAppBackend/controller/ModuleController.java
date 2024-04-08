@@ -27,12 +27,24 @@ public class ModuleController {
     private ModuleService moduleService;
 
     @GetMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> getAllModules() {
         List<ModuleDTO> modules = moduleService.getAllModulesDTO();
         if (modules.isEmpty()) {
             return new ResponseEntity<>("empty set", HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity<>(modules, HttpStatus.OK);
+    }
+
+    @GetMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<?> getModuleById(@PathVariable Long id) {
+        ModuleDTO dto = moduleService.getModuleById(id);
+
+        if (dto == null) {
+            return new ResponseEntity<>("error: wrong id", HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
     @PostMapping("/new-module")
