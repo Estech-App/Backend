@@ -19,7 +19,7 @@ public class CheckInService {
     @Autowired
     private CheckInConverter checkInConverter;
 
-    public CheckInDto createNewCheckIn(CheckIn checkIn) {
+    public CheckInDto createOrUpdateCheckIn(CheckIn checkIn) {
         return checkInConverter.convertCheckInToCheckInDTO(checkInRepository.save(checkIn));
     }
 

@@ -3,7 +3,6 @@ package com.estech.EstechAppBackend.controller;
 import com.estech.EstechAppBackend.model.CheckIn;
 import com.estech.EstechAppBackend.service.CheckInService;
 import jakarta.validation.Valid;
-import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,9 +24,15 @@ public class CheckInController {
     }
 
     @PostMapping("/new")
-   @PreAuthorize("hasRole('ADMIN') || hasRole('SECRETARY') || hasRole('TEACHER')")
+    @PreAuthorize("hasRole('ADMIN') || hasRole('SECRETARY') || hasRole('TEACHER')")
     public ResponseEntity<?> createNewCheckIn(@Valid @RequestBody CheckIn checkIn) {
-        return new ResponseEntity<>(checkInService.createNewCheckIn(checkIn), HttpStatus.CREATED);
+        return new ResponseEntity<>(checkInService.createOrUpdateCheckIn(checkIn), HttpStatus.CREATED);
+    }
+
+    @PutMapping("/update-checkin")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<?> updateCheckin(@Valid @RequestBody CheckIn checkIn) {
+        return new ResponseEntity<>(checkInService.createOrUpdateCheckIn(checkIn), HttpStatus.OK);
     }
 
 }
