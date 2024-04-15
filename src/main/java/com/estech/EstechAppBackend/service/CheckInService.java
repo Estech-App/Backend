@@ -19,16 +19,7 @@ public class CheckInService {
     @Autowired
     private CheckInConverter checkInConverter;
 
-    public CheckInDto createNewCheckIn(CheckIn checkIn) {
-
-        CheckIn lastCheckIn = checkInRepository.getCheckInOrderDesc(checkIn.getUser().getId()).get(0);
-
-        if(lastCheckIn.getCheckIn() && checkIn.getCheckIn()) {
-            return null;
-        } else if(!lastCheckIn.getCheckIn() && !checkIn.getCheckIn()) {
-            return null;
-        }
-
+    public CheckInDto createOrUpdateCheckIn(CheckIn checkIn) {
         return checkInConverter.convertCheckInToCheckInDTO(checkInRepository.save(checkIn));
     }
 

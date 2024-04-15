@@ -38,6 +38,15 @@ public class ModuleService {
         return modulesDTO;
     }
 
+    public ModuleDTO getModuleById(Long id) {
+        Module module = moduleRepository.findById(id).orElse(null);
+
+        if (module == null) {
+            return null;
+        }
+        return moduleConverter.convertModuleEntityToModuleDTO(module);
+    }
+
     public ModuleDTO saveModule(Module module) {
         return moduleConverter.convertModuleEntityToModuleDTO(moduleRepository.save(module));
     }

@@ -1,6 +1,5 @@
 package com.estech.EstechAppBackend.service;
 
-import com.estech.EstechAppBackend.controller.CourseController;
 import com.estech.EstechAppBackend.converter.course.CourseConverter;
 import com.estech.EstechAppBackend.dto.course.CourseDTO;
 import com.estech.EstechAppBackend.model.Course;
@@ -20,8 +19,18 @@ public class CourseService {
     @Autowired
     private CourseConverter courseConverter;
 
-    public CourseDTO createCourse(Course course) {
+    public CourseDTO createOrUpdateCourse(Course course) {
         return courseConverter.convertCourseEntityToCreatedCourseDTO(courseRepository.save(course));
+    }
+
+    public CourseDTO getCourseById(Integer id) {
+        Course course = courseRepository.findById(id).orElse(null);
+
+        if (course == null) {
+            return null;
+        }
+
+        return courseConverter.convertCourseEntityToCreatedCourseDTO(course);
     }
 
     public List<CourseDTO> getAllCourses() {
