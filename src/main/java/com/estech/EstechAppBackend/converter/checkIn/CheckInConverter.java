@@ -11,6 +11,7 @@ public class CheckInConverter {
     public CheckInDto convertCheckInToCheckInDTO(CheckIn checkIn) {
         CheckInDto checkInDto = new CheckInDto();
 
+        checkInDto.setId(checkIn.getId());
         checkInDto.setDate(checkIn.getDate());
         checkInDto.setCheckIn(checkIn.getCheckIn());
         checkInDto.setUser(checkIn.getUser().getName() + " " + checkIn.getUser().getLastname());
