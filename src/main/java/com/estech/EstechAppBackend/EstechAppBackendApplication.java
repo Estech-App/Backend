@@ -1,9 +1,12 @@
 package com.estech.EstechAppBackend;
 
 import com.estech.EstechAppBackend.model.Role;
+import com.estech.EstechAppBackend.model.Status;
 import com.estech.EstechAppBackend.model.UserEntity;
 import com.estech.EstechAppBackend.model.enums.RoleEnum;
+import com.estech.EstechAppBackend.model.enums.StatusEnum;
 import com.estech.EstechAppBackend.service.RoleService;
+import com.estech.EstechAppBackend.service.StatusService;
 import com.estech.EstechAppBackend.service.UserService;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
@@ -13,7 +16,8 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import org.springframework.security.crypto.password.PasswordEncoder;
+
+import java.util.ArrayList;
 
 @SpringBootApplication
 public class EstechAppBackendApplication implements CommandLineRunner {
@@ -23,6 +27,9 @@ public class EstechAppBackendApplication implements CommandLineRunner {
 
 	@Autowired
 	private UserService userService;
+
+	@Autowired
+	private StatusService statusService;
 
 	@Value("${admin.pass}")
 	private String adminPass;
@@ -64,6 +71,44 @@ public class EstechAppBackendApplication implements CommandLineRunner {
 		roleService.saveRole(role);
 	}
 
+	private void createStatuses() {
+		Status approved = new Status();
+
+		approved.setId(1);
+		approved.setStatus(StatusEnum.APPROVED);
+		approved.setMentorings(new ArrayList<>());
+		approved.setFreeUsages(new ArrayList<>());
+
+		statusService.saveStatus(approved);
+
+		Status denied = new Status();
+
+		approved.setId(2);
+		denied.setStatus(StatusEnum.DENIED);
+		denied.setMentorings(new ArrayList<>());
+		denied.setFreeUsages(new ArrayList<>());
+
+		statusService.saveStatus(denied);
+
+		Status pending = new Status();
+
+		approved.setId(3);
+		pending.setStatus(StatusEnum.PENDING);
+		pending.setMentorings(new ArrayList<>());
+		pending.setFreeUsages(new ArrayList<>());
+
+		statusService.saveStatus(pending);
+
+		Status modified = new Status();
+
+		approved.setId(4);
+		modified.setStatus(StatusEnum.MODIFIED);
+		modified.setMentorings(new ArrayList<>());
+		modified.setFreeUsages(new ArrayList<>());
+
+		statusService.saveStatus(modified);
+	}
+
 	private void createFirstAdminUser() throws Exception {
 		UserEntity admin = new UserEntity();
 
@@ -84,6 +129,9 @@ public class EstechAppBackendApplication implements CommandLineRunner {
 	public void run(String... args) throws Exception {
 		if (roleService.getAllRoles().isEmpty()) {
 			createRoles();
+		}
+		if (statusService.getAllStatus().isEmpty()) {
+			createStatuses();
 		}
 		if (userService.getAllUsers().isEmpty()) {
 			createFirstAdminUser();

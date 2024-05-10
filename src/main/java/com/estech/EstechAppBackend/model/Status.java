@@ -17,6 +17,8 @@ public class Status {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
+    @Enumerated(EnumType.STRING)
     private StatusEnum status;
 
     //    CONEXION CON FREE USAGES

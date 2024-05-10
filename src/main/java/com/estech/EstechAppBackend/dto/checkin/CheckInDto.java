@@ -15,6 +15,7 @@ import java.util.Date;
 @Getter
 @Setter
 public class CheckInDto {
+    Long id;
     @NotBlank
     Date date;
     @NotNull
