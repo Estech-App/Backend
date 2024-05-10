@@ -18,11 +18,9 @@ public class MentoringDTO {
     private Long id;
 
     @NotNull
-    @NotBlank
     private Date date;
 
     @NotNull
-    @NotBlank
     private Long roomId;
 
     @NotNull
@@ -30,11 +28,9 @@ public class MentoringDTO {
     private String status;
 
     @NotNull
-    @NotBlank
     private Long teacherId;
 
     @NotNull
-    @NotBlank
     private Long studentId;
 
 }

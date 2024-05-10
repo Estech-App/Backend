@@ -74,6 +74,7 @@ public class EstechAppBackendApplication implements CommandLineRunner {
 	private void createStatuses() {
 		Status approved = new Status();
 
+		approved.setId(1);
 		approved.setStatus(StatusEnum.APPROVED);
 		approved.setMentorings(new ArrayList<>());
 		approved.setFreeUsages(new ArrayList<>());
@@ -82,6 +83,7 @@ public class EstechAppBackendApplication implements CommandLineRunner {
 
 		Status denied = new Status();
 
+		approved.setId(2);
 		denied.setStatus(StatusEnum.DENIED);
 		denied.setMentorings(new ArrayList<>());
 		denied.setFreeUsages(new ArrayList<>());
@@ -90,6 +92,7 @@ public class EstechAppBackendApplication implements CommandLineRunner {
 
 		Status pending = new Status();
 
+		approved.setId(3);
 		pending.setStatus(StatusEnum.PENDING);
 		pending.setMentorings(new ArrayList<>());
 		pending.setFreeUsages(new ArrayList<>());
@@ -98,6 +101,7 @@ public class EstechAppBackendApplication implements CommandLineRunner {
 
 		Status modified = new Status();
 
+		approved.setId(4);
 		modified.setStatus(StatusEnum.MODIFIED);
 		modified.setMentorings(new ArrayList<>());
 		modified.setFreeUsages(new ArrayList<>());
