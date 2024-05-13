@@ -7,29 +7,25 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-import java.util.Map;
+import java.util.Date;
 
-@NoArgsConstructor
 @AllArgsConstructor
-@Data
+@NoArgsConstructor
 @Builder
-public class RoomDTO {
+@Data
+public class RoomTimeTableDTO {
 
     private Long id;
 
-    @NotNull
     @NotBlank
-    private String name;
-
-    private String description;
+    @NotNull
+    private String status;
 
     @NotNull
-    private Boolean mentoringRoom;
+    private Date date;
 
     @NotNull
-    private Boolean studyRoom;
+    private Long roomId;
 
-    private List<RoomTimeTableDTO> timeTables;
 
 }

@@ -11,6 +11,7 @@ import java.util.List;
 @Table(name = "rooms")
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @Getter
 @Setter
 public class Room {
@@ -18,12 +19,13 @@ public class Room {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @NotBlank
+
     private String name;
+
     private String description;
-    @NotNull
+
     private Boolean mentoringRoom;
-    @NotNull
+
     private Boolean studyRoom;
 
     //    CONEXION CON FREE USAGES

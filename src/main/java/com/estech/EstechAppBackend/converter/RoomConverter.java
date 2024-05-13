@@ -1,8 +1,9 @@
 package com.estech.EstechAppBackend.converter;
 
 import com.estech.EstechAppBackend.dto.room.RoomDTO;
-import com.estech.EstechAppBackend.dto.idDTO;
 import com.estech.EstechAppBackend.model.Room;
+import com.estech.EstechAppBackend.model.RoomTimeTable;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -13,26 +14,23 @@ import java.util.Map;
 @Component
 public class RoomConverter {
 
-    public RoomDTO convertRoomtoRoomDTO(Room room) {
+    @Autowired
+    private RoomTimeTableConverter roomTimeTableConverter;
+
+    public RoomDTO toRoomDto(Room room) {
         RoomDTO roomDTO = new RoomDTO();
-        Map<String, String> map = new HashMap<>();
 
         roomDTO.setId(roomDTO.getId());
         roomDTO.setName(room.getName());
         roomDTO.setDescription(room.getDescription());
         roomDTO.setStudyRoom(room.getStudyRoom());
         roomDTO.setMentoringRoom(room.getMentoringRoom());
-        if(room.getRoomTimeTables() != null) {
-            room.getRoomTimeTables().forEach(timetable -> {
-                map.put(timetable.getDate().toString(), timetable.getStatus().toString());
-            });
-            roomDTO.setTimeTableStatus(map);
-        }
+        roomDTO.setTimeTables(roomTimeTableConverter.toRoomTimeTableDtos(room.getRoomTimeTables()));
 
         return roomDTO;
     }
 
-    public Room convertRoomDTOToRoom(RoomDTO roomDTO) {
+    public Room toRoom(RoomDTO roomDTO) {
         Room room = new Room();
 
         if (roomDTO.getId() != null) {
@@ -42,15 +40,16 @@ public class RoomConverter {
         room.setDescription(roomDTO.getDescription());
         room.setStudyRoom(roomDTO.getStudyRoom());
         room.setMentoringRoom(roomDTO.getMentoringRoom());
-        // TODO - TimeTables
+        room.setRoomTimeTables(roomTimeTableConverter.toRoomTimeTables(roomDTO.getTimeTables()));
+
         return room;
     }
 
-    public List<RoomDTO> convertRoomsToRoomDTOs(List<Room> rooms) {
+    public List<RoomDTO> toRoomDtos(List<Room> rooms) {
         List<RoomDTO> roomDTOs = new ArrayList<>();
 
         rooms.forEach(room -> {
-            roomDTOs.add(this.convertRoomtoRoomDTO(room));
+            roomDTOs.add(this.toRoomDto(room));
         });
         return roomDTOs;
     }

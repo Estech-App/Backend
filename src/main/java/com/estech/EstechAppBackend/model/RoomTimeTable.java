@@ -22,11 +22,11 @@ public class RoomTimeTable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private RoomStatusEnum statusgt;
+    private RoomStatusEnum status;
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private Date date;
 
-    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "roomTimeTables")
-    private List<Room> rooms;
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Room room;
 
 }
