@@ -22,7 +22,7 @@ public class RoomTimeTable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private RoomStatusEnum status;
+    private RoomStatusEnum statusgt;
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private Date date;
 

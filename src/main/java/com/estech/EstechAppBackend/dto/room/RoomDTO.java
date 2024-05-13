@@ -15,6 +15,7 @@ import java.util.Map;
 @Builder
 public class RoomDTO {
 
+    private Long id;
     @NotBlank
     private String name;
     private String description;
@@ -23,4 +24,5 @@ public class RoomDTO {
     @NotNull
     private Boolean studyRoom;
     private Map<String, String> timeTableStatus;
+
 }
