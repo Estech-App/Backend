@@ -1,6 +1,5 @@
 package com.estech.EstechAppBackend.dto.group;
 
-import com.estech.EstechAppBackend.dto.course.CourseDTO;
 import com.estech.EstechAppBackend.dto.user.UserInfoDTO;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -10,6 +9,7 @@ import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @Getter
 @Setter
 public class GroupDTO {
@@ -26,7 +26,7 @@ public class GroupDTO {
     private Integer year;
 
     @NotNull
-    private Long courseId;
+    private Integer courseId;
 
     private Long roomId;
 

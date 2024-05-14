@@ -7,5 +7,4 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface RoomTimeTableRepository extends JpaRepository<RoomTimeTable, Long> {
-    List<RoomTimeTable> findRoomTimeTableByRoom(Room room);
 }

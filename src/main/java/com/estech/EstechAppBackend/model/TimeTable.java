@@ -9,6 +9,7 @@ import java.time.LocalTime;
 @Table(name = "time_table")
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @Getter
 @Setter
 public class TimeTable {
@@ -18,14 +19,13 @@ public class TimeTable {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "group_id")
     private Group group;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "module_id")
     private Module module;
 
     private LocalTime hour;
+
     private String weekday;
 
 }

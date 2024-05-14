@@ -1,12 +1,9 @@
 package com.estech.EstechAppBackend.controller;
 
-import com.estech.EstechAppBackend.dto.user.CreatedUserDTO;
 import com.estech.EstechAppBackend.dto.user.CreationUserDTO;
 import com.estech.EstechAppBackend.dto.user.UserEmailDTO;
 import com.estech.EstechAppBackend.dto.user.UserInfoDTO;
 import com.estech.EstechAppBackend.model.Role;
-import com.estech.EstechAppBackend.model.UserEntity;
-import com.estech.EstechAppBackend.model.enums.RoleEnum;
 import com.estech.EstechAppBackend.repository.RoleRepository;
 import com.estech.EstechAppBackend.service.UserService;
 import jakarta.validation.Valid;

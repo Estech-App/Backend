@@ -1,13 +1,20 @@
 package com.estech.EstechAppBackend.service;
 
+import com.estech.EstechAppBackend.converter.UserConverter;
 import com.estech.EstechAppBackend.converter.group.GroupConverter;
 import com.estech.EstechAppBackend.dto.group.GroupDTO;
 import com.estech.EstechAppBackend.dto.idDTO;
+import com.estech.EstechAppBackend.exceptions.AppException;
+import com.estech.EstechAppBackend.model.Course;
 import com.estech.EstechAppBackend.model.Group;
 import com.estech.EstechAppBackend.model.Room;
+import com.estech.EstechAppBackend.model.UserEntity;
+import com.estech.EstechAppBackend.repository.CourseRepository;
 import com.estech.EstechAppBackend.repository.GroupRepository;
 import com.estech.EstechAppBackend.repository.RoomRepository;
+import com.estech.EstechAppBackend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -21,36 +28,69 @@ public class GroupService {
     @Autowired
     private RoomRepository roomRepository;
     @Autowired
+    private CourseRepository courseRepository;
+    @Autowired
+    private UserConverter userConverter;
+    @Autowired
     private GroupConverter groupConverter;
 
-    public GroupDTO createNewGroup(Group group) {
-        return groupConverter.convertGroupEntityToGroupDTO(groupRepository.save(group));
-    }
-
     public List<GroupDTO> getAllGroups() {
-        List<GroupDTO> groupsDTO = new ArrayList<>();
-
-        groupRepository.findAll().forEach(group -> {
-            groupsDTO.add(groupConverter.convertGroupEntityToGroupDTO(group));
-        });
-        return groupsDTO;
+        return groupConverter.toGroupDtos(groupRepository.findAll());
     }
 
-    public GroupDTO addRoomToGroup(Long groupId, idDTO room) {
-        Group group = groupRepository.findById(groupId).orElse(null);
+    public GroupDTO createNewGroup(GroupDTO groupDTO) {
+        Group group = groupConverter.toGroup(groupDTO);
 
-        if (group == null) {
-            return null;
+        Group saved = groupRepository.save(group);
+
+        return groupConverter.toGroupDto(saved);
+    }
+
+    public GroupDTO updateGroup(GroupDTO groupDTO) {
+        if (groupDTO.getId() == null) {
+            throw new AppException("Group id must be provided for updating", HttpStatus.BAD_REQUEST);
         }
 
-        Room roomEntity = roomRepository.findById(room.getId()).orElse(null);
-        if (roomEntity == null) {
-            return null;
+        Group group = groupRepository.findById(groupDTO.getId())
+                .orElseThrow(() -> new AppException("Group with id " + groupDTO.getId() + " not found", HttpStatus.NOT_FOUND));
+
+        groupConverter.updateGroup(group, groupConverter.toGroup(groupDTO));
+
+        Group saved = groupRepository.save(group);
+
+        return groupConverter.toGroupDto(saved);
+    }
+
+    public GroupDTO modifyGroup(Long id, GroupDTO groupDTO) {
+        Group group = groupRepository.findById(id)
+                .orElseThrow(() -> new AppException("Group with id " + id + " not found", HttpStatus.NOT_FOUND));
+
+        if (groupDTO.getName() != null) {
+            group.setName(groupDTO.getName());
+        }
+        if (groupDTO.getDescription() != null) {
+            group.setDescription(groupDTO.getDescription());
+        }
+        if (groupDTO.getYear() != null) {
+            group.setYear(groupDTO.getYear());
+        }
+        if (groupDTO.getUsers() != null && !groupDTO.getUsers().isEmpty()) {
+            group.setUsers(userConverter.fromUserInfoDtostoUserEntities(groupDTO.getUsers()));
+        }
+        if (groupDTO.getCourseId() != null) {
+            Course course = courseRepository.findById(groupDTO.getCourseId())
+                    .orElseThrow(() -> new AppException("Course with id " + groupDTO.getCourseId() + " not found", HttpStatus.NOT_FOUND));
+            group.setCourse(course);
+        }
+        if (groupDTO.getRoomId() != null) {
+            Room room = roomRepository.findById(groupDTO.getRoomId())
+                    .orElseThrow(() -> new AppException("Room with id " + groupDTO.getRoomId() + " not found", HttpStatus.NOT_FOUND));
+            group.setRoom(room);
         }
 
-        group.setRoom(roomEntity);
-        return groupConverter.convertGroupEntityToGroupDTO(groupRepository.save(group));
+        Group saved = groupRepository.save(group);
 
+        return groupConverter.toGroupDto(saved);
     }
 
 }

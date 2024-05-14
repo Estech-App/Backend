@@ -1,7 +1,7 @@
 package com.estech.EstechAppBackend.service;
 
-import com.estech.EstechAppBackend.converter.RoomConverter;
-import com.estech.EstechAppBackend.converter.RoomTimeTableConverter;
+import com.estech.EstechAppBackend.converter.room.RoomConverter;
+import com.estech.EstechAppBackend.converter.room.RoomTimeTableConverter;
 import com.estech.EstechAppBackend.dto.room.RoomDTO;
 import com.estech.EstechAppBackend.dto.room.RoomTimeTableDTO;
 import com.estech.EstechAppBackend.exceptions.AppException;
@@ -14,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -44,7 +43,6 @@ public class RoomService {
     }
 
     public RoomDTO createNewRoom(RoomDTO roomDTO) {
-
         Room room = Room.builder()
                 .name(roomDTO.getName())
                 .description(roomDTO.getDescription())
@@ -116,7 +114,8 @@ public class RoomService {
         roomTimeTableDTOS.forEach(roomTimeTableDTO -> {
             if (roomTimeTableDTO.getId() == null) {
                 RoomTimeTable newRoomTimeTable = RoomTimeTable.builder()
-                        .date(roomTimeTableDTO.getDate())
+                        .start(roomTimeTableDTO.getStart())
+                        .end(roomTimeTableDTO.getEnd())
                         .room(room)
                         .status(RoomStatusEnum.valueOf(roomTimeTableDTO.getStatus()))
                         .build();

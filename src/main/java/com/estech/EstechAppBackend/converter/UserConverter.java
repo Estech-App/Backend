@@ -3,12 +3,18 @@ package com.estech.EstechAppBackend.converter;
 import com.estech.EstechAppBackend.dto.user.CreatedUserDTO;
 import com.estech.EstechAppBackend.dto.user.CreationUserDTO;
 import com.estech.EstechAppBackend.dto.user.UserInfoDTO;
+import com.estech.EstechAppBackend.exceptions.AppException;
 import com.estech.EstechAppBackend.model.UserEntity;
 import com.estech.EstechAppBackend.model.enums.RoleEnum;
 import com.estech.EstechAppBackend.repository.RoleRepository;
+import com.estech.EstechAppBackend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Component
 public class UserConverter {
@@ -18,6 +24,9 @@ public class UserConverter {
 
     @Autowired
     private RoleRepository roleRepository;
+
+    @Autowired
+    private UserRepository userRepository;
 
     public UserEntity convertCreationUserDTOToUserEntity(CreationUserDTO creationUserDTO) {
         UserEntity userEntity = new UserEntity();
@@ -81,6 +90,16 @@ public class UserConverter {
         user.setName(userEntity.getName());
         user.setLastname(userEntity.getLastname());
         return user;
+    }
+
+    public List<UserEntity> fromUserInfoDtostoUserEntities(List<UserInfoDTO> userEntities) {
+        List<UserEntity> users = new ArrayList<>();
+        userEntities.forEach(userInfoDTO -> {
+            UserEntity user = userRepository.findById(userInfoDTO.getId())
+                    .orElseThrow(() -> new AppException("User with id " + userInfoDTO.getId() + " not found", HttpStatus.NOT_FOUND));
+            users.add(user);
+        });
+        return users;
     }
 
     public CreationUserDTO convertUserEntityToCreationUserDTO(UserEntity user) {

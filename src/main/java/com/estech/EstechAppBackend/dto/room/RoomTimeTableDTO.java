@@ -22,9 +22,11 @@ public class RoomTimeTableDTO {
     private String status;
 
     @NotNull
-    private Date date;
+    private Date start;
 
     @NotNull
+    private Date end;
+
     private Long roomId;
 
 

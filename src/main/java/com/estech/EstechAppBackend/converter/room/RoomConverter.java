@@ -1,15 +1,12 @@
-package com.estech.EstechAppBackend.converter;
+package com.estech.EstechAppBackend.converter.room;
 
 import com.estech.EstechAppBackend.dto.room.RoomDTO;
 import com.estech.EstechAppBackend.model.Room;
-import com.estech.EstechAppBackend.model.RoomTimeTable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Component
 public class RoomConverter {

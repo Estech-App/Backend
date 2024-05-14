@@ -1,4 +1,4 @@
-package com.estech.EstechAppBackend.converter;
+package com.estech.EstechAppBackend.converter.room;
 
 import com.estech.EstechAppBackend.dto.room.RoomTimeTableDTO;
 import com.estech.EstechAppBackend.exceptions.AppException;
@@ -24,7 +24,8 @@ public class RoomTimeTableConverter {
                 .id(roomTimeTable.getId())
                 .status(roomTimeTable.getStatus().toString())
                 .roomId(roomTimeTable.getRoom().getId())
-                .date(roomTimeTable.getDate())
+                .start(roomTimeTable.getStart())
+                .end(roomTimeTable.getEnd())
                 .build();
     }
 
@@ -39,7 +40,8 @@ public class RoomTimeTableConverter {
                 .orElseThrow(() -> new AppException("Room with id " + roomTimeTableDTO.getRoomId() + " not found", HttpStatus.NOT_FOUND));
         roomTimeTable.setRoom(room);
 
-        roomTimeTable.setDate(roomTimeTableDTO.getDate());
+        roomTimeTable.setStart(roomTimeTableDTO.getStart());
+        roomTimeTable.setEnd(roomTimeTableDTO.getEnd());
 
         roomTimeTable.setStatus(RoomStatusEnum.valueOf(roomTimeTableDTO.getStatus()));
 
@@ -70,7 +72,8 @@ public class RoomTimeTableConverter {
         }
 
         target.setId(source.getId());
-        target.setDate(source.getDate());
+        target.setStart(source.getStart());
+        target.setEnd(source.getEnd());
         target.setStatus(source.getStatus());
         target.setRoom(source.getRoom());
     }

@@ -1,6 +1,6 @@
 package com.estech.EstechAppBackend.service;
 
-import com.estech.EstechAppBackend.converter.RoomTimeTableConverter;
+import com.estech.EstechAppBackend.converter.room.RoomTimeTableConverter;
 import com.estech.EstechAppBackend.dto.room.RoomTimeTableDTO;
 import com.estech.EstechAppBackend.exceptions.AppException;
 import com.estech.EstechAppBackend.model.Room;
@@ -32,9 +32,7 @@ public class RoomTimeTableService {
         Room room = roomRepository.findById(id)
                 .orElseThrow(() -> new AppException("Room with id " + id + " not found", HttpStatus.NOT_FOUND));
 
-        List<RoomTimeTable> roomTimeTables = roomTimeTableRepository.findRoomTimeTableByRoom(room);
-
-        return roomTimeTableConverter.toRoomTimeTableDtos(roomTimeTables);
+        return roomTimeTableConverter.toRoomTimeTableDtos(room.getRoomTimeTables());
     }
 
     public RoomTimeTableDTO createRoomTimeTable(RoomTimeTableDTO roomTimeTableDTO) {
@@ -72,8 +70,11 @@ public class RoomTimeTableService {
         if (roomTimeTableDTO.getStatus() != null) {
             roomTimeTable.setStatus(RoomStatusEnum.valueOf(roomTimeTableDTO.getStatus()));
         }
-        if (roomTimeTableDTO.getDate() != null) {
-            roomTimeTable.setDate(roomTimeTableDTO.getDate());
+        if (roomTimeTableDTO.getStart() != null) {
+            roomTimeTable.setStart(roomTimeTableDTO.getStart());
+        }
+        if (roomTimeTableDTO.getEnd() != null) {
+            roomTimeTable.setEnd(roomTimeTableDTO.getEnd());
         }
 
         RoomTimeTable saved = roomTimeTableRepository.save(roomTimeTable);

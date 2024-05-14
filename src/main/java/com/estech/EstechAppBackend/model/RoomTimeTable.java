@@ -22,9 +22,15 @@ public class RoomTimeTable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Enumerated(EnumType.STRING)
     private RoomStatusEnum status;
+
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-    private Date date;
+    private Date start;
+
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+    private Date end;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Room room;
