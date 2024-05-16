@@ -17,7 +17,7 @@ public class RoomConverter {
     public RoomDTO toRoomDto(Room room) {
         RoomDTO roomDTO = new RoomDTO();
 
-        roomDTO.setId(roomDTO.getId());
+        roomDTO.setId(room.getId());
         roomDTO.setName(room.getName());
         roomDTO.setDescription(room.getDescription());
         roomDTO.setStudyRoom(room.getStudyRoom());

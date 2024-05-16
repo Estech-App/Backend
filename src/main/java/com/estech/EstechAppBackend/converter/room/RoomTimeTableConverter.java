@@ -20,13 +20,21 @@ public class RoomTimeTableConverter {
     private RoomRepository roomRepository;
 
     public RoomTimeTableDTO toRoomTimeTableDTO(RoomTimeTable roomTimeTable) {
-        return RoomTimeTableDTO.builder()
-                .id(roomTimeTable.getId())
+
+
+        RoomTimeTableDTO dto = RoomTimeTableDTO.builder()
                 .status(roomTimeTable.getStatus().toString())
                 .roomId(roomTimeTable.getRoom().getId())
                 .start(roomTimeTable.getStart())
                 .end(roomTimeTable.getEnd())
                 .build();
+
+        Long id = roomTimeTable.getId();
+        if (id != null) {
+            dto.setId(id);
+        }
+
+        return dto;
     }
 
     public RoomTimeTable toRoomTimeTable(RoomTimeTableDTO roomTimeTableDTO) {

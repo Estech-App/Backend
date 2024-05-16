@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -53,8 +54,6 @@ public class RoomService {
         Room newCreatedRoom = roomRepository.save(room);
 
         checkNonExistingRoomTimeTables(roomDTO.getTimeTables(), newCreatedRoom);
-
-        roomConverter.updateRoom(newCreatedRoom, roomConverter.toRoom(roomDTO));
 
         Room saved = roomRepository.save(newCreatedRoom);
 
@@ -111,6 +110,8 @@ public class RoomService {
      * @param room Room that will be linked to the newly generated RoomTimeTables.
      */
     private void checkNonExistingRoomTimeTables(List<RoomTimeTableDTO> roomTimeTableDTOS, Room room) {
+        List<RoomTimeTable> roomTimeTables = new ArrayList<>();
+
         roomTimeTableDTOS.forEach(roomTimeTableDTO -> {
             if (roomTimeTableDTO.getId() == null) {
                 RoomTimeTable newRoomTimeTable = RoomTimeTable.builder()
@@ -121,6 +122,7 @@ public class RoomService {
                         .build();
 
                 roomTimeTableRepository.save(newRoomTimeTable);
+                roomTimeTables.add(newRoomTimeTable);
             } else {
                 RoomTimeTable roomTimeTable = roomTimeTableRepository.findById(roomTimeTableDTO.getId())
                         .orElseThrow(() -> new AppException("Room Time Table with id " + roomTimeTableDTO.getId() + " not found", HttpStatus.NOT_FOUND));
@@ -130,6 +132,9 @@ public class RoomService {
                 roomTimeTableRepository.save(roomTimeTable);
             }
         });
+        if (!roomTimeTables.isEmpty()) {
+            room.setRoomTimeTables(roomTimeTables);
+        }
     }
 
 }
