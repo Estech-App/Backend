@@ -18,8 +18,6 @@ public class RoomConverter {
 
     @Autowired
     private RoomTimeTableConverter roomTimeTableConverter;
-    @Autowired
-    private GroupConverter groupConverter;
 
     public RoomDTO toRoomDto(Room room) {
         RoomDTO roomDTO = new RoomDTO();
@@ -29,16 +27,6 @@ public class RoomConverter {
         roomDTO.setDescription(room.getDescription());
         roomDTO.setStudyRoom(room.getStudyRoom());
         roomDTO.setMentoringRoom(room.getMentoringRoom());
-        if (room.getGroups() != null) {
-            List<Long> groupsIds = new ArrayList<>();
-            room.getGroups().forEach(group -> {
-                groupsIds.add(group.getId());
-            });
-            roomDTO.setGroupsIds(groupsIds);
-        } else {
-            roomDTO.setGroupsIds(new ArrayList<>());
-        }
-
         if (room.getRoomTimeTables() != null) {
             roomDTO.setTimeTables(roomTimeTableConverter.toRoomTimeTableDtos(room.getRoomTimeTables()));
         } else {
@@ -62,11 +50,6 @@ public class RoomConverter {
             room.setRoomTimeTables(roomTimeTableConverter.toRoomTimeTables(roomDTO.getTimeTables()));
         } else {
             room.setRoomTimeTables(new ArrayList<>());
-        }
-        if (roomDTO.getGroupsIds() != null) {
-            room.setGroups(groupConverter.fromGroupIdsToGroups(roomDTO.getGroupsIds()));
-        } else {
-            room.setGroups(new ArrayList<>());
         }
 
         return room;

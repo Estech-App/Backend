@@ -31,8 +31,6 @@ public class RoomDTO {
     @NotNull
     private Boolean studyRoom;
 
-    private List<Long> groupsIds;
-
     private List<RoomTimeTableDTO> timeTables;
 
 }

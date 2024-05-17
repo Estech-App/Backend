@@ -31,8 +31,6 @@ public class RoomService {
     private RoomTimeTableConverter roomTimeTableConverter;
     @Autowired
     private RoomTimeTableRepository roomTimeTableRepository;
-    @Autowired
-    private GroupConverter groupConverter;
 
     public List<RoomDTO> getAllRoomDTOs() {
         return roomConverter.toRoomDtos(roomRepository.findAll());
@@ -52,12 +50,6 @@ public class RoomService {
                 .mentoringRoom(roomDTO.getMentoringRoom())
                 .studyRoom(roomDTO.getStudyRoom())
                 .build();
-
-        if (roomDTO.getGroupsIds() != null) {
-            room.setGroups(groupConverter.fromGroupIdsToGroups(roomDTO.getGroupsIds()));
-        } else {
-            room.setGroups(new ArrayList<>());
-        }
 
         Room newCreatedRoom = roomRepository.save(room);
 
@@ -103,9 +95,6 @@ public class RoomService {
         }
         if (roomDTO.getTimeTables() != null) {
             room.setRoomTimeTables(roomTimeTableConverter.toRoomTimeTables(roomDTO.getTimeTables()));
-        }
-        if (roomDTO.getGroupsIds() != null) {
-            room.setGroups(groupConverter.fromGroupIdsToGroups(roomDTO.getGroupsIds()));
         }
 
         Room saved = roomRepository.save(room);
