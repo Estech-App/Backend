@@ -33,7 +33,8 @@ public class FreeUsageConverter {
     public FreeUsagesDTO toFreeUsagesDto(FreeUsages freeUsages) {
         return FreeUsagesDTO.builder()
                 .id(freeUsages.getId())
-                .date(freeUsages.getDate())
+                .start(freeUsages.getStart())
+                .end(freeUsages.getEnd())
                 .status(freeUsages.getStatus().getStatus().toString())
                 .room(roomConverter.toRoomDto(freeUsages.getRoom()))
                 .user(userConverter.convertUserEntityToUserInfoDTO(freeUsages.getUser()))
@@ -46,7 +47,8 @@ public class FreeUsageConverter {
         if (freeUsagesDTO.getId() != null) {
             freeUsages.setId(freeUsagesDTO.getId());
         }
-        freeUsages.setDate(freeUsagesDTO.getDate());
+        freeUsages.setStart(freeUsagesDTO.getStart());
+        freeUsages.setEnd(freeUsagesDTO.getEnd());
 
         Room room = roomRepository.findById(freeUsagesDTO.getRoom().getId())
                 .orElseThrow(() -> new AppException("Room with id " + freeUsagesDTO.getRoom().getId() + " not found", HttpStatus.NOT_FOUND));
@@ -80,7 +82,8 @@ public class FreeUsageConverter {
         }
 
         target.setId(source.getId());
-        target.setDate(source.getDate());
+        target.setStart(source.getStart());
+        target.setEnd(source.getEnd());
         target.setStatus(source.getStatus());
         target.setRoom(source.getRoom());
         target.setUser(source.getUser());

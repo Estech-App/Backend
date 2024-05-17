@@ -112,28 +112,30 @@ public class RoomService {
     private void checkNonExistingRoomTimeTables(List<RoomTimeTableDTO> roomTimeTableDTOS, Room room) {
         List<RoomTimeTable> roomTimeTables = new ArrayList<>();
 
-        roomTimeTableDTOS.forEach(roomTimeTableDTO -> {
-            if (roomTimeTableDTO.getId() == null) {
-                RoomTimeTable newRoomTimeTable = RoomTimeTable.builder()
-                        .start(roomTimeTableDTO.getStart())
-                        .end(roomTimeTableDTO.getEnd())
-                        .room(room)
-                        .status(RoomStatusEnum.valueOf(roomTimeTableDTO.getStatus()))
-                        .build();
+        if (roomTimeTableDTOS != null) {
+            roomTimeTableDTOS.forEach(roomTimeTableDTO -> {
+                if (roomTimeTableDTO.getId() == null) {
+                    RoomTimeTable newRoomTimeTable = RoomTimeTable.builder()
+                            .start(roomTimeTableDTO.getStart())
+                            .end(roomTimeTableDTO.getEnd())
+                            .room(room)
+                            .status(RoomStatusEnum.valueOf(roomTimeTableDTO.getStatus()))
+                            .build();
 
-                roomTimeTableRepository.save(newRoomTimeTable);
-                roomTimeTables.add(newRoomTimeTable);
-            } else {
-                RoomTimeTable roomTimeTable = roomTimeTableRepository.findById(roomTimeTableDTO.getId())
-                        .orElseThrow(() -> new AppException("Room Time Table with id " + roomTimeTableDTO.getId() + " not found", HttpStatus.NOT_FOUND));
+                    roomTimeTableRepository.save(newRoomTimeTable);
+                    roomTimeTables.add(newRoomTimeTable);
+                } else {
+                    RoomTimeTable roomTimeTable = roomTimeTableRepository.findById(roomTimeTableDTO.getId())
+                            .orElseThrow(() -> new AppException("Room Time Table with id " + roomTimeTableDTO.getId() + " not found", HttpStatus.NOT_FOUND));
 
-                roomTimeTableConverter.updateRoomTimeTable(roomTimeTable, roomTimeTableConverter.toRoomTimeTable(roomTimeTableDTO));
+                    roomTimeTableConverter.updateRoomTimeTable(roomTimeTable, roomTimeTableConverter.toRoomTimeTable(roomTimeTableDTO));
 
-                roomTimeTableRepository.save(roomTimeTable);
+                    roomTimeTableRepository.save(roomTimeTable);
+                }
+            });
+            if (!roomTimeTables.isEmpty()) {
+                room.setRoomTimeTables(roomTimeTables);
             }
-        });
-        if (!roomTimeTables.isEmpty()) {
-            room.setRoomTimeTables(roomTimeTables);
         }
     }
 

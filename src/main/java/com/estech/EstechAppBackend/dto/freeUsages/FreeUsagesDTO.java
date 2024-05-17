@@ -18,7 +18,9 @@ public class FreeUsagesDTO {
     private Long id;
 
     @NotNull
-    private Date date;
+    private Date start;
+    @NotNull
+    private Date end;
 
     @NotNull
     @NotBlank
