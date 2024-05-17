@@ -34,7 +34,7 @@ public class FreeUsageConverter {
         return FreeUsagesDTO.builder()
                 .id(freeUsages.getId())
                 .date(freeUsages.getDate())
-                .status(freeUsages.getStatus().toString())
+                .status(freeUsages.getStatus().getStatus().toString())
                 .room(roomConverter.toRoomDto(freeUsages.getRoom()))
                 .user(userConverter.convertUserEntityToUserInfoDTO(freeUsages.getUser()))
                 .build();

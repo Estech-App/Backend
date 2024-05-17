@@ -1,7 +1,6 @@
 package com.estech.EstechAppBackend.controller;
 
 import com.estech.EstechAppBackend.dto.freeUsages.FreeUsagesDTO;
-import com.estech.EstechAppBackend.model.FreeUsages;
 import com.estech.EstechAppBackend.service.FreeUsagesService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +14,7 @@ import java.util.List;
 @RestController
 @CrossOrigin
 @RequestMapping("/api/free-usage")
-public class FreeUsagesConverter {
+public class FreeUsagesController {
 
     @Autowired
     private FreeUsagesService freeUsagesService;
