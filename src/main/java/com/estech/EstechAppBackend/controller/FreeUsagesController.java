@@ -32,4 +32,10 @@ public class FreeUsagesController {
         return ResponseEntity.created(URI.create("/api/free-usage/" + freeUsagesDTO.getId())).body(created);
     }
 
+    @PutMapping
+    @PreAuthorize("hasRole('ADMIN') || hasRole('STUDENT')")
+    public ResponseEntity<FreeUsagesDTO> updateFreeUsage(@Valid @RequestBody FreeUsagesDTO freeUsagesDTO) {
+        return ResponseEntity.ok(freeUsagesService.updateFreeUsage(freeUsagesDTO));
+    }
+
 }
