@@ -9,6 +9,7 @@ import com.estech.EstechAppBackend.model.Group;
 import com.estech.EstechAppBackend.model.Room;
 import com.estech.EstechAppBackend.model.UserEntity;
 import com.estech.EstechAppBackend.repository.CourseRepository;
+import com.estech.EstechAppBackend.repository.GroupRepository;
 import com.estech.EstechAppBackend.repository.RoomRepository;
 import com.estech.EstechAppBackend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,8 @@ public class GroupConverter {
     private RoomRepository roomRepository;
     @Autowired
     private CourseRepository courseRepository;
+    @Autowired
+    private GroupRepository groupRepository;
 
     public GroupDTO toGroupDto(Group group) {
         List<UserInfoDTO> userInfoDtos = new ArrayList<>();
@@ -95,6 +98,16 @@ public class GroupConverter {
         target.setCourse(source.getCourse());
         // TODO - target.setTimeTables(source.getTimeTables());
         target.setRoom(source.getRoom());
+    }
+
+    public List<Group> fromGroupIdsToGroups(List<Long> groupIds) {
+        List<Group> groups = new ArrayList<>();
+        groupIds.forEach(groupId -> {
+            Group group = groupRepository.findById(groupId)
+                    .orElseThrow(() -> new AppException("Group with id " + groupId + " not found", HttpStatus.NOT_FOUND));
+            groups.add(group);
+        });
+        return groups;
     }
 
 }

@@ -1,13 +1,16 @@
 package com.estech.EstechAppBackend.service;
 
+import com.estech.EstechAppBackend.converter.group.GroupConverter;
 import com.estech.EstechAppBackend.converter.room.RoomConverter;
 import com.estech.EstechAppBackend.converter.room.RoomTimeTableConverter;
 import com.estech.EstechAppBackend.dto.room.RoomDTO;
 import com.estech.EstechAppBackend.dto.room.RoomTimeTableDTO;
 import com.estech.EstechAppBackend.exceptions.AppException;
+import com.estech.EstechAppBackend.model.Group;
 import com.estech.EstechAppBackend.model.Room;
 import com.estech.EstechAppBackend.model.RoomTimeTable;
 import com.estech.EstechAppBackend.model.enums.RoomStatusEnum;
+import com.estech.EstechAppBackend.repository.GroupRepository;
 import com.estech.EstechAppBackend.repository.RoomRepository;
 import com.estech.EstechAppBackend.repository.RoomTimeTableRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,15 +25,14 @@ public class RoomService {
 
     @Autowired
     private RoomRepository roomRepository;
-
     @Autowired
     private RoomConverter roomConverter;
-
     @Autowired
     private RoomTimeTableConverter roomTimeTableConverter;
-
     @Autowired
     private RoomTimeTableRepository roomTimeTableRepository;
+    @Autowired
+    private GroupConverter groupConverter;
 
     public List<RoomDTO> getAllRoomDTOs() {
         return roomConverter.toRoomDtos(roomRepository.findAll());
@@ -50,6 +52,12 @@ public class RoomService {
                 .mentoringRoom(roomDTO.getMentoringRoom())
                 .studyRoom(roomDTO.getStudyRoom())
                 .build();
+
+        if (roomDTO.getGroupsIds() != null) {
+            room.setGroups(groupConverter.fromGroupIdsToGroups(roomDTO.getGroupsIds()));
+        } else {
+            room.setGroups(new ArrayList<>());
+        }
 
         Room newCreatedRoom = roomRepository.save(room);
 
@@ -95,6 +103,9 @@ public class RoomService {
         }
         if (roomDTO.getTimeTables() != null) {
             room.setRoomTimeTables(roomTimeTableConverter.toRoomTimeTables(roomDTO.getTimeTables()));
+        }
+        if (roomDTO.getGroupsIds() != null) {
+            room.setGroups(groupConverter.fromGroupIdsToGroups(roomDTO.getGroupsIds()));
         }
 
         Room saved = roomRepository.save(room);

@@ -1,5 +1,6 @@
 package com.estech.EstechAppBackend.dto.room;
 
+import com.estech.EstechAppBackend.dto.group.GroupDTO;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -29,6 +30,8 @@ public class RoomDTO {
 
     @NotNull
     private Boolean studyRoom;
+
+    private List<Long> groupsIds;
 
     private List<RoomTimeTableDTO> timeTables;
 

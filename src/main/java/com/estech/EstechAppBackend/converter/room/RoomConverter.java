@@ -1,8 +1,13 @@
 package com.estech.EstechAppBackend.converter.room;
 
+import com.estech.EstechAppBackend.converter.group.GroupConverter;
 import com.estech.EstechAppBackend.dto.room.RoomDTO;
+import com.estech.EstechAppBackend.exceptions.AppException;
+import com.estech.EstechAppBackend.model.Group;
 import com.estech.EstechAppBackend.model.Room;
+import com.estech.EstechAppBackend.repository.GroupRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -13,6 +18,8 @@ public class RoomConverter {
 
     @Autowired
     private RoomTimeTableConverter roomTimeTableConverter;
+    @Autowired
+    private GroupConverter groupConverter;
 
     public RoomDTO toRoomDto(Room room) {
         RoomDTO roomDTO = new RoomDTO();
@@ -22,7 +29,21 @@ public class RoomConverter {
         roomDTO.setDescription(room.getDescription());
         roomDTO.setStudyRoom(room.getStudyRoom());
         roomDTO.setMentoringRoom(room.getMentoringRoom());
-        roomDTO.setTimeTables(roomTimeTableConverter.toRoomTimeTableDtos(room.getRoomTimeTables()));
+        if (room.getGroups() != null) {
+            List<Long> groupsIds = new ArrayList<>();
+            room.getGroups().forEach(group -> {
+                groupsIds.add(group.getId());
+            });
+            roomDTO.setGroupsIds(groupsIds);
+        } else {
+            roomDTO.setGroupsIds(new ArrayList<>());
+        }
+
+        if (room.getRoomTimeTables() != null) {
+            roomDTO.setTimeTables(roomTimeTableConverter.toRoomTimeTableDtos(room.getRoomTimeTables()));
+        } else {
+            roomDTO.setTimeTables(new ArrayList<>());
+        }
 
         return roomDTO;
     }
@@ -37,7 +58,16 @@ public class RoomConverter {
         room.setDescription(roomDTO.getDescription());
         room.setStudyRoom(roomDTO.getStudyRoom());
         room.setMentoringRoom(roomDTO.getMentoringRoom());
-        room.setRoomTimeTables(roomTimeTableConverter.toRoomTimeTables(roomDTO.getTimeTables()));
+        if (roomDTO.getTimeTables() != null) {
+            room.setRoomTimeTables(roomTimeTableConverter.toRoomTimeTables(roomDTO.getTimeTables()));
+        } else {
+            room.setRoomTimeTables(new ArrayList<>());
+        }
+        if (roomDTO.getGroupsIds() != null) {
+            room.setGroups(groupConverter.fromGroupIdsToGroups(roomDTO.getGroupsIds()));
+        } else {
+            room.setGroups(new ArrayList<>());
+        }
 
         return room;
     }
