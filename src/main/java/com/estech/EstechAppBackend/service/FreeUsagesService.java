@@ -4,7 +4,9 @@ import com.estech.EstechAppBackend.converter.FreeUsageConverter;
 import com.estech.EstechAppBackend.dto.freeUsages.FreeUsagesDTO;
 import com.estech.EstechAppBackend.exceptions.AppException;
 import com.estech.EstechAppBackend.model.FreeUsages;
+import com.estech.EstechAppBackend.model.Room;
 import com.estech.EstechAppBackend.repository.FreeUsagesRepository;
+import com.estech.EstechAppBackend.repository.RoomRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -18,9 +20,18 @@ public class FreeUsagesService {
     private FreeUsagesRepository freeUsagesRepository;
     @Autowired
     private FreeUsageConverter freeUsageConverter;
+    @Autowired
+    private RoomRepository roomRepository;
 
     public List<FreeUsagesDTO> getAllFreeUsages() {
         return freeUsageConverter.toFreeUsagesDtos(freeUsagesRepository.findAll());
+    }
+
+    public List<FreeUsagesDTO> getFreeUsagesByRoom(Long roomId) {
+        Room room = roomRepository.findById(roomId)
+                .orElseThrow(() -> new AppException("Room with id " + roomId + " not found", HttpStatus.NOT_FOUND));
+
+        return freeUsageConverter.toFreeUsagesDtos(freeUsagesRepository.findFreeUsagesByRoom(room));
     }
 
     public FreeUsagesDTO createFreeUsages(FreeUsagesDTO freeUsagesDTO) {
