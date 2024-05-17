@@ -32,7 +32,7 @@ public class FreeUsagesService {
     }
 
     public FreeUsagesDTO updateFreeUsage(FreeUsagesDTO freeUsagesDTO) {
-        if (freeUsagesDTO.getId() != null) {
+        if (freeUsagesDTO.getId() == null) {
             throw new AppException("FreeUsage id must be provided for updating", HttpStatus.BAD_REQUEST);
         }
 
