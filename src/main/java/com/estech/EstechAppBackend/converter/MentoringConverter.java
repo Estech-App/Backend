@@ -29,7 +29,8 @@ public class MentoringConverter {
         MentoringDTO mentoringDTO = new MentoringDTO();
 
         mentoringDTO.setId(mentoring.getId());
-        mentoringDTO.setDate(mentoring.getDate());
+        mentoringDTO.setStart(mentoring.getStart());
+        mentoringDTO.setEnd(mentoring.getEnd());
         mentoringDTO.setStatus(mentoring.getStatus().getStatus().toString());
         mentoringDTO.setRoomId(mentoring.getRoom().getId());
         mentoringDTO.setTeacherId(mentoring.getTeacher().getId());
@@ -44,7 +45,8 @@ public class MentoringConverter {
         if (mentoringDTO.getId() != null) {
             mentoring.setId(mentoringDTO.getId());
         }
-        mentoring.setDate(mentoringDTO.getDate());
+        mentoring.setStart(mentoringDTO.getStart());
+        mentoring.setEnd(mentoringDTO.getEnd());
 
         Room room = roomRepository.findById(mentoringDTO.getRoomId())
                         .orElseThrow(() -> new AppException("Room with id " + mentoringDTO.getRoomId() + " not found", HttpStatus.NOT_FOUND));
@@ -82,7 +84,8 @@ public class MentoringConverter {
         }
 
         target.setId(source.getId());
-        target.setDate(source.getDate());
+        target.setStart(source.getStart());
+        target.setEnd(source.getEnd());
         target.setRoom(source.getRoom());
         target.setStatus(source.getStatus());
         target.setStudent(source.getStudent());

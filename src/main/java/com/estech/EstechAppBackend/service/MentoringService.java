@@ -91,8 +91,11 @@ public class MentoringService {
         if (mentoringDTO.getStatus() != null) {
             mentoring.setStatus(statusService.getStatusByStatusName(StatusEnum.valueOf(mentoringDTO.getStatus())));
         }
-        if (mentoringDTO.getDate() != null) {
-            mentoring.setDate(mentoringDTO.getDate());
+        if (mentoringDTO.getStart() != null) {
+            mentoring.setStart(mentoringDTO.getStart());
+        }
+        if (mentoringDTO.getEnd() != null) {
+            mentoring.setEnd(mentoringDTO.getEnd());
         }
         if (mentoringDTO.getStudentId() != null) {
             UserEntity user = userRepository.findById(mentoringDTO.getStudentId())

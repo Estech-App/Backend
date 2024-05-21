@@ -18,7 +18,10 @@ public class MentoringDTO {
     private Long id;
 
     @NotNull
-    private Date date;
+    private Date start;
+
+    @NotNull
+    private Date end;
 
     @NotNull
     private Long roomId;
