@@ -35,6 +35,13 @@ public class MentoringService {
         return mentoringConverter.fromMentoringsToMentoringDTOs(mentoringRepository.findAll());
     }
 
+    public List<MentoringDTO> getMentoringsByRoomId(Long roomId) {
+        Room room = roomRepository.findById(roomId)
+                .orElseThrow(() -> new AppException("Room with id " + roomId + " not found", HttpStatus.NOT_FOUND));
+
+        return mentoringConverter.fromMentoringsToMentoringDTOs(mentoringRepository.findMentoringByRoom(room));
+    }
+
     public MentoringDTO createMentoring(MentoringDTO mentoringDTO) {
         Mentoring createdMentoring = mentoringConverter.convertMentoringDTOToMentoringEntity(mentoringDTO);
 

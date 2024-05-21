@@ -37,6 +37,13 @@ public class MentoringController {
         return ResponseEntity.ok(mentoringService.getMentoringsByUserId(id, false));
     }
 
+    @GetMapping("/by-room/{roomId}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<List<MentoringDTO>> getMentoringsByRoomId(@PathVariable Long roomId) {
+        return ResponseEntity.ok(mentoringService.getMentoringsByRoomId(roomId));
+    }
+
+
     @PostMapping
     @PreAuthorize("hasRole('ADMIN') || hasRole('TEACHER') || hasRole('STUDENT')")
     public ResponseEntity<MentoringDTO> createMentoring(@Valid @RequestBody MentoringDTO mentoringDTO) {
