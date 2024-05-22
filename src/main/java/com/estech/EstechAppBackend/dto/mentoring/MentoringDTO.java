@@ -1,5 +1,6 @@
 package com.estech.EstechAppBackend.dto.mentoring;
 
+import com.estech.EstechAppBackend.dto.user.UserInfoDTO;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -31,9 +32,9 @@ public class MentoringDTO {
     private String status;
 
     @NotNull
-    private Long teacherId;
+    private UserInfoDTO teacher;
 
     @NotNull
-    private Long studentId;
+    private UserInfoDTO student;
 
 }

@@ -97,14 +97,14 @@ public class MentoringService {
         if (mentoringDTO.getEnd() != null) {
             mentoring.setEnd(mentoringDTO.getEnd());
         }
-        if (mentoringDTO.getStudentId() != null) {
-            UserEntity user = userRepository.findById(mentoringDTO.getStudentId())
-                    .orElseThrow(() -> new AppException("User with id " + id + " not found", HttpStatus.NOT_FOUND));
+        if (mentoringDTO.getStudent() != null) {
+            UserEntity user = userRepository.findById(mentoringDTO.getStudent().getId())
+                    .orElseThrow(() -> new AppException("User with id " + mentoringDTO.getStudent().getId() + " not found", HttpStatus.NOT_FOUND));
             mentoring.setStudent(user);
         }
-        if (mentoringDTO.getTeacherId() != null) {
-            UserEntity user = userRepository.findById(mentoringDTO.getStudentId())
-                    .orElseThrow(() -> new AppException("User with id " + id + " not found", HttpStatus.NOT_FOUND));
+        if (mentoringDTO.getTeacher() != null) {
+            UserEntity user = userRepository.findById(mentoringDTO.getTeacher().getId())
+                    .orElseThrow(() -> new AppException("User with id " + mentoringDTO.getTeacher().getId() + " not found", HttpStatus.NOT_FOUND));
             mentoring.setTeacher(user);
         }
 

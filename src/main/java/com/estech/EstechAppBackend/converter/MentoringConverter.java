@@ -23,7 +23,10 @@ public class MentoringConverter {
     @Autowired
     private UserRepository userRepository;
     @Autowired
+    private UserConverter userConverter;
+    @Autowired
     private RoomRepository roomRepository;
+
 
     public MentoringDTO convertMentoringEntityToMentoringDTO(Mentoring mentoring) {
         MentoringDTO mentoringDTO = new MentoringDTO();
@@ -33,8 +36,8 @@ public class MentoringConverter {
         mentoringDTO.setEnd(mentoring.getEnd());
         mentoringDTO.setStatus(mentoring.getStatus().getStatus().toString());
         mentoringDTO.setRoomId(mentoring.getRoom().getId());
-        mentoringDTO.setTeacherId(mentoring.getTeacher().getId());
-        mentoringDTO.setStudentId(mentoring.getStudent().getId());
+        mentoringDTO.setTeacher(userConverter.convertUserEntityToUserInfoDTO(mentoring.getTeacher()));
+        mentoringDTO.setStudent(userConverter.convertUserEntityToUserInfoDTO(mentoring.getStudent()));
 
         return mentoringDTO;
     }
@@ -58,12 +61,12 @@ public class MentoringConverter {
             }
         });
 
-        UserEntity student = userRepository.findById(mentoringDTO.getStudentId())
-                .orElseThrow(() -> new AppException("User with id " + mentoringDTO.getStudentId() + " not found", HttpStatus.NOT_FOUND));
+        UserEntity student = userRepository.findById(mentoringDTO.getStudent().getId())
+                .orElseThrow(() -> new AppException("User with id " + mentoringDTO.getStudent().getId() + " not found", HttpStatus.NOT_FOUND));
         mentoring.setStudent(student);
 
-        UserEntity teacher = userRepository.findById(mentoringDTO.getTeacherId())
-                .orElseThrow(() -> new AppException("User with id " + mentoringDTO.getTeacherId() + " not found", HttpStatus.NOT_FOUND));
+        UserEntity teacher = userRepository.findById(mentoringDTO.getTeacher().getId())
+                .orElseThrow(() -> new AppException("User with id " + mentoringDTO.getTeacher().getId() + " not found", HttpStatus.NOT_FOUND));
         mentoring.setTeacher(teacher);
 
         return mentoring;
