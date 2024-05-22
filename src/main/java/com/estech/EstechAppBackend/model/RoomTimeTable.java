@@ -32,6 +32,8 @@ public class RoomTimeTable {
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private Date end;
 
+    private Boolean reccurence;
+
     @ManyToOne(fetch = FetchType.LAZY)
     private Room room;
 

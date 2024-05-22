@@ -27,6 +27,8 @@ public class RoomTimeTableDTO {
     @NotNull
     private Date end;
 
+    private Boolean reccurence;
+
     private Long roomId;
 
 

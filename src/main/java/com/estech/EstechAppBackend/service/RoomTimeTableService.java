@@ -73,6 +73,9 @@ public class RoomTimeTableService {
         if (roomTimeTableDTO.getStart() != null) {
             roomTimeTable.setStart(roomTimeTableDTO.getStart());
         }
+        if (roomTimeTableDTO.getReccurence() != null) {
+            roomTimeTable.setReccurence(roomTimeTableDTO.getReccurence());
+        }
         if (roomTimeTableDTO.getEnd() != null) {
             roomTimeTable.setEnd(roomTimeTableDTO.getEnd());
         }

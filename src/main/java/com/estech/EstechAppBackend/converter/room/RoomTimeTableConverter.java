@@ -21,12 +21,15 @@ public class RoomTimeTableConverter {
 
     public RoomTimeTableDTO toRoomTimeTableDTO(RoomTimeTable roomTimeTable) {
 
+        RoomStatusEnum roomStatusEnum = roomTimeTable.getStatus();
+        Room room = roomTimeTable.getRoom();
 
         RoomTimeTableDTO dto = RoomTimeTableDTO.builder()
-                .status(roomTimeTable.getStatus().toString())
-                .roomId(roomTimeTable.getRoom().getId())
+                .status(roomStatusEnum != null ? roomStatusEnum.toString() : "OCCUPIED")
+                .roomId(room != null ? room.getId() : -1)
                 .start(roomTimeTable.getStart())
                 .end(roomTimeTable.getEnd())
+                .reccurence(roomTimeTable.getReccurence())
                 .build();
 
         Long id = roomTimeTable.getId();
@@ -52,6 +55,7 @@ public class RoomTimeTableConverter {
         roomTimeTable.setEnd(roomTimeTableDTO.getEnd());
 
         roomTimeTable.setStatus(RoomStatusEnum.valueOf(roomTimeTableDTO.getStatus()));
+        roomTimeTable.setReccurence(roomTimeTableDTO.getReccurence());
 
         return roomTimeTable;
     }
@@ -82,6 +86,7 @@ public class RoomTimeTableConverter {
         target.setId(source.getId());
         target.setStart(source.getStart());
         target.setEnd(source.getEnd());
+        target.setReccurence(source.getReccurence());
         target.setStatus(source.getStatus());
         target.setRoom(source.getRoom());
     }

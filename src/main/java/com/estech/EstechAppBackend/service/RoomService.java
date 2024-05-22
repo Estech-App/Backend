@@ -74,7 +74,7 @@ public class RoomService {
 
         Room saved = roomRepository.save(room);
 
-        return roomConverter.toRoomDto(room);
+        return roomConverter.toRoomDto(saved);
     }
 
     public RoomDTO modifyRoom(Long id, RoomDTO roomDTO) {
