@@ -29,6 +29,7 @@ public class RoomTimeTableConverter {
                 .roomId(room != null ? room.getId() : -1)
                 .start(roomTimeTable.getStart())
                 .end(roomTimeTable.getEnd())
+                .dayOfWeek(roomTimeTable.getDayOfWeek())
                 .reccurence(roomTimeTable.getReccurence())
                 .build();
 
@@ -53,6 +54,7 @@ public class RoomTimeTableConverter {
 
         roomTimeTable.setStart(roomTimeTableDTO.getStart());
         roomTimeTable.setEnd(roomTimeTableDTO.getEnd());
+        roomTimeTable.setDayOfWeek(roomTimeTableDTO.getDayOfWeek());
 
         roomTimeTable.setStatus(RoomStatusEnum.valueOf(roomTimeTableDTO.getStatus()));
         roomTimeTable.setReccurence(roomTimeTableDTO.getReccurence());
@@ -86,6 +88,7 @@ public class RoomTimeTableConverter {
         target.setId(source.getId());
         target.setStart(source.getStart());
         target.setEnd(source.getEnd());
+        target.setDayOfWeek(source.getDayOfWeek());
         target.setReccurence(source.getReccurence());
         target.setStatus(source.getStatus());
         target.setRoom(source.getRoom());

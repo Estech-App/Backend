@@ -79,6 +79,9 @@ public class RoomTimeTableService {
         if (roomTimeTableDTO.getEnd() != null) {
             roomTimeTable.setEnd(roomTimeTableDTO.getEnd());
         }
+        if (roomTimeTableDTO.getDayOfWeek() != null) {
+            roomTimeTable.setDayOfWeek(roomTimeTableDTO.getDayOfWeek());
+        }
 
         RoomTimeTable saved = roomTimeTableRepository.save(roomTimeTable);
 
