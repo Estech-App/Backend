@@ -14,7 +14,7 @@
 	<name>EstechAppBackend</name>
 	<description>Backend logic for Estech App Project</description>
 	<properties>
-		<java.version>17</java.version>
+		<java.version>20</java.version>
 	</properties>
 	<dependencies>
 		<dependency>
