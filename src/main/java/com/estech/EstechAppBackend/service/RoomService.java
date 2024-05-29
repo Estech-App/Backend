@@ -118,6 +118,8 @@ public class RoomService {
                     RoomTimeTable newRoomTimeTable = RoomTimeTable.builder()
                             .start(roomTimeTableDTO.getStart())
                             .end(roomTimeTableDTO.getEnd())
+                            .reccurence(roomTimeTableDTO.getReccurence())
+                            .dayOfWeek(roomTimeTableDTO.getDayOfWeek())
                             .room(room)
                             .status(RoomStatusEnum.valueOf(roomTimeTableDTO.getStatus()))
                             .build();
