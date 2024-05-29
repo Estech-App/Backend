@@ -77,11 +77,13 @@ public class UserConverter {
         userEntity.setIsActive(true);
 
         List<Group> groups = new ArrayList<>();
-        studentUserDTO.getGroups().forEach(groupDTO -> {
-            Group group = groupRepository.findById(groupDTO.getId())
-                    .orElseThrow(() -> new AppException("Group with id " + groupDTO.getId() + " not found", HttpStatus.NOT_FOUND));
-            groups.add(group);
-        });
+        if (studentUserDTO.getGroups() != null) {
+            studentUserDTO.getGroups().forEach(groupDTO -> {
+                Group group = groupRepository.findById(groupDTO.getId())
+                        .orElseThrow(() -> new AppException("Group with id " + groupDTO.getId() + " not found", HttpStatus.NOT_FOUND));
+                groups.add(group);
+            });
+        }
         userEntity.setGroups(groups);
 
         userEntity.setRole(roleRepository.findByRolName(RoleEnum.STUDENT).get());
