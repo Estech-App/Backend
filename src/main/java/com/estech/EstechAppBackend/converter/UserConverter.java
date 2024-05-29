@@ -73,7 +73,11 @@ public class UserConverter {
         userEntity.setEmail(studentUserDTO.getEmail());
         userEntity.setName(studentUserDTO.getName());
         userEntity.setLastname(studentUserDTO.getLastname());
-        userEntity.setPassword(passwordEncoder.encode(studentUserDTO.getPassword()));
+        if (studentUserDTO.getPassword() != null) {
+            userEntity.setPassword(passwordEncoder.encode(studentUserDTO.getPassword()));
+        } else {
+            userEntity.setPassword(passwordEncoder.encode("1234"));
+        }
         userEntity.setIsActive(true);
 
         List<Group> groups = new ArrayList<>();
@@ -105,7 +109,7 @@ public class UserConverter {
             studentUserDTO.setGroups(groupConverter.toGroupDtos(user.getGroups()));
         }
 
-        studentUserDTO.setRole(RoleEnum.STUDENT.name());
+        studentUserDTO.setRole(user.getRole().getRolName().name());
 
         return StudentUserDTO.builder()
                 .id(user.getId())
