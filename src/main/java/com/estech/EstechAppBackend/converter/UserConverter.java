@@ -1,11 +1,15 @@
 package com.estech.EstechAppBackend.converter;
 
+import com.estech.EstechAppBackend.converter.group.GroupConverter;
 import com.estech.EstechAppBackend.dto.user.CreatedUserDTO;
 import com.estech.EstechAppBackend.dto.user.CreationUserDTO;
+import com.estech.EstechAppBackend.dto.user.StudentUserDTO;
 import com.estech.EstechAppBackend.dto.user.UserInfoDTO;
 import com.estech.EstechAppBackend.exceptions.AppException;
+import com.estech.EstechAppBackend.model.Group;
 import com.estech.EstechAppBackend.model.UserEntity;
 import com.estech.EstechAppBackend.model.enums.RoleEnum;
+import com.estech.EstechAppBackend.repository.GroupRepository;
 import com.estech.EstechAppBackend.repository.RoleRepository;
 import com.estech.EstechAppBackend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,12 +25,14 @@ public class UserConverter {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
-
     @Autowired
     private RoleRepository roleRepository;
-
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private GroupRepository groupRepository;
+    @Autowired
+    private GroupConverter groupConverter;
 
     public UserEntity convertCreationUserDTOToUserEntity(CreationUserDTO creationUserDTO) {
         UserEntity userEntity = new UserEntity();
@@ -56,6 +62,57 @@ public class UserConverter {
         }
 
         return userEntity;
+    }
+
+    public UserEntity studentDTOToUserEntity(StudentUserDTO studentUserDTO) {
+        UserEntity userEntity = new UserEntity();
+
+        if (studentUserDTO.getId() != null) {
+            userEntity.setId(studentUserDTO.getId());
+        }
+        userEntity.setEmail(studentUserDTO.getEmail());
+        userEntity.setName(studentUserDTO.getName());
+        userEntity.setLastname(studentUserDTO.getLastname());
+        userEntity.setPassword(passwordEncoder.encode(studentUserDTO.getPassword()));
+        userEntity.setIsActive(true);
+
+        List<Group> groups = new ArrayList<>();
+        studentUserDTO.getGroups().forEach(groupDTO -> {
+            Group group = groupRepository.findById(groupDTO.getId())
+                    .orElseThrow(() -> new AppException("Group with id " + groupDTO.getId() + " not found", HttpStatus.NOT_FOUND));
+            groups.add(group);
+        });
+        userEntity.setGroups(groups);
+
+        userEntity.setRole(roleRepository.findByRolName(RoleEnum.STUDENT).get());
+
+        return userEntity;
+    }
+
+    public StudentUserDTO toStudentUserDto(UserEntity user) {
+
+        StudentUserDTO studentUserDTO = new StudentUserDTO();
+
+        studentUserDTO.setId(user.getId());
+        studentUserDTO.setName(user.getName());
+        studentUserDTO.setLastname(user.getLastname());
+        studentUserDTO.setEmail(user.getEmail());
+        studentUserDTO.setPassword("");
+
+        if (user.getGroups() != null) {
+            studentUserDTO.setGroups(groupConverter.toGroupDtos(user.getGroups()));
+        }
+
+        studentUserDTO.setRole(RoleEnum.STUDENT.name());
+
+        return StudentUserDTO.builder()
+                .id(user.getId())
+                .email(user.getEmail())
+                .name(user.getName())
+                .lastname(user.getLastname())
+                .password("")
+                .groups(groupConverter.toGroupDtos(user.getGroups()))
+                .build();
     }
 
     public CreatedUserDTO convertCreationUserDTOToCreatedUserDTO(CreationUserDTO creationUserDTO) {

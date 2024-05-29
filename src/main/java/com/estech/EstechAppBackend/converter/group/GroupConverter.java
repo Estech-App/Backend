@@ -58,11 +58,16 @@ public class GroupConverter {
         Room room = roomRepository.findById(groupDTO.getRoomId())
                 .orElseThrow(() -> new AppException("Room with id " + groupDTO.getRoomId() + " not found", HttpStatus.NOT_FOUND));
 
+        List<UserEntity> users = new ArrayList<>();
+        if (groupDTO.getUsers() != null) {
+            users = userConverter.fromUserInfoDtostoUserEntities(groupDTO.getUsers());
+        }
+
         Group group = Group.builder()
                 .name(groupDTO.getName())
                 .description(groupDTO.getDescription())
                 .year(groupDTO.getYear())
-                .users(userConverter.fromUserInfoDtostoUserEntities(groupDTO.getUsers()))
+                .users(users)
                 .course(course)
                 .room(room)
                 // TODO - timeTables()

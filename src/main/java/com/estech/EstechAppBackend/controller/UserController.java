@@ -1,6 +1,7 @@
 package com.estech.EstechAppBackend.controller;
 
 import com.estech.EstechAppBackend.dto.user.CreationUserDTO;
+import com.estech.EstechAppBackend.dto.user.StudentUserDTO;
 import com.estech.EstechAppBackend.dto.user.UserEmailDTO;
 import com.estech.EstechAppBackend.dto.user.UserInfoDTO;
 import com.estech.EstechAppBackend.model.Role;
@@ -13,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -35,6 +37,13 @@ public class UserController {
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> createNewUser(@Valid @RequestBody CreationUserDTO creationUserDTO) {
         return new ResponseEntity<>(userService.createOrUpdateNewUser(creationUserDTO), HttpStatus.CREATED);
+    }
+
+    @PostMapping("/new-user/student")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<StudentUserDTO> createStudent(@Valid @RequestBody StudentUserDTO studentUserDTO) {
+        StudentUserDTO created = userService.createStudentUser(studentUserDTO);
+        return ResponseEntity.created(URI.create("/api/user/new-user/student/" + studentUserDTO.getId())).body(created);
     }
 
     @PostMapping("/user-info")
