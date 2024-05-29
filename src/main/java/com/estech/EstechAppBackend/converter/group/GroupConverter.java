@@ -22,8 +22,8 @@ import java.util.List;
 @Component
 public class GroupConverter {
 
-    @Autowired
-    private UserConverter userConverter;
+//    @Autowired
+//    private UserConverter userConverter;
     @Autowired
     private RoomRepository roomRepository;
     @Autowired
@@ -32,11 +32,11 @@ public class GroupConverter {
     private GroupRepository groupRepository;
 
     public GroupDTO toGroupDto(Group group) {
-        List<UserInfoDTO> userInfoDtos = new ArrayList<>();
-
-        group.getUsers().forEach(userEntity -> {
-            userInfoDtos.add(userConverter.convertUserEntityToUserInfoDTO(userEntity));
-        });
+//        List<UserInfoDTO> userInfoDtos = new ArrayList<>();
+//
+//        group.getUsers().forEach(userEntity -> {
+//            userInfoDtos.add(userConverter.convertUserEntityToUserInfoDTO(userEntity));
+//        });
 
         return GroupDTO.builder()
                 .id(group.getId())
@@ -45,7 +45,7 @@ public class GroupConverter {
                 .year(group.getYear())
                 .courseId(group.getCourse().getId())
                 .roomId(group.getRoom().getId())
-                .users(userInfoDtos)
+//                .users(userInfoDtos)
                 // TODO - timeTableDtos()
                 // ! filesDtos -> Not applicable
                 .build();
@@ -58,16 +58,16 @@ public class GroupConverter {
         Room room = roomRepository.findById(groupDTO.getRoomId())
                 .orElseThrow(() -> new AppException("Room with id " + groupDTO.getRoomId() + " not found", HttpStatus.NOT_FOUND));
 
-        List<UserEntity> users = new ArrayList<>();
-        if (groupDTO.getUsers() != null) {
-            users = userConverter.fromUserInfoDtostoUserEntities(groupDTO.getUsers());
-        }
+//        List<UserEntity> users = new ArrayList<>();
+//        if (groupDTO.getUsers() != null) {
+//            users = userConverter.fromUserInfoDtostoUserEntities(groupDTO.getUsers());
+//        }
 
         Group group = Group.builder()
                 .name(groupDTO.getName())
                 .description(groupDTO.getDescription())
                 .year(groupDTO.getYear())
-                .users(users)
+//                .users(users)
                 .course(course)
                 .room(room)
                 // TODO - timeTables()
