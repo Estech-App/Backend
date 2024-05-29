@@ -111,14 +111,7 @@ public class UserConverter {
 
         studentUserDTO.setRole(user.getRole().getRolName().name());
 
-        return StudentUserDTO.builder()
-                .id(user.getId())
-                .email(user.getEmail())
-                .name(user.getName())
-                .lastname(user.getLastname())
-                .password("")
-                .groups(groupConverter.toGroupDtos(user.getGroups()))
-                .build();
+        return studentUserDTO;
     }
 
     public CreatedUserDTO convertCreationUserDTOToCreatedUserDTO(CreationUserDTO creationUserDTO) {
