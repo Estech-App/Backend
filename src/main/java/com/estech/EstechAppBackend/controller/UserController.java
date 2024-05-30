@@ -78,6 +78,12 @@ public class UserController {
         return ResponseEntity.ok(userService.getStudentById(id));
     }
 
+    @GetMapping("/teacher/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<TeacherUserDTO> getTeacherById(@PathVariable Long id) {
+        return ResponseEntity.ok(userService.getTeacherById(id));
+    }
+
     @PutMapping("/update-user")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> updateUserById(@RequestBody CreationUserDTO user) {

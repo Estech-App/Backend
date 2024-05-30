@@ -80,6 +80,13 @@ public class UserService {
         return userConverter.toStudentUserDto(user);
     }
 
+    public TeacherUserDTO getTeacherById(Long id) {
+        UserEntity user = userRepository.findById(id)
+                .orElseThrow(() -> new AppException("User with id " + id + " not found", HttpStatus.NOT_FOUND));
+
+        return userConverter.toTeacherUserDto(user);
+    }
+
     public List<UserInfoDTO> getAllUsersByRole(Role role) {
         List<UserEntity> users = userRepository.findAllByRole(role).orElse(null);
         List<UserInfoDTO> dto = new ArrayList<>();
