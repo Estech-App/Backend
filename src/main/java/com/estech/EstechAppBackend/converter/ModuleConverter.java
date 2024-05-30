@@ -59,7 +59,7 @@ public class ModuleConverter {
             module.setCourse(course);
         }
         List<UserEntity> users = new ArrayList<>();
-        if (moduleDTO.getUsers() != null) {
+        if (moduleDTO.getUsers() != null && !moduleDTO.getUsers().isEmpty()) {
             moduleDTO.getUsers().forEach(user -> {
                 UserEntity userEntity = userRepository.findById(user.getId())
                         .orElseThrow(() -> new AppException("User with id " + user.getId() + " not found", HttpStatus.NOT_FOUND));
