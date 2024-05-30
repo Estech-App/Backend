@@ -23,7 +23,7 @@ public class RoomController {
     private RoomService roomService;
 
     @GetMapping
-    @PreAuthorize("hasRole('ADMIN') || hasRole('SECRETARY')")
+    @PreAuthorize("hasRole('ADMIN') || hasRole('SECRETARY') || hasRole('TEACHER') || hasRole('STUDENT')")
     public ResponseEntity<?> getAllRooms() {
         return new ResponseEntity<>(roomService.getAllRoomDTOs(), HttpStatus.OK);
     }
