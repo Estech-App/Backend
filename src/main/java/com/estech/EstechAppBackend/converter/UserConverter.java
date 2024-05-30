@@ -150,6 +150,7 @@ public class UserConverter {
 
         teacherUserDTO.setId(user.getId());
         teacherUserDTO.setName(user.getName());
+        teacherUserDTO.setEmail(user.getEmail());
         teacherUserDTO.setLastname(user.getLastname());
         teacherUserDTO.setPassword("");
         teacherUserDTO.setRole(user.getRole().getRolName().name());

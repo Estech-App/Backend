@@ -1,5 +1,6 @@
 package com.estech.EstechAppBackend.controller;
 
+import com.estech.EstechAppBackend.dto.module.CreationModuleDTO;
 import com.estech.EstechAppBackend.dto.module.ModuleCourseDTO;
 import com.estech.EstechAppBackend.dto.module.ModuleDTO;
 import com.estech.EstechAppBackend.dto.module.ModuleUserDTO;
@@ -15,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,8 +51,9 @@ public class ModuleController {
 
     @PostMapping("/new-module")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<?> saveModule(@RequestBody Module module) {
-        return new ResponseEntity<>(moduleService.saveModule(module), HttpStatus.CREATED);
+    public ResponseEntity<ModuleDTO> saveModule(@RequestBody CreationModuleDTO module) {
+        ModuleDTO created = moduleService.saveModule(module);
+        return ResponseEntity.created(URI.create("/api/module/new-module/" + module.getId())).body(created);
     }
 
     @PatchMapping("/add-course")

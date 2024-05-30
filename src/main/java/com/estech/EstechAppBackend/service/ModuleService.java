@@ -1,6 +1,7 @@
 package com.estech.EstechAppBackend.service;
 
 import com.estech.EstechAppBackend.converter.ModuleConverter;
+import com.estech.EstechAppBackend.dto.module.CreationModuleDTO;
 import com.estech.EstechAppBackend.dto.module.ModuleDTO;
 import com.estech.EstechAppBackend.model.Course;
 import com.estech.EstechAppBackend.model.Module;
@@ -47,8 +48,12 @@ public class ModuleService {
         return moduleConverter.convertModuleEntityToModuleDTO(module);
     }
 
-    public ModuleDTO saveModule(Module module) {
-        return moduleConverter.convertModuleEntityToModuleDTO(moduleRepository.save(module));
+    public ModuleDTO saveModule(CreationModuleDTO moduleDTO) {
+        Module newModule = moduleConverter.creationModuleDtoToModule(moduleDTO);
+
+        Module saved = moduleRepository.save(newModule);
+
+        return moduleConverter.convertModuleEntityToModuleDTO(saved);
     }
 
     public ModuleDTO addCourseToModule(Long moduleId, Integer courseId) {
