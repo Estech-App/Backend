@@ -132,6 +132,7 @@ public class UserConverter {
             user.setPassword(passwordEncoder.encode("1234"));
         }
         user.setIsActive(true);
+        user.setRole(roleRepository.findByRolName(RoleEnum.TEACHER).get());
 
         List<Module> modules = new ArrayList<>();
         teacherUserDTO.getModules().forEach(moduleDTO -> {
