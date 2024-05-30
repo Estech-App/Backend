@@ -1,10 +1,7 @@
 package com.estech.EstechAppBackend.service;
 
 import com.estech.EstechAppBackend.converter.UserConverter;
-import com.estech.EstechAppBackend.dto.user.CreatedUserDTO;
-import com.estech.EstechAppBackend.dto.user.CreationUserDTO;
-import com.estech.EstechAppBackend.dto.user.StudentUserDTO;
-import com.estech.EstechAppBackend.dto.user.UserInfoDTO;
+import com.estech.EstechAppBackend.dto.user.*;
 import com.estech.EstechAppBackend.exceptions.AppException;
 import com.estech.EstechAppBackend.model.Role;
 import com.estech.EstechAppBackend.model.UserEntity;
@@ -40,6 +37,14 @@ public class UserService {
         UserEntity saved = userRepository.save(student);
 
         return userConverter.toStudentUserDto(saved);
+    }
+
+    public TeacherUserDTO createTeacherUser(TeacherUserDTO teacherUserDTO) {
+        UserEntity teacher = userConverter.teacherDtoToUserEntity(teacherUserDTO);
+
+        UserEntity saved = userRepository.save(teacher);
+
+        return userConverter.toTeacherUserDto(saved);
     }
 
     public List<CreatedUserDTO> getAllUsersAsCreatedUserDTO() {

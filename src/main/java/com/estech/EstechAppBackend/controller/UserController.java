@@ -1,9 +1,6 @@
 package com.estech.EstechAppBackend.controller;
 
-import com.estech.EstechAppBackend.dto.user.CreationUserDTO;
-import com.estech.EstechAppBackend.dto.user.StudentUserDTO;
-import com.estech.EstechAppBackend.dto.user.UserEmailDTO;
-import com.estech.EstechAppBackend.dto.user.UserInfoDTO;
+import com.estech.EstechAppBackend.dto.user.*;
 import com.estech.EstechAppBackend.model.Role;
 import com.estech.EstechAppBackend.repository.RoleRepository;
 import com.estech.EstechAppBackend.service.UserService;
@@ -44,6 +41,13 @@ public class UserController {
     public ResponseEntity<StudentUserDTO> createStudent(@Valid @RequestBody StudentUserDTO studentUserDTO) {
         StudentUserDTO created = userService.createStudentUser(studentUserDTO);
         return ResponseEntity.created(URI.create("/api/user/new-user/student/" + studentUserDTO.getId())).body(created);
+    }
+
+    @PostMapping("/new-user/teacher")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<TeacherUserDTO> createTeacher(@Valid @RequestBody TeacherUserDTO teacherUserDTO) {
+        TeacherUserDTO created = userService.createTeacherUser(teacherUserDTO);
+        return ResponseEntity.created(URI.create("/api/user/new-user/teacher/" + teacherUserDTO.getId())).body(created);
     }
 
     @PostMapping("/user-info")

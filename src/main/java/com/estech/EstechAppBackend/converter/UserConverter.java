@@ -1,15 +1,15 @@
 package com.estech.EstechAppBackend.converter;
 
 import com.estech.EstechAppBackend.converter.group.GroupConverter;
-import com.estech.EstechAppBackend.dto.user.CreatedUserDTO;
-import com.estech.EstechAppBackend.dto.user.CreationUserDTO;
-import com.estech.EstechAppBackend.dto.user.StudentUserDTO;
-import com.estech.EstechAppBackend.dto.user.UserInfoDTO;
+import com.estech.EstechAppBackend.dto.module.ModuleDTO;
+import com.estech.EstechAppBackend.dto.user.*;
 import com.estech.EstechAppBackend.exceptions.AppException;
 import com.estech.EstechAppBackend.model.Group;
+import com.estech.EstechAppBackend.model.Module;
 import com.estech.EstechAppBackend.model.UserEntity;
 import com.estech.EstechAppBackend.model.enums.RoleEnum;
 import com.estech.EstechAppBackend.repository.GroupRepository;
+import com.estech.EstechAppBackend.repository.ModuleRepository;
 import com.estech.EstechAppBackend.repository.RoleRepository;
 import com.estech.EstechAppBackend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +33,10 @@ public class UserConverter {
     private GroupRepository groupRepository;
     @Autowired
     private GroupConverter groupConverter;
+    @Autowired
+    private ModuleRepository moduleRepository;
+    @Autowired
+    private ModuleConverter moduleConverter;
 
     public UserEntity convertCreationUserDTOToUserEntity(CreationUserDTO creationUserDTO) {
         UserEntity userEntity = new UserEntity();
@@ -96,7 +100,6 @@ public class UserConverter {
     }
 
     public StudentUserDTO toStudentUserDto(UserEntity user) {
-
         StudentUserDTO studentUserDTO = new StudentUserDTO();
 
         studentUserDTO.setId(user.getId());
@@ -112,6 +115,51 @@ public class UserConverter {
         studentUserDTO.setRole(user.getRole().getRolName().name());
 
         return studentUserDTO;
+    }
+
+    public UserEntity teacherDtoToUserEntity(TeacherUserDTO teacherUserDTO) {
+        UserEntity user = new UserEntity();
+
+        if (teacherUserDTO.getId() != null) {
+            user.setId(teacherUserDTO.getId());
+        }
+        user.setEmail(teacherUserDTO.getEmail());
+        user.setName(teacherUserDTO.getName());
+        user.setLastname(teacherUserDTO.getLastname());
+        if (teacherUserDTO.getPassword() != null) {
+            user.setPassword(passwordEncoder.encode(teacherUserDTO.getPassword()));
+        } else {
+            user.setPassword(passwordEncoder.encode("1234"));
+        }
+        user.setIsActive(true);
+
+        List<Module> modules = new ArrayList<>();
+        teacherUserDTO.getModules().forEach(moduleDTO -> {
+            Module module = moduleRepository.findById(moduleDTO.getId())
+                    .orElseThrow(() -> new AppException("Module with id " + moduleDTO.getId() + " not found", HttpStatus.NOT_FOUND));
+            modules.add(module);
+        });
+        user.setModules(modules);
+
+        return user;
+    }
+
+    public TeacherUserDTO toTeacherUserDto(UserEntity user) {
+        TeacherUserDTO teacherUserDTO = new TeacherUserDTO();
+
+        teacherUserDTO.setId(user.getId());
+        teacherUserDTO.setName(user.getName());
+        teacherUserDTO.setLastname(user.getLastname());
+        teacherUserDTO.setPassword("");
+        teacherUserDTO.setRole(user.getRole().getRolName().name());
+
+        List<ModuleDTO> moduleDTOS = new ArrayList<>();
+        user.getModules().forEach(module -> {
+            moduleDTOS.add(moduleConverter.convertModuleEntityToModuleDTO(module));
+        });
+        teacherUserDTO.setModules(moduleDTOS);
+
+        return teacherUserDTO;
     }
 
     public CreatedUserDTO convertCreationUserDTOToCreatedUserDTO(CreationUserDTO creationUserDTO) {
