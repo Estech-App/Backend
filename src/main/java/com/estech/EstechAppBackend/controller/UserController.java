@@ -1,12 +1,10 @@
 package com.estech.EstechAppBackend.controller;
 
-import com.estech.EstechAppBackend.dto.user.CreatedUserDTO;
 import com.estech.EstechAppBackend.dto.user.CreationUserDTO;
+import com.estech.EstechAppBackend.dto.user.StudentUserDTO;
 import com.estech.EstechAppBackend.dto.user.UserEmailDTO;
 import com.estech.EstechAppBackend.dto.user.UserInfoDTO;
 import com.estech.EstechAppBackend.model.Role;
-import com.estech.EstechAppBackend.model.UserEntity;
-import com.estech.EstechAppBackend.model.enums.RoleEnum;
 import com.estech.EstechAppBackend.repository.RoleRepository;
 import com.estech.EstechAppBackend.service.UserService;
 import jakarta.validation.Valid;
@@ -16,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -40,6 +39,13 @@ public class UserController {
         return new ResponseEntity<>(userService.createOrUpdateNewUser(creationUserDTO), HttpStatus.CREATED);
     }
 
+    @PostMapping("/new-user/student")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<StudentUserDTO> createStudent(@Valid @RequestBody StudentUserDTO studentUserDTO) {
+        StudentUserDTO created = userService.createStudentUser(studentUserDTO);
+        return ResponseEntity.created(URI.create("/api/user/new-user/student/" + studentUserDTO.getId())).body(created);
+    }
+
     @PostMapping("/user-info")
     @PreAuthorize("hasRole('ADMIN') || hasRole('SECRETARY')")
     public ResponseEntity<?> getUserInfo(@RequestBody UserEmailDTO email) {
@@ -60,6 +66,12 @@ public class UserController {
             return new ResponseEntity<>("error: user not found", HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(dto, HttpStatus.OK);
+    }
+
+    @GetMapping("/student/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<StudentUserDTO> getStudentById(@PathVariable Long id) {
+        return ResponseEntity.ok(userService.getStudentById(id));
     }
 
     @PutMapping("/update-user")

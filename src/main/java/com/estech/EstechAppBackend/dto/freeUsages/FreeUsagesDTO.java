@@ -1,40 +1,35 @@
-package com.estech.EstechAppBackend.dto.mentoring;
+package com.estech.EstechAppBackend.dto.freeUsages;
 
+import com.estech.EstechAppBackend.dto.room.RoomDTO;
 import com.estech.EstechAppBackend.dto.user.UserInfoDTO;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.Date;
 
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 @Getter
 @Setter
-public class MentoringDTO {
+public class FreeUsagesDTO {
 
     private Long id;
 
     @NotNull
     private Date start;
-
     @NotNull
     private Date end;
-
-    @NotNull
-    private Long roomId;
 
     @NotNull
     @NotBlank
     private String status;
 
     @NotNull
-    private UserInfoDTO teacher;
+    private RoomDTO room;
 
     @NotNull
-    private UserInfoDTO student;
+    private UserInfoDTO user;
 
 }

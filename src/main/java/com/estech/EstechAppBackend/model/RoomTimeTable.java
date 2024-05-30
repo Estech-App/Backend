@@ -19,11 +19,21 @@ public class RoomTimeTable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private RoomStatusEnum status;
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-    private Date date;
 
-    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "roomTimeTables")
-    private List<Room> rooms;
+    @Enumerated(EnumType.STRING)
+    private RoomStatusEnum status;
+
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+    private Date start;
+
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+    private Date end;
+
+    private String dayOfWeek;
+
+    private Boolean reccurence;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Room room;
 
 }

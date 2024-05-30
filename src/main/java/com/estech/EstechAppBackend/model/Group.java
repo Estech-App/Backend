@@ -21,17 +21,18 @@ public class Group {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @NotBlank
+
     private String name;
+
     private String description;
-    @NotNull
+
     private Integer year;
 
-//  CONEXION CON USUARIOS
+    // CONEXION CON USUARIOS
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "groups")
     private List<UserEntity> users;
 
-//  CONEXION CON FILES
+    // CONEXION CON FILES
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "groups_files",
@@ -40,16 +41,16 @@ public class Group {
     )
     private List<FileEntity> files;
 
-    //  CONEXION CON CURSOS
-    @NotNull
+    // CONEXION CON CURSOS
     @ManyToOne(fetch = FetchType.LAZY)
     private Course course;
 
-//    CONEXION CON TIMETABLE
+    // CONEXION CON TIMETABLE
     @OneToMany(mappedBy = "group")
     private List<TimeTable> timeTables;
 
     // CONEXION CON ROOMS
     @ManyToOne(fetch = FetchType.LAZY)
     private Room room;
+
 }

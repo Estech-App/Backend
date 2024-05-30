@@ -18,7 +18,9 @@ public class FreeUsages {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-    private Date date;
+    private Date start;
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+    private Date end;
 
     //    CONEXION CON STATUS
     @ManyToOne(fetch = FetchType.LAZY)

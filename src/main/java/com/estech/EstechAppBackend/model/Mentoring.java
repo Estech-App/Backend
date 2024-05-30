@@ -19,7 +19,10 @@ public class Mentoring {
     private Long id;
 
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-    private Date date;
+    private Date start;
+
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+    private Date end;
 
     //    CONEXION CON ROOM
     @ManyToOne(fetch = FetchType.LAZY)

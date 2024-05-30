@@ -1,5 +1,6 @@
 package com.estech.EstechAppBackend.dto.stock;
 
+import com.estech.EstechAppBackend.dto.room.RoomDTO;
 import com.estech.EstechAppBackend.model.Room;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -13,12 +14,14 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
+@Builder
 public class StockDTO {
+    private Long id;
     @NotBlank
     private String name;
     private String description;
     @NotNull
     private Integer quantity;
-    @NotBlank
-    private String roomName;
+    @NotNull
+    private RoomDTO room;
 }

@@ -23,17 +23,21 @@ public class MentoringConverter {
     @Autowired
     private UserRepository userRepository;
     @Autowired
+    private UserConverter userConverter;
+    @Autowired
     private RoomRepository roomRepository;
+
 
     public MentoringDTO convertMentoringEntityToMentoringDTO(Mentoring mentoring) {
         MentoringDTO mentoringDTO = new MentoringDTO();
 
         mentoringDTO.setId(mentoring.getId());
-        mentoringDTO.setDate(mentoring.getDate());
+        mentoringDTO.setStart(mentoring.getStart());
+        mentoringDTO.setEnd(mentoring.getEnd());
         mentoringDTO.setStatus(mentoring.getStatus().getStatus().toString());
         mentoringDTO.setRoomId(mentoring.getRoom().getId());
-        mentoringDTO.setTeacherId(mentoring.getTeacher().getId());
-        mentoringDTO.setStudentId(mentoring.getStudent().getId());
+        mentoringDTO.setTeacher(userConverter.convertUserEntityToUserInfoDTO(mentoring.getTeacher()));
+        mentoringDTO.setStudent(userConverter.convertUserEntityToUserInfoDTO(mentoring.getStudent()));
 
         return mentoringDTO;
     }
@@ -44,7 +48,8 @@ public class MentoringConverter {
         if (mentoringDTO.getId() != null) {
             mentoring.setId(mentoringDTO.getId());
         }
-        mentoring.setDate(mentoringDTO.getDate());
+        mentoring.setStart(mentoringDTO.getStart());
+        mentoring.setEnd(mentoringDTO.getEnd());
 
         Room room = roomRepository.findById(mentoringDTO.getRoomId())
                         .orElseThrow(() -> new AppException("Room with id " + mentoringDTO.getRoomId() + " not found", HttpStatus.NOT_FOUND));
@@ -56,12 +61,12 @@ public class MentoringConverter {
             }
         });
 
-        UserEntity student = userRepository.findById(mentoringDTO.getStudentId())
-                .orElseThrow(() -> new AppException("User with id " + mentoringDTO.getStudentId() + " not found", HttpStatus.NOT_FOUND));
+        UserEntity student = userRepository.findById(mentoringDTO.getStudent().getId())
+                .orElseThrow(() -> new AppException("User with id " + mentoringDTO.getStudent().getId() + " not found", HttpStatus.NOT_FOUND));
         mentoring.setStudent(student);
 
-        UserEntity teacher = userRepository.findById(mentoringDTO.getTeacherId())
-                .orElseThrow(() -> new AppException("User with id " + mentoringDTO.getTeacherId() + " not found", HttpStatus.NOT_FOUND));
+        UserEntity teacher = userRepository.findById(mentoringDTO.getTeacher().getId())
+                .orElseThrow(() -> new AppException("User with id " + mentoringDTO.getTeacher().getId() + " not found", HttpStatus.NOT_FOUND));
         mentoring.setTeacher(teacher);
 
         return mentoring;
@@ -82,7 +87,8 @@ public class MentoringConverter {
         }
 
         target.setId(source.getId());
-        target.setDate(source.getDate());
+        target.setStart(source.getStart());
+        target.setEnd(source.getEnd());
         target.setRoom(source.getRoom());
         target.setStatus(source.getStatus());
         target.setStudent(source.getStudent());

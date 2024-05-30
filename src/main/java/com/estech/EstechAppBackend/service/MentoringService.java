@@ -35,6 +35,13 @@ public class MentoringService {
         return mentoringConverter.fromMentoringsToMentoringDTOs(mentoringRepository.findAll());
     }
 
+    public List<MentoringDTO> getMentoringsByRoomId(Long roomId) {
+        Room room = roomRepository.findById(roomId)
+                .orElseThrow(() -> new AppException("Room with id " + roomId + " not found", HttpStatus.NOT_FOUND));
+
+        return mentoringConverter.fromMentoringsToMentoringDTOs(mentoringRepository.findMentoringByRoom(room));
+    }
+
     public MentoringDTO createMentoring(MentoringDTO mentoringDTO) {
         Mentoring createdMentoring = mentoringConverter.convertMentoringDTOToMentoringEntity(mentoringDTO);
 
@@ -84,17 +91,20 @@ public class MentoringService {
         if (mentoringDTO.getStatus() != null) {
             mentoring.setStatus(statusService.getStatusByStatusName(StatusEnum.valueOf(mentoringDTO.getStatus())));
         }
-        if (mentoringDTO.getDate() != null) {
-            mentoring.setDate(mentoringDTO.getDate());
+        if (mentoringDTO.getStart() != null) {
+            mentoring.setStart(mentoringDTO.getStart());
         }
-        if (mentoringDTO.getStudentId() != null) {
-            UserEntity user = userRepository.findById(mentoringDTO.getStudentId())
-                    .orElseThrow(() -> new AppException("User with id " + id + " not found", HttpStatus.NOT_FOUND));
+        if (mentoringDTO.getEnd() != null) {
+            mentoring.setEnd(mentoringDTO.getEnd());
+        }
+        if (mentoringDTO.getStudent() != null) {
+            UserEntity user = userRepository.findById(mentoringDTO.getStudent().getId())
+                    .orElseThrow(() -> new AppException("User with id " + mentoringDTO.getStudent().getId() + " not found", HttpStatus.NOT_FOUND));
             mentoring.setStudent(user);
         }
-        if (mentoringDTO.getTeacherId() != null) {
-            UserEntity user = userRepository.findById(mentoringDTO.getStudentId())
-                    .orElseThrow(() -> new AppException("User with id " + id + " not found", HttpStatus.NOT_FOUND));
+        if (mentoringDTO.getTeacher() != null) {
+            UserEntity user = userRepository.findById(mentoringDTO.getTeacher().getId())
+                    .orElseThrow(() -> new AppException("User with id " + mentoringDTO.getTeacher().getId() + " not found", HttpStatus.NOT_FOUND));
             mentoring.setTeacher(user);
         }
 
