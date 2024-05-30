@@ -1,5 +1,6 @@
 package com.estech.EstechAppBackend.dto.module;
 
+import com.estech.EstechAppBackend.dto.course.CourseDTO;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,6 +19,7 @@ public class ModuleDTO {
     private String name;
     private String acronym;
     private String courseAcronym;
+    private CourseDTO courseDTO;
     private List<String> usersName;
 
 }

@@ -1,5 +1,6 @@
 package com.estech.EstechAppBackend.converter;
 
+import com.estech.EstechAppBackend.converter.course.CourseConverter;
 import com.estech.EstechAppBackend.dto.module.CreationModuleDTO;
 import com.estech.EstechAppBackend.dto.module.ModuleDTO;
 import com.estech.EstechAppBackend.exceptions.AppException;
@@ -22,6 +23,8 @@ public class ModuleConverter {
     @Autowired
     private CourseRepository courseRepository;
     @Autowired
+    private CourseConverter courseConverter;
+    @Autowired
     private UserRepository userRepository;
 
     public ModuleDTO convertModuleEntityToModuleDTO(Module module) {
@@ -34,6 +37,9 @@ public class ModuleConverter {
         moduleDTO.setAcronym(module.getAcronym());
         if (module.getCourse() != null) {
             moduleDTO.setCourseAcronym(module.getCourse().getAcronym());
+        }
+        if (module.getCourse() != null) {
+            moduleDTO.setCourseDTO(courseConverter.convertCourseEntityToCreatedCourseDTO(module.getCourse()));
         }
         if (module.getUsers() != null) {
             module.getUsers().forEach(user -> {
