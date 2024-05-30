@@ -3,6 +3,7 @@ package com.estech.EstechAppBackend.service;
 import com.estech.EstechAppBackend.converter.ModuleConverter;
 import com.estech.EstechAppBackend.dto.module.CreationModuleDTO;
 import com.estech.EstechAppBackend.dto.module.ModuleDTO;
+import com.estech.EstechAppBackend.exceptions.AppException;
 import com.estech.EstechAppBackend.model.Course;
 import com.estech.EstechAppBackend.model.Module;
 import com.estech.EstechAppBackend.model.UserEntity;
@@ -12,6 +13,7 @@ import com.estech.EstechAppBackend.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -52,6 +54,21 @@ public class ModuleService {
         Module newModule = moduleConverter.creationModuleDtoToModule(moduleDTO);
 
         Module saved = moduleRepository.save(newModule);
+
+        return moduleConverter.convertModuleEntityToModuleDTO(saved);
+    }
+
+    public ModuleDTO updateModule(CreationModuleDTO moduleDTO) {
+        if (moduleDTO.getId() == null) {
+            throw new AppException("Id is needed for updating", HttpStatus.BAD_REQUEST);
+        }
+
+        Module module = moduleRepository.findById(moduleDTO.getId())
+                .orElseThrow(() -> new AppException("Module with id " + moduleDTO.getId() + " not found", HttpStatus.NOT_FOUND));
+
+        moduleConverter.updateModule(module, moduleConverter.creationModuleDtoToModule(moduleDTO));
+
+        Module saved = moduleRepository.save(module);
 
         return moduleConverter.convertModuleEntityToModuleDTO(saved);
     }

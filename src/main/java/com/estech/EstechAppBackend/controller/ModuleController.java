@@ -56,6 +56,12 @@ public class ModuleController {
         return ResponseEntity.created(URI.create("/api/module/new-module/" + module.getId())).body(created);
     }
 
+    @PutMapping
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<ModuleDTO> updateModule(@RequestBody CreationModuleDTO moduleDTO) {
+        return ResponseEntity.ok(moduleService.updateModule(moduleDTO));
+    }
+
     @PatchMapping("/add-course")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> addCourseToModule(@RequestBody ModuleCourseDTO dto) {

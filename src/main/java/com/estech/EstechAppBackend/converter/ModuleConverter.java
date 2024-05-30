@@ -77,4 +77,18 @@ public class ModuleConverter {
         return module;
     }
 
+    public void updateModule(Module target, Module source) {
+        if (source == null) {
+            return ;
+        }
+
+        target.setId(source.getId());
+        target.setName(source.getName());
+        target.setYear(source.getYear());
+        target.setAcronym(source.getAcronym());
+        target.setCourse(source.getCourse());
+        target.setUsers(source.getUsers());
+        target.setTimeTables(source.getTimeTables());
+    }
+
 }
