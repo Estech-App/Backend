@@ -22,7 +22,7 @@ public class RoleController {
     private RoleService roleService;
 
     @GetMapping
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN') || hasRole('TEACHER') || hasRole('STUDENT')")
     public ResponseEntity<?> getAllRoles() {
         List<RoleDTO> roles = roleService.getAllRoles();
 

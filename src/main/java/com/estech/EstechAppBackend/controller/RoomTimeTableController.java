@@ -50,4 +50,10 @@ public class RoomTimeTableController {
         return ResponseEntity.ok(roomTimeTableService.modifyRoomTimeTable(id, roomTimeTableDTO));
     }
 
+    @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<RoomTimeTableDTO> deleteRoomTimeTable(@PathVariable Long id) {
+        return ResponseEntity.ok(roomTimeTableService.deleteRoomTimeTable(id));
+    }
+
 }

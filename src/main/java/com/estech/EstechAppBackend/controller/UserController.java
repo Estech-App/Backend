@@ -51,7 +51,7 @@ public class UserController {
     }
 
     @PostMapping("/user-info")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN') || hasRole('TEACHER') || hasRole('STUDENT')")
     public ResponseEntity<?> getUserInfo(@RequestBody UserEmailDTO email) {
         UserInfoDTO user = userService.getUserInfo(email.getEmail());
 
@@ -91,7 +91,7 @@ public class UserController {
     }
 
     @GetMapping("/find-by-role/{roleId}")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN') || hasRole('STUDENT') || hasRole('TEACHER')")
     public ResponseEntity<?> getUsersByRole(@PathVariable Integer roleId) {
         Role role = roleRepository.findById(roleId).orElse(null);
         if (role == null) {
