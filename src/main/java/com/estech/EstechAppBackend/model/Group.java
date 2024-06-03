@@ -28,6 +28,8 @@ public class Group {
 
     private Integer year;
 
+    private Boolean evening;
+
     // CONEXION CON USUARIOS
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "groups")
     private List<UserEntity> users;

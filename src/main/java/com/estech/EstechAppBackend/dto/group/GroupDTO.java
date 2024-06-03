@@ -22,6 +22,8 @@ public class GroupDTO {
 
     private String description;
 
+    private Boolean evening;
+
     @NotNull
     private Integer year;
 

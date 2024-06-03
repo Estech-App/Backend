@@ -12,12 +12,10 @@ import com.estech.EstechAppBackend.model.UserEntity;
 import com.estech.EstechAppBackend.repository.CourseRepository;
 import com.estech.EstechAppBackend.repository.GroupRepository;
 import com.estech.EstechAppBackend.repository.RoomRepository;
-import com.estech.EstechAppBackend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -73,6 +71,9 @@ public class GroupService {
         }
         if (groupDTO.getYear() != null) {
             group.setYear(groupDTO.getYear());
+        }
+        if (groupDTO.getEvening() != null) {
+            group.setEvening(groupDTO.getEvening());
         }
         if (groupDTO.getUsers() != null && !groupDTO.getUsers().isEmpty()) {
             group.setUsers(userConverter.fromUserInfoDtostoUserEntities(groupDTO.getUsers()));

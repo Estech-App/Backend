@@ -44,6 +44,7 @@ public class GroupConverter {
                 .description(group.getDescription())
                 .year(group.getYear())
                 .courseId(group.getCourse().getId())
+                .evening(group.getEvening())
                 .roomId(group.getRoom().getId())
 //                .users(userInfoDtos)
                 // TODO - timeTableDtos()
@@ -67,6 +68,7 @@ public class GroupConverter {
                 .name(groupDTO.getName())
                 .description(groupDTO.getDescription())
                 .year(groupDTO.getYear())
+                .evening(groupDTO.getEvening())
 //                .users(users)
                 .course(course)
                 .room(room)
@@ -99,6 +101,7 @@ public class GroupConverter {
         target.setName(source.getName());
         target.setDescription(source.getDescription());
         target.setYear(source.getYear());
+        target.setEvening(source.getEvening());
         target.setUsers(source.getUsers());
         target.setCourse(source.getCourse());
         // TODO - target.setTimeTables(source.getTimeTables());
