@@ -63,4 +63,10 @@ public class MentoringController {
         return ResponseEntity.ok(mentoringService.modifyMentoring(id, mentoringDTO));
     }
 
+    @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<MentoringDTO> deleteMentoring(@PathVariable Long id) {
+        return ResponseEntity.ok(mentoringService.deleteMentoring(id));
+    }
+
 }
