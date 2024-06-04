@@ -17,6 +17,7 @@ public class CreationModuleDTO {
     private Integer year;
     private String name;
     private String acronym;
+    private String color;
     private CourseDTO course;
     private List<UserInfoDTO> users;
 

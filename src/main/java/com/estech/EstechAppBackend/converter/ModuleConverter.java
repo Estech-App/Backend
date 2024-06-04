@@ -35,6 +35,7 @@ public class ModuleConverter {
         moduleDTO.setYear(module.getYear());
         moduleDTO.setName(module.getName());
         moduleDTO.setAcronym(module.getAcronym());
+        moduleDTO.setColor(module.getColor());
         if (module.getCourse() != null) {
             moduleDTO.setCourseAcronym(module.getCourse().getAcronym());
         }
@@ -59,6 +60,7 @@ public class ModuleConverter {
         module.setAcronym(moduleDTO.getAcronym());
         module.setYear(moduleDTO.getYear());
         module.setName(moduleDTO.getName());
+        module.setColor(moduleDTO.getColor());
         if (moduleDTO.getCourse() != null) {
             Course course = courseRepository.findById(moduleDTO.getCourse().getId())
                     .orElseThrow(() -> new AppException("Course with id " + moduleDTO.getCourse().getId() + " not found", HttpStatus.NOT_FOUND));
@@ -86,6 +88,7 @@ public class ModuleConverter {
         target.setName(source.getName());
         target.setYear(source.getYear());
         target.setAcronym(source.getAcronym());
+        target.setColor(source.getColor());
         target.setCourse(source.getCourse());
         target.setUsers(source.getUsers());
         target.setTimeTables(source.getTimeTables());

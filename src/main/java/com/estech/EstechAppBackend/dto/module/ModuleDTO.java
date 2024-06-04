@@ -19,6 +19,7 @@ public class ModuleDTO {
     private String name;
     private String acronym;
     private String courseAcronym;
+    private String color;
     private CourseDTO courseDTO;
     private List<String> usersName;
 
