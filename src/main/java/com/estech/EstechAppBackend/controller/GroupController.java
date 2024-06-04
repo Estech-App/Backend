@@ -23,7 +23,7 @@ public class GroupController {
     private GroupService groupService;
 
     @GetMapping
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN') || hasRole('TEACHER') || hasRole('STUDENT')")
     public ResponseEntity<List<GroupDTO>> getAllGroups() {
         return ResponseEntity.ok(groupService.getAllGroups());
     }
