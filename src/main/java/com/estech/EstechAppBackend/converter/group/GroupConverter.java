@@ -50,7 +50,7 @@ public class GroupConverter {
                 .year(group.getYear())
                 .courseId(group.getCourse().getId())
                 .evening(group.getEvening())
-                .roomId(group.getRoom().getId())
+                .roomId(roomId)
 //                .users(userInfoDtos)
                 // TODO - timeTableDtos()
                 // ! filesDtos -> Not applicable
