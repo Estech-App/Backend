@@ -45,7 +45,9 @@ public class GroupService {
 
         createTimeTables(saved, groupDTO);
 
-        return groupConverter.toGroupDto(saved);
+        Group updated = groupRepository.save(saved);
+
+        return groupConverter.toGroupDto(updated);
     }
 
     public GroupDTO updateGroup(GroupDTO groupDTO) {
