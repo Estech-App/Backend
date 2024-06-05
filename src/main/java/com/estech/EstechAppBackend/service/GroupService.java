@@ -2,12 +2,15 @@ package com.estech.EstechAppBackend.service;
 
 import com.estech.EstechAppBackend.converter.UserConverter;
 import com.estech.EstechAppBackend.converter.group.GroupConverter;
+import com.estech.EstechAppBackend.converter.group.TimeTableConverter;
 import com.estech.EstechAppBackend.dto.group.GroupDTO;
 import com.estech.EstechAppBackend.dto.idDTO;
 import com.estech.EstechAppBackend.exceptions.AppException;
 import com.estech.EstechAppBackend.model.*;
+import com.estech.EstechAppBackend.model.Module;
 import com.estech.EstechAppBackend.repository.CourseRepository;
 import com.estech.EstechAppBackend.repository.GroupRepository;
+import com.estech.EstechAppBackend.repository.ModuleRepository;
 import com.estech.EstechAppBackend.repository.RoomRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -29,6 +32,10 @@ public class GroupService {
     private UserConverter userConverter;
     @Autowired
     private GroupConverter groupConverter;
+    @Autowired
+    private TimeTableConverter timeTableConverter;
+    @Autowired
+    private ModuleRepository moduleRepository;
 
     public List<GroupDTO> getAllGroups() {
         return groupConverter.toGroupDtos(groupRepository.findAll());
@@ -39,7 +46,7 @@ public class GroupService {
 
         Group saved = groupRepository.save(group);
 
-        // createTimeTables(saved, groupDTO);
+        createTimeTables(saved, groupDTO);
 
         return groupConverter.toGroupDto(saved);
     }
@@ -94,11 +101,20 @@ public class GroupService {
         return groupConverter.toGroupDto(saved);
     }
 
-//    private void createTimeTables(Group group, GroupDTO groupDTO) {
-//        List<TimeTable> timeTables = new ArrayList<>();
-//        groupDTO.getTimeTableDTOS().forEach(timeTableDTO -> {
-//
-//        });
-//    }
+    private void createTimeTables(Group group, GroupDTO groupDTO) {
+        List<TimeTable> timeTables = new ArrayList<>();
+        groupDTO.getTimeTableDTOS().forEach(timeTableDTO -> {
+            Module module = moduleRepository.findById(timeTableDTO.getModuleId())
+                    .orElseThrow(() -> new AppException("Module with id " + timeTableDTO.getModuleId() + " not found", HttpStatus.NOT_FOUND));
+            TimeTable timeTable = TimeTable.builder()
+                    .group(group)
+                    .module(module)
+                    .hour(timeTableDTO.getHour())
+                    .weekday(timeTableDTO.getWeekday())
+                    .build();
+            timeTables.add(timeTable);
+        });
+        group.setTimeTables(timeTables);
+    }
 
 }
