@@ -26,7 +26,7 @@ public class Group {
 
     private String description;
 
-    private Integer year;
+    private String year;
 
     private Boolean evening;
 

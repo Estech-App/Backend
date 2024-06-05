@@ -25,7 +25,7 @@ public class GroupDTO {
     private Boolean evening;
 
     @NotNull
-    private Integer year;
+    private String year;
 
     @NotNull
     private Integer courseId;
