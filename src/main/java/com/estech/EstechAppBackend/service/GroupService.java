@@ -5,10 +5,7 @@ import com.estech.EstechAppBackend.converter.group.GroupConverter;
 import com.estech.EstechAppBackend.dto.group.GroupDTO;
 import com.estech.EstechAppBackend.dto.idDTO;
 import com.estech.EstechAppBackend.exceptions.AppException;
-import com.estech.EstechAppBackend.model.Course;
-import com.estech.EstechAppBackend.model.Group;
-import com.estech.EstechAppBackend.model.Room;
-import com.estech.EstechAppBackend.model.UserEntity;
+import com.estech.EstechAppBackend.model.*;
 import com.estech.EstechAppBackend.repository.CourseRepository;
 import com.estech.EstechAppBackend.repository.GroupRepository;
 import com.estech.EstechAppBackend.repository.RoomRepository;
@@ -16,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -40,6 +38,8 @@ public class GroupService {
         Group group = groupConverter.toGroup(groupDTO);
 
         Group saved = groupRepository.save(group);
+
+        // createTimeTables(saved, groupDTO);
 
         return groupConverter.toGroupDto(saved);
     }
@@ -93,5 +93,12 @@ public class GroupService {
 
         return groupConverter.toGroupDto(saved);
     }
+
+//    private void createTimeTables(Group group, GroupDTO groupDTO) {
+//        List<TimeTable> timeTables = new ArrayList<>();
+//        groupDTO.getTimeTableDTOS().forEach(timeTableDTO -> {
+//
+//        });
+//    }
 
 }

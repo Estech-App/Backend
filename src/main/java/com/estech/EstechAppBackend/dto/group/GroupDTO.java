@@ -34,4 +34,6 @@ public class GroupDTO {
 
     private List<UserInfoDTO> users;
 
+    private List<TimeTableDTO> timeTableDTOS;
+
 }

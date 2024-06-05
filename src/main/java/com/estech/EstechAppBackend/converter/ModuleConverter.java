@@ -79,6 +79,15 @@ public class ModuleConverter {
         return module;
     }
 
+    public List<ModuleDTO> toModuleDtos(List<Module> modules) {
+        List<ModuleDTO> moduleDTOS = new ArrayList<>();
+
+        modules.forEach(module -> {
+            moduleDTOS.add(this.convertModuleEntityToModuleDTO(module));
+        });
+        return moduleDTOS;
+    }
+
     public void updateModule(Module target, Module source) {
         if (source == null) {
             return ;

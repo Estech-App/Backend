@@ -49,6 +49,12 @@ public class ModuleController {
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
+    @GetMapping("/by-course/{id}")
+    @PreAuthorize("hasRole('ADMIN') || hasRole('STUDENT') || hasRole('TEACHER')")
+    public ResponseEntity<List<ModuleDTO>> getModulesByCourse(@PathVariable Integer id) {
+        return ResponseEntity.ok(moduleService.getModulesByCourseId(id));
+    }
+
     @PostMapping("/new-module")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<ModuleDTO> saveModule(@RequestBody CreationModuleDTO module) {

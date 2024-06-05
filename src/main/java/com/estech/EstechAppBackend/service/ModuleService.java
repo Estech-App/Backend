@@ -50,6 +50,13 @@ public class ModuleService {
         return moduleConverter.convertModuleEntityToModuleDTO(module);
     }
 
+    public List<ModuleDTO> getModulesByCourseId(Integer courseId) {
+        Course course = courseRepository.findById(courseId)
+                .orElseThrow(() -> new AppException("Course with id " + courseId + " not found", HttpStatus.NOT_FOUND));
+
+        return moduleConverter.toModuleDtos(moduleRepository.findModulesByCourse(course));
+    }
+
     public ModuleDTO saveModule(CreationModuleDTO moduleDTO) {
         Module newModule = moduleConverter.creationModuleDtoToModule(moduleDTO);
 
