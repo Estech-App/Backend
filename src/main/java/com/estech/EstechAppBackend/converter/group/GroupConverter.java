@@ -9,10 +9,7 @@ import com.estech.EstechAppBackend.model.Course;
 import com.estech.EstechAppBackend.model.Group;
 import com.estech.EstechAppBackend.model.Room;
 import com.estech.EstechAppBackend.model.UserEntity;
-import com.estech.EstechAppBackend.repository.CourseRepository;
-import com.estech.EstechAppBackend.repository.GroupRepository;
-import com.estech.EstechAppBackend.repository.RoomRepository;
-import com.estech.EstechAppBackend.repository.UserRepository;
+import com.estech.EstechAppBackend.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
@@ -33,6 +30,8 @@ public class GroupConverter {
     private GroupRepository groupRepository;
     @Autowired
     private TimeTableConverter timeTableConverter;
+    @Autowired
+    private TimeTableRepository timeTableRepository;
 
     public GroupDTO toGroupDto(Group group) {
 //        List<UserInfoDTO> userInfoDtos = new ArrayList<>();
@@ -48,7 +47,7 @@ public class GroupConverter {
 
         List<TimeTableDTO> timeTableDTOS = new ArrayList<>();
         if (group.getTimeTables() != null) {
-            timeTableDTOS = timeTableConverter.toTimeTableDtos(group.getTimeTables());
+            timeTableDTOS = timeTableConverter.toTimeTableDtos(timeTableRepository.findTimeTableByGroup(group));
         }
 
         return GroupDTO.builder()
