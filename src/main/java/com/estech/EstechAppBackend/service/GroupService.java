@@ -115,6 +115,7 @@ public class GroupService {
                     .end(timeTableDTO.getEnd())
                     .weekday(timeTableDTO.getWeekday())
                     .build();
+            timeTableRepository.save(timeTable);
             timeTables.add(timeTable);
         });
         group.setTimeTables(timeTables);
