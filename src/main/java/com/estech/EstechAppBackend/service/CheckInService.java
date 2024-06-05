@@ -43,4 +43,13 @@ public class CheckInService {
         return list;
     }
 
+    public CheckInDto deleteCheckin(Long id) {
+        CheckIn checkIn = checkInRepository.findById(id)
+                .orElseThrow(() -> new AppException("CheckIn with id " + id + " not found", HttpStatus.NOT_FOUND));
+
+        checkInRepository.deleteById(id);
+
+        return checkInConverter.convertCheckInToCheckInDTO(checkIn);
+    }
+
 }

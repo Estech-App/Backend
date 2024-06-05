@@ -75,8 +75,6 @@ public class FreeUsagesService {
         FreeUsages freeUsages = freeUsagesRepository.findById(id)
                 .orElseThrow(() -> new AppException("FreeUsage with id " + " not found", HttpStatus.NOT_FOUND));
 
-        // TODO - Delete related info in Status table.
-
         freeUsagesRepository.deleteById(id);
 
         return freeUsageConverter.toFreeUsagesDto(freeUsages);
