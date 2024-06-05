@@ -75,8 +75,11 @@ public class TimeTableService {
                     .orElseThrow(() -> new AppException("Module with id " + timeTableDTO.getModuleId() + " not found", HttpStatus.NOT_FOUND));
             timeTable.setModule(module);
         }
-        if (timeTableDTO.getHour() != null) {
-            timeTable.setHour(timeTableDTO.getHour());
+        if (timeTableDTO.getStart() != null) {
+            timeTable.setStart(timeTableDTO.getStart());
+        }
+        if (timeTableDTO.getEnd() != null) {
+            timeTable.setEnd(timeTableDTO.getEnd());
         }
         if (timeTableDTO.getWeekday() != null) {
             timeTable.setWeekday(timeTableDTO.getWeekday());
