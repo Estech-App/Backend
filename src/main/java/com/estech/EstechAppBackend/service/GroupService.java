@@ -33,8 +33,6 @@ public class GroupService {
     @Autowired
     private GroupConverter groupConverter;
     @Autowired
-    private TimeTableConverter timeTableConverter;
-    @Autowired
     private ModuleRepository moduleRepository;
 
     public List<GroupDTO> getAllGroups() {
@@ -103,7 +101,7 @@ public class GroupService {
 
     private void createTimeTables(Group group, GroupDTO groupDTO) {
         List<TimeTable> timeTables = new ArrayList<>();
-        groupDTO.getTimeTableDTOS().forEach(timeTableDTO -> {
+        groupDTO.getTimeTables().forEach(timeTableDTO -> {
             Module module = moduleRepository.findById(timeTableDTO.getModuleId())
                     .orElseThrow(() -> new AppException("Module with id " + timeTableDTO.getModuleId() + " not found", HttpStatus.NOT_FOUND));
             TimeTable timeTable = TimeTable.builder()
