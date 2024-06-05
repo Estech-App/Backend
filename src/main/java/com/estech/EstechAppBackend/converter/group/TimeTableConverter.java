@@ -27,7 +27,8 @@ public class TimeTableConverter {
                 .id(timeTable.getId())
                 .groupId(timeTable.getGroup().getId())
                 .moduleId(timeTable.getModule().getId())
-                .hour(timeTable.getHour())
+                .start(timeTable.getStart())
+                .end(timeTable.getEnd())
                 .weekday(timeTable.getWeekday())
                 .build();
     }
@@ -42,7 +43,8 @@ public class TimeTableConverter {
         TimeTable timeTable = TimeTable.builder()
                 .group(group)
                 .module(module)
-                .hour(timeTableDTO.getHour())
+                .start(timeTableDTO.getStart())
+                .end(timeTableDTO.getEnd())
                 .weekday(timeTableDTO.getWeekday())
                 .build();
 
@@ -79,7 +81,8 @@ public class TimeTableConverter {
         target.setId(source.getId());
         target.setGroup(source.getGroup());
         target.setModule(source.getModule());
-        target.setHour(source.getHour());
+        target.setStart(source.getStart());
+        target.setEnd(source.getEnd());
         target.setWeekday(source.getWeekday());
     }
 

@@ -8,6 +8,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.time.LocalTime;
+import java.util.Date;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -27,7 +28,10 @@ public class TimeTableDTO {
     private Long moduleId;
 
     @NotNull
-    private LocalTime hour;
+    private Date start;
+
+    @NotNull
+    private Date end;
 
     @NotNull
     @NotBlank

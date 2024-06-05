@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalTime;
+import java.util.Date;
 
 @Entity
 @Table(name = "time_table")
@@ -24,7 +25,9 @@ public class TimeTable {
     @ManyToOne(fetch = FetchType.LAZY)
     private Module module;
 
-    private LocalTime hour;
+    private Date start;
+
+    private Date end;
 
     private String weekday;
 

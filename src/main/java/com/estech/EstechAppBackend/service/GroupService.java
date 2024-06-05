@@ -109,7 +109,8 @@ public class GroupService {
             TimeTable timeTable = TimeTable.builder()
                     .group(group)
                     .module(module)
-                    .hour(timeTableDTO.getHour())
+                    .start(timeTableDTO.getStart())
+                    .end(timeTableDTO.getEnd())
                     .weekday(timeTableDTO.getWeekday())
                     .build();
             timeTables.add(timeTable);
