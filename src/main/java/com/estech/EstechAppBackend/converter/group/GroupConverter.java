@@ -56,8 +56,11 @@ public class GroupConverter {
         Course course = courseRepository.findById(groupDTO.getCourseId())
                 .orElseThrow(() -> new AppException("Course with id " + groupDTO.getCourseId() + " not found", HttpStatus.NOT_FOUND));
 
-        Room room = roomRepository.findById(groupDTO.getRoomId())
-                .orElseThrow(() -> new AppException("Room with id " + groupDTO.getRoomId() + " not found", HttpStatus.NOT_FOUND));
+        Room room = null;
+        if (groupDTO.getRoomId() != null) {
+             room = roomRepository.findById(groupDTO.getRoomId())
+                    .orElseThrow(() -> new AppException("Room with id " + groupDTO.getRoomId() + " not found", HttpStatus.NOT_FOUND));
+        }
 
 //        List<UserEntity> users = new ArrayList<>();
 //        if (groupDTO.getUsers() != null) {
