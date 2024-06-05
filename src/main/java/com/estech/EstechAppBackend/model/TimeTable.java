@@ -2,7 +2,9 @@ package com.estech.EstechAppBackend.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.cglib.core.Local;
 
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Date;
 
@@ -25,9 +27,9 @@ public class TimeTable {
     @ManyToOne(fetch = FetchType.LAZY)
     private Module module;
 
-    private Date start;
+    private LocalDateTime start;
 
-    private Date end;
+    private LocalDateTime end;
 
     private String weekday;
 
