@@ -38,6 +38,11 @@ public class GroupConverter {
 //            userInfoDtos.add(userConverter.convertUserEntityToUserInfoDTO(userEntity));
 //        });
 
+        Long roomId = null;
+        if (group.getRoom() != null) {
+            roomId = group.getRoom().getId();
+        }
+
         return GroupDTO.builder()
                 .id(group.getId())
                 .name(group.getName())
