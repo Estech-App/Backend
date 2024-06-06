@@ -62,9 +62,12 @@ public class GroupService {
         groupConverter.updateGroup(group, groupConverter.toGroup(groupDTO));
 
         deleteTimeTables(group);
-        createTimeTables(group, groupDTO);
 
-        Group saved = groupRepository.save(group);
+        Group middle = groupRepository.save(group);
+
+        createTimeTables(middle, groupDTO);
+
+        Group saved = groupRepository.save(middle);
 
         return groupConverter.toGroupDto(saved);
     }
