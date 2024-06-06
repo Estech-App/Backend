@@ -5,10 +5,7 @@ import com.estech.EstechAppBackend.dto.group.GroupDTO;
 import com.estech.EstechAppBackend.dto.group.TimeTableDTO;
 import com.estech.EstechAppBackend.dto.user.UserInfoDTO;
 import com.estech.EstechAppBackend.exceptions.AppException;
-import com.estech.EstechAppBackend.model.Course;
-import com.estech.EstechAppBackend.model.Group;
-import com.estech.EstechAppBackend.model.Room;
-import com.estech.EstechAppBackend.model.UserEntity;
+import com.estech.EstechAppBackend.model.*;
 import com.estech.EstechAppBackend.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -79,6 +76,11 @@ public class GroupConverter {
 //            users = userConverter.fromUserInfoDtostoUserEntities(groupDTO.getUsers());
 //        }
 
+        List<TimeTable> timeTables = new ArrayList<>();
+        if (groupDTO.getTimeTables() != null) {
+            timeTables = timeTableConverter.toTimeTables(groupDTO.getTimeTables());
+        }
+
         Group group = Group.builder()
                 .name(groupDTO.getName())
                 .description(groupDTO.getDescription())
@@ -87,7 +89,7 @@ public class GroupConverter {
 //                .users(users)
                 .course(course)
                 .room(room)
-                // TODO - timeTables()
+                .timeTables(timeTables)
                 // ! files -> Not applicable
                 .build();
 
@@ -119,7 +121,7 @@ public class GroupConverter {
         target.setEvening(source.getEvening());
         target.setUsers(source.getUsers());
         target.setCourse(source.getCourse());
-        // TODO - target.setTimeTables(source.getTimeTables());
+        target.setTimeTables(source.getTimeTables());
         target.setRoom(source.getRoom());
     }
 
