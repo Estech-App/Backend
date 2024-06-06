@@ -61,7 +61,7 @@ public class GroupService {
 
         groupConverter.updateGroup(group, groupConverter.toGroup(groupDTO));
 
-        // deleteTimeTables(group);
+        deleteTimeTables(group);
         createTimeTables(group, groupDTO);
 
         Group saved = groupRepository.save(group);
