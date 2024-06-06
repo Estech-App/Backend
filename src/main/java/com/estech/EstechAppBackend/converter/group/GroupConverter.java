@@ -45,6 +45,11 @@ public class GroupConverter {
             roomId = group.getRoom().getId();
         }
 
+        List<TimeTableDTO> timeTableDTOS = new ArrayList<>();
+        group.getTimeTables().forEach(timeTable -> {
+            timeTableDTOS.add(timeTableConverter.toTimeTableDto(timeTable));
+        });
+
         return GroupDTO.builder()
                 .id(group.getId())
                 .name(group.getName())
@@ -53,7 +58,7 @@ public class GroupConverter {
                 .courseId(group.getCourse().getId())
                 .evening(group.getEvening())
                 .roomId(roomId)
-                .timeTables(timeTableConverter.toTimeTableDtos(timeTableRepository.findTimeTableByGroup(group)))
+                .timeTables(timeTableDTOS)
 //                .users(userInfoDtos)
                 // ! filesDtos -> Not applicable
                 .build();

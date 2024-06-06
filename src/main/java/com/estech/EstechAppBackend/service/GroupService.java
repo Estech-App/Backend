@@ -123,8 +123,7 @@ public class GroupService {
     }
 
     private void deleteTimeTables(Group group) {
-        List<TimeTable> timeTables = timeTableRepository.findTimeTableByGroup(group);
-        timeTables.forEach(timeTable -> {
+        group.getTimeTables().forEach(timeTable -> {
             timeTableRepository.deleteById(timeTable.getId());
         });
     }
