@@ -25,7 +25,7 @@ public class TimeTableConverter {
     public TimeTableDTO toTimeTableDto(TimeTable timeTable) {
         return TimeTableDTO.builder()
                 .id(timeTable.getId())
-                .groupId(timeTable.getGroup().getId())
+                .schoolGroupId(timeTable.getGroup().getId())
                 .moduleId(timeTable.getModule().getId())
                 .start(timeTable.getStart())
                 .end(timeTable.getEnd())
@@ -34,8 +34,8 @@ public class TimeTableConverter {
     }
 
     public TimeTable toTimeTable(TimeTableDTO timeTableDTO) {
-        Group group = groupRepository.findById(timeTableDTO.getGroupId())
-                .orElseThrow(() -> new AppException("Group with id " + timeTableDTO.getGroupId() + " not found", HttpStatus.NOT_FOUND));
+        Group group = groupRepository.findById(timeTableDTO.getSchoolGroupId())
+                .orElseThrow(() -> new AppException("Group with id " + timeTableDTO.getSchoolGroupId() + " not found", HttpStatus.NOT_FOUND));
 
         Module module = moduleRepository.findById(timeTableDTO.getModuleId())
                 .orElseThrow(() -> new AppException("Module with id " + timeTableDTO.getModuleId() + " not found", HttpStatus.NOT_FOUND));

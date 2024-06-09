@@ -65,9 +65,9 @@ public class TimeTableService {
         TimeTable timeTable = timeTableRepository.findById(id)
                 .orElseThrow(() -> new AppException("Time Table with id " + id + " not found", HttpStatus.NOT_FOUND));
 
-        if (timeTableDTO.getGroupId() != null) {
-            Group group = groupRepository.findById(timeTableDTO.getGroupId())
-                    .orElseThrow(() -> new AppException("Group with id " + timeTableDTO.getGroupId() + " not found", HttpStatus.NOT_FOUND));
+        if (timeTableDTO.getSchoolGroupId() != null) {
+            Group group = groupRepository.findById(timeTableDTO.getSchoolGroupId())
+                    .orElseThrow(() -> new AppException("Group with id " + timeTableDTO.getSchoolGroupId() + " not found", HttpStatus.NOT_FOUND));
             timeTable.setGroup(group);
         }
         if (timeTableDTO.getModuleId() != null) {

@@ -8,8 +8,6 @@ import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.util.Date;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -23,7 +21,7 @@ public class TimeTableDTO {
     private Long id;
 
     @NotNull
-    private Long groupId;
+    private Long schoolGroupId;
 
     @NotNull
     private Long moduleId;
