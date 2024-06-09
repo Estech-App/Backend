@@ -6,12 +6,12 @@ import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
-import java.util.List;
 
 @Entity
 @Table(name = "room_status")
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @Getter
 @Setter
 public class RoomTimeTable {
