@@ -39,6 +39,13 @@ public class GroupService {
         return groupConverter.toGroupDtos(groupRepository.findAll());
     }
 
+    public GroupDTO getGroupById(Long id) {
+        Group group = groupRepository.findById(id)
+                .orElseThrow(() -> new AppException("Group with id " + id + " not found", HttpStatus.NOT_FOUND));
+
+        return groupConverter.toGroupDto(group);
+    }
+
     public GroupDTO createNewGroup(GroupDTO groupDTO) {
         Group group = groupConverter.toGroup(groupDTO);
 

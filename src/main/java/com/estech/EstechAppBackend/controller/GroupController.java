@@ -29,6 +29,12 @@ public class GroupController {
         return ResponseEntity.ok(groupService.getAllGroups());
     }
 
+    @GetMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN') || hasRole('TEACHER') || hasRole('STUDENT')")
+    public ResponseEntity<GroupDTO> getGroupById(@PathVariable Long id) {
+        return ResponseEntity.ok(groupService.getGroupById(id));
+    }
+
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<GroupDTO> createNewGroup(@Valid @RequestBody GroupDTO groupDTO) {
