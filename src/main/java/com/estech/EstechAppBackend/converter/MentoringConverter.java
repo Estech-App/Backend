@@ -35,7 +35,9 @@ public class MentoringConverter {
         mentoringDTO.setStart(mentoring.getStart());
         mentoringDTO.setEnd(mentoring.getEnd());
         mentoringDTO.setStatus(mentoring.getStatus().getStatus().toString());
-        mentoringDTO.setRoomId(mentoring.getRoom().getId());
+        if (mentoringDTO.getRoomId() != null) {
+            mentoringDTO.setRoomId(mentoring.getRoom().getId());
+        }
         mentoringDTO.setTeacher(userConverter.convertUserEntityToUserInfoDTO(mentoring.getTeacher()));
         mentoringDTO.setStudent(userConverter.convertUserEntityToUserInfoDTO(mentoring.getStudent()));
 
@@ -51,9 +53,11 @@ public class MentoringConverter {
         mentoring.setStart(mentoringDTO.getStart());
         mentoring.setEnd(mentoringDTO.getEnd());
 
-        Room room = roomRepository.findById(mentoringDTO.getRoomId())
-                        .orElseThrow(() -> new AppException("Room with id " + mentoringDTO.getRoomId() + " not found", HttpStatus.NOT_FOUND));
-        mentoring.setRoom(room);
+        if (mentoringDTO.getRoomId() != null) {
+            Room room = roomRepository.findById(mentoringDTO.getRoomId())
+                    .orElseThrow(() -> new AppException("Room with id " + mentoringDTO.getRoomId() + " not found", HttpStatus.NOT_FOUND));
+            mentoring.setRoom(room);
+        }
 
         statusService.getAllStatusEntities().forEach(status -> {
             if (status.getStatus().toString().equals(mentoringDTO.getStatus())) {
