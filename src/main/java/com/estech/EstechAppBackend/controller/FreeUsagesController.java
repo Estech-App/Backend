@@ -33,8 +33,8 @@ public class FreeUsagesController {
 
     @GetMapping("/by-student/{id}")
     @PreAuthorize("hasRole('ADMIN') || hasRole('STUDENT')")
-    public ResponseEntity<List<FreeUsagesDTO>> getFreeUsagesByStudent(@PathVariable Long studentId) {
-        return ResponseEntity.ok(null);
+    public ResponseEntity<List<FreeUsagesDTO>> getFreeUsagesByStudent(@PathVariable Long id) {
+        return ResponseEntity.ok(freeUsagesService.getFreeUsagesByStudent(id));
     }
 
     @PostMapping
