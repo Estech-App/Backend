@@ -28,8 +28,6 @@ public class GroupConverter {
     private GroupRepository groupRepository;
     @Autowired
     private TimeTableConverter timeTableConverter;
-    @Autowired
-    private TimeTableRepository timeTableRepository;
 
     public UserInfoDTO convertUserEntityToUserInfoDTO(UserEntity userEntity) {
         UserInfoDTO user = new UserInfoDTO();
@@ -85,20 +83,13 @@ public class GroupConverter {
                     .orElseThrow(() -> new AppException("Room with id " + groupDTO.getRoomId() + " not found", HttpStatus.NOT_FOUND));
         }
 
-//        List<UserEntity> users = new ArrayList<>();
-//        if (groupDTO.getUsers() != null) {
-//            users = userConverter.fromUserInfoDtostoUserEntities(groupDTO.getUsers());
-//        }
-
         Group group = Group.builder()
                 .name(groupDTO.getName())
                 .description(groupDTO.getDescription())
                 .year(groupDTO.getYear())
                 .evening(groupDTO.getEvening())
-//                .users(users)
                 .course(course)
                 .room(room)
-                // TODO - timeTables()
                 // ! files -> Not applicable
                 .build();
 
@@ -127,7 +118,6 @@ public class GroupConverter {
         target.setDescription(source.getDescription());
         target.setYear(source.getYear());
         target.setEvening(source.getEvening());
-        target.setUsers(source.getUsers());
         target.setCourse(source.getCourse());
         target.setRoom(source.getRoom());
     }
