@@ -19,4 +19,6 @@ public class UserInfoDTO {
 
     private String lastname;
 
+    private String role;
+
 }

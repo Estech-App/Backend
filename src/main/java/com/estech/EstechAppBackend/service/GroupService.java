@@ -8,6 +8,7 @@ import com.estech.EstechAppBackend.dto.idDTO;
 import com.estech.EstechAppBackend.exceptions.AppException;
 import com.estech.EstechAppBackend.model.*;
 import com.estech.EstechAppBackend.model.Module;
+import com.estech.EstechAppBackend.model.enums.RoleEnum;
 import com.estech.EstechAppBackend.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Service;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class GroupService {
@@ -46,6 +48,23 @@ public class GroupService {
                 .orElseThrow(() -> new AppException("Group with id " + id + " not found", HttpStatus.NOT_FOUND));
 
         return groupConverter.toGroupDto(group);
+    }
+
+    public List<GroupDTO> getGroupsByUserId(Long userId) {
+        List<Group> groups = groupRepository.findAll();
+        List<GroupDTO> groupDTOS = new ArrayList<>();
+
+        groups.forEach(group ->  {
+            if (group.getUsers() != null) {
+                group.getUsers().forEach(user -> {
+                    if (Objects.equals(user.getId(), userId)) {
+                        groupDTOS.add(groupConverter.toGroupDto(group));
+                    }
+                });
+            }
+        });
+
+        return groupDTOS;
     }
 
     public GroupDTO createNewGroup(GroupDTO groupDTO) {
@@ -114,9 +133,19 @@ public class GroupService {
 
     private void createTimeTables(Group group, GroupDTO groupDTO) {
         List<TimeTable> timeTables = new ArrayList<>();
+        List<UserEntity> users = new ArrayList<>();
         groupDTO.getTimeTables().forEach(timeTableDTO -> {
             Module module = moduleRepository.findById(timeTableDTO.getModuleId())
                     .orElseThrow(() -> new AppException("Module with id " + timeTableDTO.getModuleId() + " not found", HttpStatus.NOT_FOUND));
+            if (module.getUsers() != null) {
+                module.getUsers().forEach(user -> {
+                    if (user.getRole().getRolName() == RoleEnum.TEACHER) {
+                        if (!users.contains(user)) {
+                            users.add(user);
+                        }
+                    }
+                });
+            }
             TimeTable timeTable = TimeTable.builder()
                     .group(group)
                     .module(module)
@@ -128,10 +157,17 @@ public class GroupService {
             timeTables.add(timeTable);
         });
         group.setTimeTables(timeTables);
+        group.setUsers(users);
     }
 
     private void updateTimeTables(Group group, GroupDTO groupDTO) {
         List<TimeTable> timeTables = new ArrayList<>();
+        List<UserEntity> users;
+        if (group.getUsers() != null) {
+            users = group.getUsers();
+        } else {
+            users = new ArrayList<>();
+        }
         groupDTO.getTimeTables().forEach(timeTableDTO -> {
             if (timeTableDTO.getId() != null) {
                 TimeTable timeTable = timeTableRepository.findById(timeTableDTO.getId())
@@ -144,6 +180,15 @@ public class GroupService {
             } else {
                 Module module = moduleRepository.findById(timeTableDTO.getModuleId())
                         .orElseThrow(() -> new AppException("Module with id " + timeTableDTO.getModuleId() + " not found", HttpStatus.NOT_FOUND));
+                if (module.getUsers() != null) {
+                    for (UserEntity user : module.getUsers()) {
+                        if (user.getRole().getRolName() == RoleEnum.TEACHER) {
+                            if (!users.contains(user)) {
+                                users.add(user);
+                            }
+                        }
+                    }
+                }
                 TimeTable timeTable = TimeTable.builder()
                         .group(group)
                         .module(module)
@@ -156,6 +201,7 @@ public class GroupService {
             }
         });
         group.setTimeTables(timeTables);
+        group.setUsers(users);
     }
 
 }

@@ -31,7 +31,12 @@ public class Group {
     private Boolean evening;
 
     // CONEXION CON USUARIOS
-    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "groups")
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "users_groups",
+            joinColumns = @JoinColumn(name = "group_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id")
+    )
     private List<UserEntity> users;
 
     // CONEXION CON FILES

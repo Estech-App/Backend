@@ -20,8 +20,6 @@ import java.util.List;
 @Component
 public class GroupConverter {
 
-//    @Autowired
-//    private UserConverter userConverter;
     @Autowired
     private RoomRepository roomRepository;
     @Autowired
@@ -33,12 +31,25 @@ public class GroupConverter {
     @Autowired
     private TimeTableRepository timeTableRepository;
 
+    public UserInfoDTO convertUserEntityToUserInfoDTO(UserEntity userEntity) {
+        UserInfoDTO user = new UserInfoDTO();
+
+        user.setId(userEntity.getId());
+        user.setEmail(userEntity.getEmail());
+        user.setName(userEntity.getName());
+        user.setLastname(userEntity.getLastname());
+        user.setRole(userEntity.getRole().getRolName().name());
+        return user;
+    }
+
     public GroupDTO toGroupDto(Group group) {
-//        List<UserInfoDTO> userInfoDtos = new ArrayList<>();
-//
-//        group.getUsers().forEach(userEntity -> {
-//            userInfoDtos.add(userConverter.convertUserEntityToUserInfoDTO(userEntity));
-//        });
+        List<UserInfoDTO> userInfoDtos = new ArrayList<>();
+
+        if (group.getUsers() != null) {
+            group.getUsers().forEach(userEntity -> {
+                userInfoDtos.add(convertUserEntityToUserInfoDTO(userEntity));
+            });
+        }
 
         Long roomId = null;
         if (group.getRoom() != null) {
@@ -59,7 +70,7 @@ public class GroupConverter {
                 .evening(group.getEvening())
                 .roomId(roomId)
                 .timeTables(timeTableDTOS)
-//                .users(userInfoDtos)
+                .users(userInfoDtos)
                 // ! filesDtos -> Not applicable
                 .build();
     }
@@ -118,7 +129,6 @@ public class GroupConverter {
         target.setEvening(source.getEvening());
         target.setUsers(source.getUsers());
         target.setCourse(source.getCourse());
-        // TODO - target.setTimeTables(source.getTimeTables());
         target.setRoom(source.getRoom());
     }
 

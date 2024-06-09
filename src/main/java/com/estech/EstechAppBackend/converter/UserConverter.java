@@ -195,6 +195,7 @@ public class UserConverter {
         user.setEmail(userEntity.getEmail());
         user.setName(userEntity.getName());
         user.setLastname(userEntity.getLastname());
+        user.setRole(userEntity.getRole().getRolName().name());
         return user;
     }
 
