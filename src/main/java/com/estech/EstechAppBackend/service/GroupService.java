@@ -34,6 +34,8 @@ public class GroupService {
     private ModuleRepository moduleRepository;
     @Autowired
     private TimeTableRepository timeTableRepository;
+    @Autowired
+    private TimeTableConverter timeTableConverter;
 
     public List<GroupDTO> getAllGroups() {
         return groupConverter.toGroupDtos(groupRepository.findAll());
@@ -68,9 +70,7 @@ public class GroupService {
 
         groupConverter.updateGroup(group, groupConverter.toGroup(groupDTO));
 
-//        deleteTimeTables(group);
-        groupRepository.deleteRelatedTimeTables(group.getId());
-        createTimeTables(group, groupDTO);
+        updateTimeTables(group, groupDTO);
 
         Group saved = groupRepository.save(group);
 
@@ -130,10 +130,30 @@ public class GroupService {
         group.setTimeTables(timeTables);
     }
 
-//    private void deleteTimeTables(Group group) {
-//        group.getTimeTables().forEach(timeTable -> {
-//            timeTableRepository.deleteById(timeTable.getId());
-//        });
-//    }
+    private void updateTimeTables(Group group, GroupDTO groupDTO) {
+        List<TimeTable> timeTables = new ArrayList<>();
+        groupDTO.getTimeTables().forEach(timeTableDTO -> {
+            if (timeTableDTO.getId() != null) {
+                TimeTable timeTable = timeTableRepository.findById(timeTableDTO.getId())
+                                .orElseThrow(() -> new AppException("Time table with id " + timeTableDTO.getId() + " not found", HttpStatus.NOT_FOUND));
+                timeTableConverter.updateTimeTable(timeTable, timeTableConverter.toTimeTable(timeTableDTO));
+                timeTableRepository.save(timeTable);
+                timeTables.add(timeTable);
+            } else {
+                Module module = moduleRepository.findById(timeTableDTO.getModuleId())
+                        .orElseThrow(() -> new AppException("Module with id " + timeTableDTO.getModuleId() + " not found", HttpStatus.NOT_FOUND));
+                TimeTable timeTable = TimeTable.builder()
+                        .group(group)
+                        .module(module)
+                        .start(timeTableDTO.getStart())
+                        .end(timeTableDTO.getEnd())
+                        .weekday(timeTableDTO.getWeekday())
+                        .build();
+                timeTableRepository.save(timeTable);
+                timeTables.add(timeTable);
+            }
+        });
+        group.setTimeTables(timeTables);
+    }
 
 }
