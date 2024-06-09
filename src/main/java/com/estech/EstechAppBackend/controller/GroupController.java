@@ -43,7 +43,6 @@ public class GroupController {
     }
 
     @PutMapping
-    @Transactional
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<GroupDTO> updateGroup(@Valid @RequestBody GroupDTO groupDTO) {
         return ResponseEntity.ok(groupService.updateGroup(groupDTO));
