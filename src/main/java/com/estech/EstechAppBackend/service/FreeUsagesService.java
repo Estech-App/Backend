@@ -3,14 +3,13 @@ package com.estech.EstechAppBackend.service;
 import com.estech.EstechAppBackend.converter.FreeUsageConverter;
 import com.estech.EstechAppBackend.dto.freeUsages.FreeUsagesDTO;
 import com.estech.EstechAppBackend.exceptions.AppException;
-import com.estech.EstechAppBackend.model.FreeUsages;
-import com.estech.EstechAppBackend.model.Room;
-import com.estech.EstechAppBackend.model.RoomTimeTable;
-import com.estech.EstechAppBackend.model.Status;
+import com.estech.EstechAppBackend.model.*;
 import com.estech.EstechAppBackend.model.enums.RoomStatusEnum;
 import com.estech.EstechAppBackend.repository.FreeUsagesRepository;
 import com.estech.EstechAppBackend.repository.RoomRepository;
 import com.estech.EstechAppBackend.repository.RoomTimeTableRepository;
+import com.estech.EstechAppBackend.repository.UserRepository;
+import org.apache.tomcat.util.http.parser.HttpParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -28,6 +27,8 @@ public class FreeUsagesService {
     private RoomRepository roomRepository;
     @Autowired
     private RoomTimeTableRepository roomTimeTableRepository;
+    @Autowired
+    private UserRepository userRepository;
 
     public List<FreeUsagesDTO> getAllFreeUsages() {
         return freeUsageConverter.toFreeUsagesDtos(freeUsagesRepository.findAll());
@@ -38,6 +39,13 @@ public class FreeUsagesService {
                 .orElseThrow(() -> new AppException("Room with id " + roomId + " not found", HttpStatus.NOT_FOUND));
 
         return freeUsageConverter.toFreeUsagesDtos(freeUsagesRepository.findFreeUsagesByRoom(room));
+    }
+
+    public List<FreeUsagesDTO> getFreeUsagesByStudent(Long id) {
+        UserEntity user = userRepository.findById(id)
+                .orElseThrow(() -> new AppException("User with id " + id + " not found", HttpStatus.NOT_FOUND));
+
+        return freeUsageConverter.toFreeUsagesDtos(freeUsagesRepository.findFreeUsagesByUser(user));
     }
 
     public FreeUsagesDTO createFreeUsages(FreeUsagesDTO freeUsagesDTO) {

@@ -31,6 +31,12 @@ public class FreeUsagesController {
         return ResponseEntity.ok(freeUsagesService.getFreeUsagesByRoom(roomId));
     }
 
+    @GetMapping("/by-student/{id}")
+    @PreAuthorize("hasRole('ADMIN') || hasRole('STUDENT')")
+    public ResponseEntity<List<FreeUsagesDTO>> getFreeUsagesByStudent(@PathVariable Long studentId) {
+        return ResponseEntity.ok(null);
+    }
+
     @PostMapping
     @PreAuthorize("hasRole('ADMIN') || hasRole('STUDENT')")
     public ResponseEntity<FreeUsagesDTO> createNewFreeUsage(@Valid @RequestBody FreeUsagesDTO freeUsagesDTO) {
