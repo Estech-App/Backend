@@ -78,7 +78,6 @@ public class TimeTableConverter {
             return ;
         }
 
-        target.setId(source.getId());
         target.setGroup(source.getGroup());
         target.setModule(source.getModule());
         target.setStart(source.getStart());

@@ -112,7 +112,6 @@ public class GroupConverter {
             return ;
         }
 
-        target.setId(source.getId());
         target.setName(source.getName());
         target.setDescription(source.getDescription());
         target.setYear(source.getYear());
