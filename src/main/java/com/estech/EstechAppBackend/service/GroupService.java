@@ -68,7 +68,8 @@ public class GroupService {
 
         groupConverter.updateGroup(group, groupConverter.toGroup(groupDTO));
 
-        deleteTimeTables(group);
+//        deleteTimeTables(group);
+        groupRepository.deleteRelatedTimeTables(group.getId());
         createTimeTables(group, groupDTO);
 
         Group saved = groupRepository.save(group);
@@ -129,10 +130,10 @@ public class GroupService {
         group.setTimeTables(timeTables);
     }
 
-    private void deleteTimeTables(Group group) {
-        group.getTimeTables().forEach(timeTable -> {
-            timeTableRepository.deleteById(timeTable.getId());
-        });
-    }
+//    private void deleteTimeTables(Group group) {
+//        group.getTimeTables().forEach(timeTable -> {
+//            timeTableRepository.deleteById(timeTable.getId());
+//        });
+//    }
 
 }
