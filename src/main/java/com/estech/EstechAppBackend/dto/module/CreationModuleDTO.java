@@ -1,26 +1,24 @@
 package com.estech.EstechAppBackend.dto.module;
 
 import com.estech.EstechAppBackend.dto.course.CourseDTO;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import com.estech.EstechAppBackend.dto.user.UserInfoDTO;
+import lombok.*;
 
 import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @Getter
 @Setter
-public class ModuleDTO {
+public class CreationModuleDTO {
 
     private Long id;
     private Integer year;
     private String name;
     private String acronym;
-    private String courseAcronym;
     private String color;
-    private CourseDTO courseDTO;
-    private List<String> usersName;
+    private CourseDTO course;
+    private List<UserInfoDTO> users;
 
 }

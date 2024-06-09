@@ -24,7 +24,6 @@ public class MentoringDTO {
     @NotNull
     private Date end;
 
-    @NotNull
     private Long roomId;
 
     @NotNull

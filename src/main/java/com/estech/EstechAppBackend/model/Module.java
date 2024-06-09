@@ -22,6 +22,7 @@ public class Module {
     @NotNull
     private Integer year;
     private String acronym;
+    private String color;
 
     //  CONEXION CON CURSOS
     @ManyToOne(fetch = FetchType.LAZY)

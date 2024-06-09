@@ -81,4 +81,13 @@ public class StockService {
         return stockConverter.toStockDto(saved);
     }
 
+    public StockDTO deleteStock(Long id) {
+        Stock stock = stockRepository.findById(id)
+                .orElseThrow(() -> new AppException("Stock with id " + id + " not found", HttpStatus.NOT_FOUND));
+
+        stockRepository.deleteById(id);
+
+        return stockConverter.toStockDto(stock);
+    }
+
 }

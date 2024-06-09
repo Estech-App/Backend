@@ -22,8 +22,10 @@ public class GroupDTO {
 
     private String description;
 
+    private Boolean evening;
+
     @NotNull
-    private Integer year;
+    private String year;
 
     @NotNull
     private Integer courseId;
@@ -31,5 +33,7 @@ public class GroupDTO {
     private Long roomId;
 
     private List<UserInfoDTO> users;
+
+    private List<TimeTableDTO> timeTables;
 
 }

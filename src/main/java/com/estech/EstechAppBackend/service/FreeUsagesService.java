@@ -71,4 +71,13 @@ public class FreeUsagesService {
         return freeUsageConverter.toFreeUsagesDto(saved);
     }
 
+    public FreeUsagesDTO deleteFreeUsage(Long id) {
+        FreeUsages freeUsages = freeUsagesRepository.findById(id)
+                .orElseThrow(() -> new AppException("FreeUsage with id " + " not found", HttpStatus.NOT_FOUND));
+
+        freeUsagesRepository.deleteById(id);
+
+        return freeUsageConverter.toFreeUsagesDto(freeUsages);
+    }
+
 }

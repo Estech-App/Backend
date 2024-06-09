@@ -44,4 +44,10 @@ public class CheckInController {
         return new ResponseEntity<>(checkInService.createOrUpdateCheckIn(checkIn), HttpStatus.OK);
     }
 
+    @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<CheckInDto> deleteCheckIn(@PathVariable Long id) {
+        return ResponseEntity.ok(checkInService.deleteCheckin(id));
+    }
+
 }

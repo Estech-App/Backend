@@ -26,7 +26,9 @@ public class Group {
 
     private String description;
 
-    private Integer year;
+    private String year;
+
+    private Boolean evening;
 
     // CONEXION CON USUARIOS
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "groups")
@@ -46,7 +48,7 @@ public class Group {
     private Course course;
 
     // CONEXION CON TIMETABLE
-    @OneToMany(mappedBy = "group")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "group")
     private List<TimeTable> timeTables;
 
     // CONEXION CON ROOMS

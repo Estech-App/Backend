@@ -44,4 +44,10 @@ public class FreeUsagesController {
         return ResponseEntity.ok(freeUsagesService.updateFreeUsage(freeUsagesDTO));
     }
 
+    @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<FreeUsagesDTO> deleteFreeUsage(@PathVariable Long id) {
+        return ResponseEntity.ok(freeUsagesService.deleteFreeUsage(id));
+    }
+
 }

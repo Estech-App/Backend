@@ -1,10 +1,7 @@
 package com.estech.EstechAppBackend.service;
 
 import com.estech.EstechAppBackend.converter.UserConverter;
-import com.estech.EstechAppBackend.dto.user.CreatedUserDTO;
-import com.estech.EstechAppBackend.dto.user.CreationUserDTO;
-import com.estech.EstechAppBackend.dto.user.StudentUserDTO;
-import com.estech.EstechAppBackend.dto.user.UserInfoDTO;
+import com.estech.EstechAppBackend.dto.user.*;
 import com.estech.EstechAppBackend.exceptions.AppException;
 import com.estech.EstechAppBackend.model.Role;
 import com.estech.EstechAppBackend.model.UserEntity;
@@ -42,6 +39,14 @@ public class UserService {
         return userConverter.toStudentUserDto(saved);
     }
 
+    public TeacherUserDTO createTeacherUser(TeacherUserDTO teacherUserDTO) {
+        UserEntity teacher = userConverter.teacherDtoToUserEntity(teacherUserDTO);
+
+        UserEntity saved = userRepository.save(teacher);
+
+        return userConverter.toTeacherUserDto(saved);
+    }
+
     public List<CreatedUserDTO> getAllUsersAsCreatedUserDTO() {
         List<CreatedUserDTO> list = new ArrayList<>();
         userRepository.findAll().forEach(user -> {
@@ -73,6 +78,13 @@ public class UserService {
                 .orElseThrow(() -> new AppException("User with id " + id + " not found", HttpStatus.NOT_FOUND));
 
         return userConverter.toStudentUserDto(user);
+    }
+
+    public TeacherUserDTO getTeacherById(Long id) {
+        UserEntity user = userRepository.findById(id)
+                .orElseThrow(() -> new AppException("User with id " + id + " not found", HttpStatus.NOT_FOUND));
+
+        return userConverter.toTeacherUserDto(user);
     }
 
     public List<UserInfoDTO> getAllUsersByRole(Role role) {

@@ -65,9 +65,9 @@ public class TimeTableService {
         TimeTable timeTable = timeTableRepository.findById(id)
                 .orElseThrow(() -> new AppException("Time Table with id " + id + " not found", HttpStatus.NOT_FOUND));
 
-        if (timeTableDTO.getGroupId() != null) {
-            Group group = groupRepository.findById(timeTableDTO.getGroupId())
-                    .orElseThrow(() -> new AppException("Group with id " + timeTableDTO.getGroupId() + " not found", HttpStatus.NOT_FOUND));
+        if (timeTableDTO.getSchoolGroupId() != null) {
+            Group group = groupRepository.findById(timeTableDTO.getSchoolGroupId())
+                    .orElseThrow(() -> new AppException("Group with id " + timeTableDTO.getSchoolGroupId() + " not found", HttpStatus.NOT_FOUND));
             timeTable.setGroup(group);
         }
         if (timeTableDTO.getModuleId() != null) {
@@ -75,8 +75,11 @@ public class TimeTableService {
                     .orElseThrow(() -> new AppException("Module with id " + timeTableDTO.getModuleId() + " not found", HttpStatus.NOT_FOUND));
             timeTable.setModule(module);
         }
-        if (timeTableDTO.getHour() != null) {
-            timeTable.setHour(timeTableDTO.getHour());
+        if (timeTableDTO.getStart() != null) {
+            timeTable.setStart(timeTableDTO.getStart());
+        }
+        if (timeTableDTO.getEnd() != null) {
+            timeTable.setEnd(timeTableDTO.getEnd());
         }
         if (timeTableDTO.getWeekday() != null) {
             timeTable.setWeekday(timeTableDTO.getWeekday());

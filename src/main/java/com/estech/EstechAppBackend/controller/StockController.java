@@ -50,4 +50,10 @@ public class StockController {
         return ResponseEntity.ok(stockService.updateStock(stockDTO));
     }
 
+    @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<StockDTO> deleteStock(@PathVariable Long id) {
+        return ResponseEntity.ok(stockService.deleteStock(id));
+    }
+
 }

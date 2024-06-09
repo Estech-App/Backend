@@ -88,4 +88,13 @@ public class RoomTimeTableService {
         return roomTimeTableConverter.toRoomTimeTableDTO(saved);
     }
 
+    public RoomTimeTableDTO deleteRoomTimeTable(Long id) {
+        RoomTimeTable roomTimeTable = roomTimeTableRepository.findById(id)
+                .orElseThrow(() -> new AppException("RoomTimeTable with id " + " not found", HttpStatus.NOT_FOUND));
+
+        roomTimeTableRepository.deleteById(id);
+
+        return roomTimeTableConverter.toRoomTimeTableDTO(roomTimeTable);
+    }
+
 }

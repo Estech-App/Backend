@@ -2,16 +2,14 @@ package com.estech.EstechAppBackend.converter.group;
 
 import com.estech.EstechAppBackend.converter.UserConverter;
 import com.estech.EstechAppBackend.dto.group.GroupDTO;
+import com.estech.EstechAppBackend.dto.group.TimeTableDTO;
 import com.estech.EstechAppBackend.dto.user.UserInfoDTO;
 import com.estech.EstechAppBackend.exceptions.AppException;
 import com.estech.EstechAppBackend.model.Course;
 import com.estech.EstechAppBackend.model.Group;
 import com.estech.EstechAppBackend.model.Room;
 import com.estech.EstechAppBackend.model.UserEntity;
-import com.estech.EstechAppBackend.repository.CourseRepository;
-import com.estech.EstechAppBackend.repository.GroupRepository;
-import com.estech.EstechAppBackend.repository.RoomRepository;
-import com.estech.EstechAppBackend.repository.UserRepository;
+import com.estech.EstechAppBackend.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
@@ -30,6 +28,10 @@ public class GroupConverter {
     private CourseRepository courseRepository;
     @Autowired
     private GroupRepository groupRepository;
+    @Autowired
+    private TimeTableConverter timeTableConverter;
+    @Autowired
+    private TimeTableRepository timeTableRepository;
 
     public GroupDTO toGroupDto(Group group) {
 //        List<UserInfoDTO> userInfoDtos = new ArrayList<>();
@@ -38,15 +40,26 @@ public class GroupConverter {
 //            userInfoDtos.add(userConverter.convertUserEntityToUserInfoDTO(userEntity));
 //        });
 
+        Long roomId = null;
+        if (group.getRoom() != null) {
+            roomId = group.getRoom().getId();
+        }
+
+        List<TimeTableDTO> timeTableDTOS = new ArrayList<>();
+        group.getTimeTables().forEach(timeTable -> {
+            timeTableDTOS.add(timeTableConverter.toTimeTableDto(timeTable));
+        });
+
         return GroupDTO.builder()
                 .id(group.getId())
                 .name(group.getName())
                 .description(group.getDescription())
                 .year(group.getYear())
                 .courseId(group.getCourse().getId())
-                .roomId(group.getRoom().getId())
+                .evening(group.getEvening())
+                .roomId(roomId)
+                .timeTables(timeTableDTOS)
 //                .users(userInfoDtos)
-                // TODO - timeTableDtos()
                 // ! filesDtos -> Not applicable
                 .build();
     }
@@ -55,8 +68,11 @@ public class GroupConverter {
         Course course = courseRepository.findById(groupDTO.getCourseId())
                 .orElseThrow(() -> new AppException("Course with id " + groupDTO.getCourseId() + " not found", HttpStatus.NOT_FOUND));
 
-        Room room = roomRepository.findById(groupDTO.getRoomId())
-                .orElseThrow(() -> new AppException("Room with id " + groupDTO.getRoomId() + " not found", HttpStatus.NOT_FOUND));
+        Room room = null;
+        if (groupDTO.getRoomId() != null) {
+             room = roomRepository.findById(groupDTO.getRoomId())
+                    .orElseThrow(() -> new AppException("Room with id " + groupDTO.getRoomId() + " not found", HttpStatus.NOT_FOUND));
+        }
 
 //        List<UserEntity> users = new ArrayList<>();
 //        if (groupDTO.getUsers() != null) {
@@ -67,6 +83,7 @@ public class GroupConverter {
                 .name(groupDTO.getName())
                 .description(groupDTO.getDescription())
                 .year(groupDTO.getYear())
+                .evening(groupDTO.getEvening())
 //                .users(users)
                 .course(course)
                 .room(room)
@@ -95,10 +112,10 @@ public class GroupConverter {
             return ;
         }
 
-        target.setId(source.getId());
         target.setName(source.getName());
         target.setDescription(source.getDescription());
         target.setYear(source.getYear());
+        target.setEvening(source.getEvening());
         target.setUsers(source.getUsers());
         target.setCourse(source.getCourse());
         // TODO - target.setTimeTables(source.getTimeTables());

@@ -2,21 +2,18 @@ package com.estech.EstechAppBackend.service;
 
 import com.estech.EstechAppBackend.converter.UserConverter;
 import com.estech.EstechAppBackend.converter.group.GroupConverter;
+import com.estech.EstechAppBackend.converter.group.TimeTableConverter;
 import com.estech.EstechAppBackend.dto.group.GroupDTO;
 import com.estech.EstechAppBackend.dto.idDTO;
 import com.estech.EstechAppBackend.exceptions.AppException;
-import com.estech.EstechAppBackend.model.Course;
-import com.estech.EstechAppBackend.model.Group;
-import com.estech.EstechAppBackend.model.Room;
-import com.estech.EstechAppBackend.model.UserEntity;
-import com.estech.EstechAppBackend.repository.CourseRepository;
-import com.estech.EstechAppBackend.repository.GroupRepository;
-import com.estech.EstechAppBackend.repository.RoomRepository;
-import com.estech.EstechAppBackend.repository.UserRepository;
+import com.estech.EstechAppBackend.model.*;
+import com.estech.EstechAppBackend.model.Module;
+import com.estech.EstechAppBackend.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,9 +30,22 @@ public class GroupService {
     private UserConverter userConverter;
     @Autowired
     private GroupConverter groupConverter;
+    @Autowired
+    private ModuleRepository moduleRepository;
+    @Autowired
+    private TimeTableRepository timeTableRepository;
+    @Autowired
+    private TimeTableConverter timeTableConverter;
 
     public List<GroupDTO> getAllGroups() {
         return groupConverter.toGroupDtos(groupRepository.findAll());
+    }
+
+    public GroupDTO getGroupById(Long id) {
+        Group group = groupRepository.findById(id)
+                .orElseThrow(() -> new AppException("Group with id " + id + " not found", HttpStatus.NOT_FOUND));
+
+        return groupConverter.toGroupDto(group);
     }
 
     public GroupDTO createNewGroup(GroupDTO groupDTO) {
@@ -43,7 +53,11 @@ public class GroupService {
 
         Group saved = groupRepository.save(group);
 
-        return groupConverter.toGroupDto(saved);
+        createTimeTables(saved, groupDTO);
+
+        Group updated = groupRepository.save(saved);
+
+        return groupConverter.toGroupDto(updated);
     }
 
     public GroupDTO updateGroup(GroupDTO groupDTO) {
@@ -55,6 +69,8 @@ public class GroupService {
                 .orElseThrow(() -> new AppException("Group with id " + groupDTO.getId() + " not found", HttpStatus.NOT_FOUND));
 
         groupConverter.updateGroup(group, groupConverter.toGroup(groupDTO));
+
+        updateTimeTables(group, groupDTO);
 
         Group saved = groupRepository.save(group);
 
@@ -74,6 +90,9 @@ public class GroupService {
         if (groupDTO.getYear() != null) {
             group.setYear(groupDTO.getYear());
         }
+        if (groupDTO.getEvening() != null) {
+            group.setEvening(groupDTO.getEvening());
+        }
         if (groupDTO.getUsers() != null && !groupDTO.getUsers().isEmpty()) {
             group.setUsers(userConverter.fromUserInfoDtostoUserEntities(groupDTO.getUsers()));
         }
@@ -91,6 +110,52 @@ public class GroupService {
         Group saved = groupRepository.save(group);
 
         return groupConverter.toGroupDto(saved);
+    }
+
+    private void createTimeTables(Group group, GroupDTO groupDTO) {
+        List<TimeTable> timeTables = new ArrayList<>();
+        groupDTO.getTimeTables().forEach(timeTableDTO -> {
+            Module module = moduleRepository.findById(timeTableDTO.getModuleId())
+                    .orElseThrow(() -> new AppException("Module with id " + timeTableDTO.getModuleId() + " not found", HttpStatus.NOT_FOUND));
+            TimeTable timeTable = TimeTable.builder()
+                    .group(group)
+                    .module(module)
+                    .start(timeTableDTO.getStart())
+                    .end(timeTableDTO.getEnd())
+                    .weekday(timeTableDTO.getWeekday())
+                    .build();
+            timeTableRepository.save(timeTable);
+            timeTables.add(timeTable);
+        });
+        group.setTimeTables(timeTables);
+    }
+
+    private void updateTimeTables(Group group, GroupDTO groupDTO) {
+        List<TimeTable> timeTables = new ArrayList<>();
+        groupDTO.getTimeTables().forEach(timeTableDTO -> {
+            if (timeTableDTO.getId() != null) {
+                TimeTable timeTable = timeTableRepository.findById(timeTableDTO.getId())
+                                .orElseThrow(() -> new AppException("Time table with id " + timeTableDTO.getId() + " not found", HttpStatus.NOT_FOUND));
+                timeTable.setEnd(timeTableDTO.getEnd());
+                timeTable.setStart(timeTableDTO.getStart());
+                timeTable.setWeekday(timeTableDTO.getWeekday());
+                timeTableRepository.save(timeTable);
+                timeTables.add(timeTable);
+            } else {
+                Module module = moduleRepository.findById(timeTableDTO.getModuleId())
+                        .orElseThrow(() -> new AppException("Module with id " + timeTableDTO.getModuleId() + " not found", HttpStatus.NOT_FOUND));
+                TimeTable timeTable = TimeTable.builder()
+                        .group(group)
+                        .module(module)
+                        .start(timeTableDTO.getStart())
+                        .end(timeTableDTO.getEnd())
+                        .weekday(timeTableDTO.getWeekday())
+                        .build();
+                timeTableRepository.save(timeTable);
+                timeTables.add(timeTable);
+            }
+        });
+        group.setTimeTables(timeTables);
     }
 
 }

@@ -1,9 +1,6 @@
 package com.estech.EstechAppBackend.controller;
 
-import com.estech.EstechAppBackend.dto.user.CreationUserDTO;
-import com.estech.EstechAppBackend.dto.user.StudentUserDTO;
-import com.estech.EstechAppBackend.dto.user.UserEmailDTO;
-import com.estech.EstechAppBackend.dto.user.UserInfoDTO;
+import com.estech.EstechAppBackend.dto.user.*;
 import com.estech.EstechAppBackend.model.Role;
 import com.estech.EstechAppBackend.repository.RoleRepository;
 import com.estech.EstechAppBackend.service.UserService;
@@ -46,8 +43,15 @@ public class UserController {
         return ResponseEntity.created(URI.create("/api/user/new-user/student/" + studentUserDTO.getId())).body(created);
     }
 
+    @PostMapping("/new-user/teacher")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<TeacherUserDTO> createTeacher(@Valid @RequestBody TeacherUserDTO teacherUserDTO) {
+        TeacherUserDTO created = userService.createTeacherUser(teacherUserDTO);
+        return ResponseEntity.created(URI.create("/api/user/new-user/teacher/" + teacherUserDTO.getId())).body(created);
+    }
+
     @PostMapping("/user-info")
-    @PreAuthorize("hasRole('ADMIN') || hasRole('SECRETARY')")
+    @PreAuthorize("hasRole('ADMIN') || hasRole('TEACHER') || hasRole('STUDENT')")
     public ResponseEntity<?> getUserInfo(@RequestBody UserEmailDTO email) {
         UserInfoDTO user = userService.getUserInfo(email.getEmail());
 
@@ -74,6 +78,12 @@ public class UserController {
         return ResponseEntity.ok(userService.getStudentById(id));
     }
 
+    @GetMapping("/teacher/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<TeacherUserDTO> getTeacherById(@PathVariable Long id) {
+        return ResponseEntity.ok(userService.getTeacherById(id));
+    }
+
     @PutMapping("/update-user")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> updateUserById(@RequestBody CreationUserDTO user) {
@@ -81,7 +91,7 @@ public class UserController {
     }
 
     @GetMapping("/find-by-role/{roleId}")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN') || hasRole('STUDENT') || hasRole('TEACHER')")
     public ResponseEntity<?> getUsersByRole(@PathVariable Integer roleId) {
         Role role = roleRepository.findById(roleId).orElse(null);
         if (role == null) {

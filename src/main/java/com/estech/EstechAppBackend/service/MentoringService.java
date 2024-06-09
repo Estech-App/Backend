@@ -113,4 +113,13 @@ public class MentoringService {
         return mentoringConverter.convertMentoringEntityToMentoringDTO(saved);
     }
 
+    public MentoringDTO deleteMentoring(Long id) {
+        Mentoring mentoring = mentoringRepository.findById(id)
+                .orElseThrow(() -> new AppException("Mentoring with id " + id + " not found", HttpStatus.NOT_FOUND));
+
+        mentoringRepository.deleteById(id);
+
+        return mentoringConverter.convertMentoringEntityToMentoringDTO(mentoring);
+    }
+
 }
