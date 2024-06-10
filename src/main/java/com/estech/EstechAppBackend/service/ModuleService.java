@@ -31,6 +31,8 @@ public class ModuleService {
     private UserRepository userRepository;
     @Autowired
     private ModuleConverter moduleConverter;
+    @Autowired
+    private TimeTableService timeTableService;
 
     public List<ModuleDTO> getAllModulesDTO() {
         List<ModuleDTO> modulesDTO = new ArrayList<>();
@@ -117,5 +119,16 @@ public class ModuleService {
         module.setUsers(users);
         moduleRepository.save(module);
         return moduleConverter.convertModuleEntityToModuleDTO(module);
+    }
+
+    public void deleteModule(Long id) {
+        Module module = moduleRepository.findById(id)
+                .orElseThrow(() -> new AppException("Module with id " + id + " not found", HttpStatus.NOT_FOUND));
+
+        moduleRepository.deleteRelationsWithUser(id);
+        module.getTimeTables().forEach(timeTable -> {
+            timeTableService.deleteTimeTable(timeTable.getId());
+        });
+        moduleRepository.deleteById(id);
     }
 }

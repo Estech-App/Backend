@@ -44,4 +44,9 @@ public class TimeTableController {
         return ResponseEntity.ok(timeTableService.modifyTimeTable(id, timeTableDTO));
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<TimeTableDTO> deleteTimeTable(@PathVariable Long id) {
+        return ResponseEntity.ok(null);
+    }
+
 }

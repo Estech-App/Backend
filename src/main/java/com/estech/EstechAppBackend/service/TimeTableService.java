@@ -90,4 +90,13 @@ public class TimeTableService {
         return timeTableConverter.toTimeTableDto(saved);
     }
 
+    public TimeTableDTO deleteTimeTable(Long id) {
+        TimeTable timeTable = timeTableRepository.findById(id)
+                .orElseThrow(() -> new AppException("TimeTable with id " + id + " not found", HttpStatus.NOT_FOUND));
+
+        timeTableRepository.deleteById(id);
+
+        return timeTableConverter.toTimeTableDto(timeTable);
+    }
+
 }

@@ -4,12 +4,7 @@ import com.estech.EstechAppBackend.dto.module.CreationModuleDTO;
 import com.estech.EstechAppBackend.dto.module.ModuleCourseDTO;
 import com.estech.EstechAppBackend.dto.module.ModuleDTO;
 import com.estech.EstechAppBackend.dto.module.ModuleUserDTO;
-import com.estech.EstechAppBackend.model.Module;
-import com.estech.EstechAppBackend.repository.ModuleRepository;
-import com.estech.EstechAppBackend.repository.UserRepository;
 import com.estech.EstechAppBackend.service.ModuleService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +12,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -86,6 +80,13 @@ public class ModuleController {
             return new ResponseEntity<>("error: wrong id's received", HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>(module, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<?> deleteModules(@PathVariable Long id) {
+        moduleService.deleteModule(id);
+        return new ResponseEntity<>(null, HttpStatus.OK);
     }
 
 }
