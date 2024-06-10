@@ -92,13 +92,13 @@ public class UserController {
 
     @PutMapping("/update-teacher")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<TeacherUserDTO> updateTeacherUser(@Valid @RequestBody TeacherUserDTO teacherUserDTO) {
+    public ResponseEntity<TeacherUserDTO> updateTeacherUser(@RequestBody TeacherUserDTO teacherUserDTO) {
         return ResponseEntity.ok(userService.updateTeacherUser(teacherUserDTO));
     }
 
     @PutMapping("/update-student")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<StudentUserDTO> updateStudentUser(@Valid @RequestBody StudentUserDTO studentUserDTO) {
+    public ResponseEntity<StudentUserDTO> updateStudentUser(@RequestBody StudentUserDTO studentUserDTO) {
         return ResponseEntity.ok(userService.updateStudentUser(studentUserDTO));
     }
 
