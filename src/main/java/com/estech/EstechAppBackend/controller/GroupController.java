@@ -60,4 +60,11 @@ public class GroupController {
         return ResponseEntity.ok(groupService.modifyGroup(id, groupDTO));
     }
 
+    @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<?> deleteGroup(@PathVariable Long id) {
+        groupService.deleteGroup(id);
+        return new ResponseEntity<>(null, HttpStatus.OK);
+    }
+
 }

@@ -126,9 +126,11 @@ public class ModuleService {
                 .orElseThrow(() -> new AppException("Module with id " + id + " not found", HttpStatus.NOT_FOUND));
 
         moduleRepository.deleteRelationsWithUser(id);
-        module.getTimeTables().forEach(timeTable -> {
-            timeTableService.deleteTimeTable(timeTable.getId());
-        });
+        if (module.getTimeTables() != null) {
+            module.getTimeTables().forEach(timeTable -> {
+                timeTableService.deleteTimeTable(timeTable.getId());
+            });
+        }
         moduleRepository.deleteById(id);
     }
 }

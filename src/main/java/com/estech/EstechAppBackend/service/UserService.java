@@ -28,6 +28,12 @@ public class UserService {
     private GroupRepository groupRepository;
     @Autowired
     private ModuleRepository moduleRepository;
+    @Autowired
+    private FreeUsagesService freeUsagesService;
+    @Autowired
+    private MentoringService mentoringService;
+    @Autowired
+    private CheckInService checkInService;
 
     public List<UserEntity> getAllUsers() {
         return userRepository.findAll();
@@ -156,6 +162,37 @@ public class UserService {
             dto.add(userConverter.convertUserEntityToUserInfoDTO(user));
         });
         return dto;
+    }
+
+    public void deleteUser(Long id) {
+        UserEntity user = userRepository.findById(id)
+                .orElseThrow(() -> new AppException("User with id " + id + " not found", HttpStatus.NOT_FOUND));
+
+        userRepository.deleteRelationsWithGroup(id);
+        userRepository.deleteRelationsWithModule(id);
+        if (user.getFreeUsages() != null) {
+            user.getFreeUsages().forEach(freeUsages -> {
+                freeUsagesService.deleteFreeUsage(freeUsages.getId());
+            });
+        }
+        if (user.getStudentMentorings() != null) {
+            user.getStudentMentorings().forEach(mentoring -> {
+                mentoringService.deleteMentoring(mentoring.getId());
+            });
+        }
+        if (user.getTeacherMentorings() != null) {
+            user.getTeacherMentorings().forEach(mentoring -> {
+                mentoringService.deleteMentoring(mentoring.getId());
+            });
+        }
+        if (user.getCheckIns() != null) {
+            user.getCheckIns().forEach(checkIn -> {
+                checkInService.deleteCheckin(checkIn.getId());
+            });
+        }
+
+        userRepository.deleteById(id);
+
     }
 
     /**

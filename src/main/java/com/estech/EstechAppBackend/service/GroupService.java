@@ -37,7 +37,7 @@ public class GroupService {
     @Autowired
     private TimeTableRepository timeTableRepository;
     @Autowired
-    private TimeTableConverter timeTableConverter;
+    private TimeTableService timeTableService;
 
     public List<GroupDTO> getAllGroups() {
         return groupConverter.toGroupDtos(groupRepository.findAll());
@@ -202,6 +202,20 @@ public class GroupService {
         });
         group.setTimeTables(timeTables);
         group.setUsers(users);
+    }
+
+
+    public void deleteGroup(Long id) {
+        Group group = groupRepository.findById(id)
+                .orElseThrow(() -> new AppException("Group with id " + id + " not found", HttpStatus.NOT_FOUND));
+
+        groupRepository.deleteRelationsWithUser(id);
+        if (group.getTimeTables() != null) {
+            group.getTimeTables().forEach(timeTable -> {
+                timeTableService.deleteTimeTable(timeTable.getId());
+            });
+        }
+        groupRepository.deleteById(id);
     }
 
 }

@@ -48,4 +48,11 @@ public class CourseController {
         return new ResponseEntity<>(courseService.createOrUpdateCourse(course), HttpStatus.OK);
     }
 
+    @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<?> deleteCourse(@PathVariable Integer id) {
+        courseService.deleteCourse(id);
+        return new ResponseEntity<>(null, HttpStatus.OK);
+    }
+
 }
