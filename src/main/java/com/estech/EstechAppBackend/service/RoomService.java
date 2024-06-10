@@ -31,6 +31,16 @@ public class RoomService {
     private RoomTimeTableConverter roomTimeTableConverter;
     @Autowired
     private RoomTimeTableRepository roomTimeTableRepository;
+    @Autowired
+    private RoomTimeTableService roomTimeTableService;
+    @Autowired
+    private MentoringService mentoringService;
+    @Autowired
+    private FreeUsagesService freeUsagesService;
+    @Autowired
+    private GroupRepository groupRepository;
+    @Autowired
+    private StockService stockService;
 
     public List<RoomDTO> getAllRoomDTOs() {
         return roomConverter.toRoomDtos(roomRepository.findAll());
@@ -100,6 +110,40 @@ public class RoomService {
         Room saved = roomRepository.save(room);
 
         return roomConverter.toRoomDto(saved);
+    }
+
+    public void deleteRoom(Long id) {
+        Room room = roomRepository.findById(id)
+                .orElseThrow(() -> new AppException("Room with id " + id + " not found", HttpStatus.NOT_FOUND));
+
+        if (room.getRoomTimeTables() != null) {
+            room.getRoomTimeTables().forEach(roomTimeTable -> {
+                roomTimeTableService.deleteRoomTimeTable(roomTimeTable.getId());
+            });
+        }
+        if (room.getMentorings() != null) {
+            room.getMentorings().forEach(mentoring -> {
+                mentoringService.deleteMentoring(mentoring.getId());
+            });
+        }
+        if (room.getFreeUsages() != null) {
+            room.getFreeUsages().forEach(freeUsages -> {
+                freeUsagesService.deleteFreeUsage(freeUsages.getId());
+            });
+        }
+        if (room.getGroups() != null) {
+            room.getGroups().forEach(group -> {
+                group.setRoom(null);
+                groupRepository.save(group);
+            });
+        }
+        if (room.getStocks() != null) {
+            room.getStocks().forEach(stock -> {
+                stockService.deleteStock(stock.getId());
+            });
+        }
+
+        roomRepository.deleteById(id);
     }
 
     /**
