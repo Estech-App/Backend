@@ -90,6 +90,18 @@ public class UserController {
         return new ResponseEntity<>(userService.createOrUpdateNewUser(user), HttpStatus.OK);
     }
 
+    @PutMapping("/update-teacher")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<TeacherUserDTO> updateTeacherUser(@Valid @RequestBody TeacherUserDTO teacherUserDTO) {
+        return ResponseEntity.ok(userService.updateTeacherUser(teacherUserDTO));
+    }
+
+    @PutMapping("/update-student")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<StudentUserDTO> updateStudentUser(@Valid @RequestBody StudentUserDTO studentUserDTO) {
+        return ResponseEntity.ok(userService.updateStudentUser(studentUserDTO));
+    }
+
     @GetMapping("/find-by-role/{roleId}")
     @PreAuthorize("hasRole('ADMIN') || hasRole('STUDENT') || hasRole('TEACHER')")
     public ResponseEntity<?> getUsersByRole(@PathVariable Integer roleId) {

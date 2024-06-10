@@ -3,8 +3,12 @@ package com.estech.EstechAppBackend.service;
 import com.estech.EstechAppBackend.converter.UserConverter;
 import com.estech.EstechAppBackend.dto.user.*;
 import com.estech.EstechAppBackend.exceptions.AppException;
+import com.estech.EstechAppBackend.model.Group;
+import com.estech.EstechAppBackend.model.Module;
 import com.estech.EstechAppBackend.model.Role;
 import com.estech.EstechAppBackend.model.UserEntity;
+import com.estech.EstechAppBackend.repository.GroupRepository;
+import com.estech.EstechAppBackend.repository.ModuleRepository;
 import com.estech.EstechAppBackend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,9 +22,12 @@ public class UserService {
 
     @Autowired
     private UserRepository userRepository;
-
     @Autowired
     private UserConverter userConverter;
+    @Autowired
+    private GroupRepository groupRepository;
+    @Autowired
+    private ModuleRepository moduleRepository;
 
     public List<UserEntity> getAllUsers() {
         return userRepository.findAll();
@@ -39,12 +46,61 @@ public class UserService {
         return userConverter.toStudentUserDto(saved);
     }
 
+    public StudentUserDTO updateStudentUser(StudentUserDTO studentUserDTO) {
+        if (studentUserDTO.getId() == null) {
+            throw new AppException("id must be provided for updating student", HttpStatus.BAD_REQUEST);
+        }
+        UserEntity user = userRepository.findById(studentUserDTO.getId())
+                .orElseThrow(() -> new AppException("User with id " + studentUserDTO.getId() + " not found", HttpStatus.NOT_FOUND));
+
+        user.setPassword(studentUserDTO.getPassword());
+        user.setName(studentUserDTO.getName());
+        user.setEmail(studentUserDTO.getEmail());
+        user.setLastname(studentUserDTO.getLastname());
+        List<Group> groups = new ArrayList<>();
+        if (studentUserDTO.getGroups() != null) {
+            studentUserDTO.getGroups().forEach(groupDTO -> {
+                Group group = groupRepository.findById(groupDTO.getId())
+                        .orElseThrow(() -> new AppException("Group with id " + groupDTO.getId() + " not found", HttpStatus.NOT_FOUND));
+                groups.add(group);
+            });
+        }
+        user.setGroups(groups);
+
+        return userConverter.toStudentUserDto(user);
+    }
+
     public TeacherUserDTO createTeacherUser(TeacherUserDTO teacherUserDTO) {
         UserEntity teacher = userConverter.teacherDtoToUserEntity(teacherUserDTO);
 
         UserEntity saved = userRepository.save(teacher);
 
         return userConverter.toTeacherUserDto(saved);
+    }
+
+    public TeacherUserDTO updateTeacherUser(TeacherUserDTO teacherUserDTO) {
+        if (teacherUserDTO.getId() == null) {
+            throw new AppException("id must be provided for updating teacher", HttpStatus.BAD_REQUEST);
+        }
+
+        UserEntity user = userRepository.findById(teacherUserDTO.getId())
+                .orElseThrow(() -> new AppException("User with id " + teacherUserDTO.getId() + " not found", HttpStatus.NOT_FOUND));
+
+        user.setPassword(teacherUserDTO.getPassword());
+        user.setName(teacherUserDTO.getName());
+        user.setEmail(teacherUserDTO.getEmail());
+        user.setLastname(teacherUserDTO.getLastname());
+        List<Module> modules = new ArrayList<>();
+        if (teacherUserDTO.getModules() != null) {
+            teacherUserDTO.getModules().forEach(moduleDTO -> {
+                Module module = moduleRepository.findById(moduleDTO.getId())
+                        .orElseThrow(() -> new AppException("Module with id " + moduleDTO.getId() + " not found", HttpStatus.NOT_FOUND));
+                modules.add(module);
+            });
+        }
+        user.setModules(modules);
+
+        return userConverter.toTeacherUserDto(user);
     }
 
     public List<CreatedUserDTO> getAllUsersAsCreatedUserDTO() {

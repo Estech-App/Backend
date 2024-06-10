@@ -59,4 +59,5 @@ public class GroupController {
     public ResponseEntity<GroupDTO> modifyGroup(@PathVariable Long id, @RequestBody GroupDTO groupDTO) {
         return ResponseEntity.ok(groupService.modifyGroup(id, groupDTO));
     }
+
 }
