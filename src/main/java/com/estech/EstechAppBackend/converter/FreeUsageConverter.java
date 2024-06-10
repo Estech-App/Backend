@@ -50,9 +50,11 @@ public class FreeUsageConverter {
         freeUsages.setStart(freeUsagesDTO.getStart());
         freeUsages.setEnd(freeUsagesDTO.getEnd());
 
-        Room room = roomRepository.findById(freeUsagesDTO.getRoom().getId())
-                .orElseThrow(() -> new AppException("Room with id " + freeUsagesDTO.getRoom().getId() + " not found", HttpStatus.NOT_FOUND));
-        freeUsages.setRoom(room);
+        if (freeUsagesDTO.getRoom() != null) {
+            Room room = roomRepository.findById(freeUsagesDTO.getRoom().getId())
+                    .orElseThrow(() -> new AppException("Room with id " + freeUsagesDTO.getRoom().getId() + " not found", HttpStatus.NOT_FOUND));
+            freeUsages.setRoom(room);
+        }
 
         statusService.getAllStatusEntities().forEach(status -> {
             if (status.getStatus().toString().equals(freeUsagesDTO.getStatus())) {

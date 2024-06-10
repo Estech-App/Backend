@@ -39,7 +39,7 @@ public class ModuleController {
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN') || hasRole('STUDENT') || hasRole('TEACHER')")
     public ResponseEntity<?> getModuleById(@PathVariable Long id) {
         ModuleDTO dto = moduleService.getModuleById(id);
 
