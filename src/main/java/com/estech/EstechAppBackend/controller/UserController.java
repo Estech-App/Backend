@@ -73,13 +73,13 @@ public class UserController {
     }
 
     @GetMapping("/student/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN') || hasRole('STUDENT')")
     public ResponseEntity<StudentUserDTO> getStudentById(@PathVariable Long id) {
         return ResponseEntity.ok(userService.getStudentById(id));
     }
 
     @GetMapping("/teacher/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN') || hasRole('TEACHER')")
     public ResponseEntity<TeacherUserDTO> getTeacherById(@PathVariable Long id) {
         return ResponseEntity.ok(userService.getTeacherById(id));
     }
