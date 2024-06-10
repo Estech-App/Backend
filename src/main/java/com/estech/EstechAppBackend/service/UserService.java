@@ -66,6 +66,7 @@ public class UserService {
             });
         }
         user.setGroups(groups);
+        userRepository.save(user);
 
         return userConverter.toStudentUserDto(user);
     }
@@ -99,6 +100,7 @@ public class UserService {
             });
         }
         user.setModules(modules);
+        userRepository.save(user);
 
         return userConverter.toTeacherUserDto(user);
     }
