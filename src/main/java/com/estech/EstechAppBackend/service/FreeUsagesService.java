@@ -85,7 +85,7 @@ public class FreeUsagesService {
         FreeUsages freeUsages = freeUsagesRepository.findById(id)
                 .orElseThrow(() -> new AppException("FreeUsage with id " + id + " not foudn", HttpStatus.NOT_FOUND));
 
-        if (freeUsagesDTO.getStatus() != null) {
+        if (freeUsagesDTO.getStart() != null) {
             freeUsages.setStart(freeUsagesDTO.getStart());
         }
         if (freeUsagesDTO.getEnd() != null) {
