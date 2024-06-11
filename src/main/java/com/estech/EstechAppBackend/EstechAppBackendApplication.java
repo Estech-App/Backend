@@ -56,16 +56,11 @@ public class EstechAppBackendApplication implements CommandLineRunner {
 		roleService.saveRole(role);
 
 		role.setId(2);
-		role.setRolName(RoleEnum.SECRETARY);
-		role.setDescription("It will have access to stock module, free-usages management and files management");
-		roleService.saveRole(role);
-
-		role.setId(3);
 		role.setRolName(RoleEnum.TEACHER);
 		role.setDescription("It will have access to checkins module, mentoring module, groups and files");
 		roleService.saveRole(role);
 
-		role.setId(4);
+		role.setId(3);
 		role.setRolName(RoleEnum.STUDENT);
 		role.setDescription("It will have access to mentoring module, free-usages, groups and files");
 		roleService.saveRole(role);
