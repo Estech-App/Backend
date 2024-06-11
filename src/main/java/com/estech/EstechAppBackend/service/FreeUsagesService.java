@@ -29,6 +29,8 @@ public class FreeUsagesService {
     private RoomTimeTableRepository roomTimeTableRepository;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private StatusService statusService;
 
     public List<FreeUsagesDTO> getAllFreeUsages() {
         return freeUsageConverter.toFreeUsagesDtos(freeUsagesRepository.findAll());
@@ -77,6 +79,34 @@ public class FreeUsagesService {
         FreeUsages saved = freeUsagesRepository.save(freeUsages);
 
         return freeUsageConverter.toFreeUsagesDto(saved);
+    }
+
+    public FreeUsagesDTO modifyFreeUsage(Long id, FreeUsagesDTO freeUsagesDTO) {
+        FreeUsages freeUsages = freeUsagesRepository.findById(id)
+                .orElseThrow(() -> new AppException("FreeUsage with id " + id + " not foudn", HttpStatus.NOT_FOUND));
+
+        if (freeUsagesDTO.getStatus() != null) {
+            freeUsages.setStart(freeUsagesDTO.getStart());
+        }
+        if (freeUsagesDTO.getEnd() != null) {
+            freeUsages.setEnd(freeUsagesDTO.getEnd());
+        }
+        if (freeUsagesDTO.getStatus() != null) {
+            statusService.getAllStatusEntities().forEach(status -> {
+                if (status.getStatus().toString().equals(freeUsagesDTO.getStatus())) {
+                    freeUsages.setStatus(status);
+                }
+            });
+        }
+        if (freeUsagesDTO.getRoom() != null) {
+            Room room = roomRepository.findById(freeUsagesDTO.getRoom().getId())
+                    .orElseThrow(() -> new AppException("Room with id " + freeUsagesDTO.getRoom().getId() + " not found", HttpStatus.NOT_FOUND));
+            freeUsages.setRoom(room);
+        }
+
+        freeUsagesRepository.save(freeUsages);
+
+        return freeUsageConverter.toFreeUsagesDto(freeUsages);
     }
 
     public FreeUsagesDTO deleteFreeUsage(Long id) {

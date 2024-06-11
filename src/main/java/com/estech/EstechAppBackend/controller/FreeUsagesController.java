@@ -50,6 +50,12 @@ public class FreeUsagesController {
         return ResponseEntity.ok(freeUsagesService.updateFreeUsage(freeUsagesDTO));
     }
 
+    @PatchMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN') || hasRole('STUDENT')")
+    public ResponseEntity<FreeUsagesDTO> modifyFreeUsage(@PathVariable Long id, @RequestBody FreeUsagesDTO freeUsagesDTO) {
+        return ResponseEntity.ok(freeUsagesService.modifyFreeUsage(id, freeUsagesDTO));
+    }
+
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<FreeUsagesDTO> deleteFreeUsage(@PathVariable Long id) {
