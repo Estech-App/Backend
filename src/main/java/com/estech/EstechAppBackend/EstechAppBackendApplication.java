@@ -15,12 +15,14 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
 
 import java.util.ArrayList;
 
 @SpringBootApplication
-public class EstechAppBackendApplication implements CommandLineRunner {
+public class EstechAppBackendApplication extends SpringBootServletInitializer implements CommandLineRunner {
 
 	@Autowired
 	private RoleService roleService;
@@ -132,4 +134,10 @@ public class EstechAppBackendApplication implements CommandLineRunner {
 			createFirstAdminUser();
 		}
 	}
+
+	@Override
+	protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
+		return builder.sources(EstechAppBackendApplication.class);
+	}
+
 }
