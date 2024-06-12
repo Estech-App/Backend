@@ -23,7 +23,7 @@ public class ModuleController {
     private ModuleService moduleService;
 
     @GetMapping
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN') || hasRole('STUDENT') || hasRole('TEACHER')")
     public ResponseEntity<?> getAllModules() {
         List<ModuleDTO> modules = moduleService.getAllModulesDTO();
         if (modules.isEmpty()) {
